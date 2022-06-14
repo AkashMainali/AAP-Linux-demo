@@ -1,9 +1,9 @@
 - name: Install epel repo
   shell:
-   cmd: wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+   cmd: wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
    chdir: /tmp/
 
 - name: Install epel repo
   shell:
-   cmd: yum -y install epel-release-latest-9.noarch.rpm
+   cmd: yum -y install epel-release-latest-7.noarch.rpm
    chdir: /tmp/
