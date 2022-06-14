@@ -1,0 +1,13 @@
+---
+# tasks file for roles/linux_patching
+- name: Update all the packages except for kernel 
+  yum:
+    name: '*'
+    state: latest
+    exclude: kernel*
+    skip_broken: yes
+  register: upd_result
+
+- name: Print activity
+  debug:
+    msg: "All the patches except for kernel have been applied to the Tareget hosts"

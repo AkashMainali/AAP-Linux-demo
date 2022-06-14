@@ -1,0 +1,10 @@
+---
+- name: Creating new directories for the User under home directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: '{{ linux_user }}'
+  with_items: 
+  - /home/{{linux_user}}/ansible
+  - /home/{{linux_user}}/ansible/roles
+  - /home/{{linux_user}}/ansible/collections

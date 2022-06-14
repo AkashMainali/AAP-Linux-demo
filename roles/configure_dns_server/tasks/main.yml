@@ -1,0 +1,28 @@
+---
+# tasks file for configure_dns
+- name: Get the last octate of the ip address
+  set_fact:
+   ip_last_octate:  "{{linux_ip_address.split('.')[3] }}"
+
+- name: Get the last octate of the ip address
+  set_fact:
+   short_hostname: "{{linux_hostname.split('.')[0] }}"
+
+- name: Add server entry in forward DNS zone
+  lineinfile:
+    dest: /var/named/iisl.lab.zone
+    line: "{{ short_hostname }}   IN   A  {{ linux_ip_address }}"
+
+- name: Add server entry in reverse DNS zone
+  lineinfile:
+    dest: /var/named/reverse.2.168.192.zone
+    line: "{{ ip_last_octate }}  IN  PTR  {{ linux_hostname }}. "
+
+- name: Restart DNS serveice
+  ansible.builtin.service:
+   name: named
+   state: restarted
+
+- name: Display success message
+  debug:
+    msg: " The created VM has been added to the DNS server "
