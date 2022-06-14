@@ -4,7 +4,7 @@
   community.general.redhat_subscription:
     state: present
     force_register: yes
-    username: '{{ red_sub_user }}'
-    password: '{{ red_sub_pass }}'
+    username: '{{ rh_sub_user }}'
+    password: '{{ rh_sub_pass }}'
     auto_attach: true
 
