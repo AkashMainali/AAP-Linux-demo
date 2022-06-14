@@ -1,21 +1,20 @@
 ---
 # tasks file for register_rhel_subscription
-- name: Add Redhat subscription to a specific pool by ID.
-  community.general.redhat_subscription:
-    state: present
-    force_register: yes
-    username: '{{ rh_sub_username }}'
-    password: '{{ rh_sub_pass }}'
-    environment: 'low_impact/RHEL7'
-    auto_attach: true
+- name: Set environmet for RHEL7 machines for satellite
+  set_fact:
+    satellite_env: 'low_impact/RHEL7'
+  when: ansible_distribution_major_version == 7
+
+- name: Set environmet for RHEL8 machines for satellite
+  set_fact:
+    satellite_env: 'low_impact/RHEL8'
   when: ansible_distribution_major_version == 7
 
 - name: Add Redhat subscription to a specific pool by ID.
   community.general.redhat_subscription:
     state: present
     force_register: yes
-    username: '{{ rh_sub_username }}'
-    password: '{{ rh_sub_pass }}'
-    environment: 'low_impact/RHEL8'
+    username: "{{ rh_sub_username }}"
+    password: "{{ rh_sub_pass }}"
+    environment: "{{ satellite_env }}"
     auto_attach: true
-  when: ansible_distribution_major_version == 8
