@@ -2,10 +2,22 @@
   get_url:
     url: http://mirror.centos.org/centos/6/os/x86_64/Packages/yum-3.2.29-81.el6.centos.noarch.rpm
     dest: /tmp/yum-3.2.29-81.el6.centos.noarch.rpm
+  with_items: 
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-2.6.5-3.el6.x86_64.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-libs-2.6.5-3.el6.x86_64.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-iniparse-0.3.1-2.1.el6.noarch.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/pygpgme-0.1-18.20090824bzr68.el6.x86_64.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-urlgrabber-3.9.1-7.el6.noarch.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-pycurl-7.19.0-5.el6.x86_64.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/rpm-python-4.8.0-12.el6.x86_64.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/yum-3.2.27-14.el6.noarch.rpm
+   - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
 
 - name: Install yum repo
   shell: | 
-   rpm -i /tmp/yum-3.2.29-81.el6.centos.noarch.rpm
+   rpm -Uhv /tmp/py*.rpm \
+   /tmp/yum*.rpm \
+   /tmp/rpm-py*.rpm
 
 - name: Install epel repo package
   get_url:
