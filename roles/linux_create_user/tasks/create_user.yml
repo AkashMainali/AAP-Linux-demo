@@ -2,7 +2,7 @@
 - name: Create a Login-Admin user
   ansible.builtin.user:
     name: "{{ linux_user }}"
-    password: "{{ linux_password }}"
+    password: "{{ linux_password | password_hash('sha512') }}"
     state: present
 
 - name: Adding new user to sudoers file so they can run sudo commands
