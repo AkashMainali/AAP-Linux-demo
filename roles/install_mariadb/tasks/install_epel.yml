@@ -1,4 +1,9 @@
 - name: Install epel repo
+  yum:
+   name: python3-dnf
+   state: latest
+
+- name: Install epel repo
   get_url:
     url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     dest: /tmp/epel-release-latest-7.noarch.rpm
