@@ -5,4 +5,4 @@
 
 - name: Install epel repo
   shell: | 
-   yum -y install /tmp/epel-release-latest-7.noarch.rpm
+   rpm -i /tmp/epel-release-latest-7.noarch.rpm
