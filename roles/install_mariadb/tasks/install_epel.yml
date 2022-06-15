@@ -4,6 +4,6 @@
     dest: /tmp/epel-release-latest-7.noarch.rpm
 
 - name: Install epel repo
-  shell:
-   cmd: yum -y install epel-release-latest-7.noarch.rpm
-   chdir: /tmp/
+  yum:
+   name: /tmp/epel-release-latest-7.noarch.rpm
+   state: present
