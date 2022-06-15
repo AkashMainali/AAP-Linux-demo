@@ -1,7 +1,8 @@
 - name: Download yum repo package
   shell:
-   curl -O /tmp/http://mirror.centos.org/centos/7/os/x86_64/Packages/yum-3.4.3-168.el7.centos.noarch.rpm
-  delegate_to: localhost
+   curl -O http://mirror.centos.org/centos/7/os/x86_64/Packages/yum-3.4.3-168.el7.centos.noarch.rpm
+  args:
+   chdir: /tmp
 
 - name: Install yum repo
   shell: | 
@@ -9,8 +10,9 @@
 
 - name: Install epel repo package
   shell: |
-   curl -O /tmp/https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-  delegate_to: localhost
+   curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  args:
+   chdir: /tmp
 
 - name: Install epel repo
   yum:
