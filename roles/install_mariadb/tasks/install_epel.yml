@@ -1,6 +1,6 @@
 - name: Download yum repo package
   get_url:
-    url: http://mirror.centos.org/centos/6/os/x86_64/Packages/yum-3.2.29-81.el6.centos.noarch.rpm
+    url: "{{ item }}"
     dest: /tmp/yum-3.2.29-81.el6.centos.noarch.rpm
   with_items: 
    - http://ftp2.scientificlinux.org/linux/scientific/6.0/x86_64/os/Packages/python-2.6.5-3.el6.x86_64.rpm
