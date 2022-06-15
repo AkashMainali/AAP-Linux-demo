@@ -3,6 +3,16 @@
     url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     dest: /tmp/epel-release-latest-7.noarch.rpm
 
-- name: Install epel repo
+- name: Download yum repo package
+  get_url:
+    url: http://mirror.centos.org/centos/6/os/x86_64/Packages/yum-3.2.29-81.el6.centos.noarch.rpm
+    dest: /tmp/yum-3.2.29-81.el6.centos.noarch.rpm
+
+- name: Install yum repo
   shell: | 
-   rpm -i /tmp/epel-release-latest-7.noarch.rpm
+   rpm -i /tmp/yum-3.2.29-81.el6.centos.noarch.rpm
+
+- name: Install epel repo
+  yum:
+    name: /tmp/epel-release-latest-7.noarch.rpm
+    state: present
