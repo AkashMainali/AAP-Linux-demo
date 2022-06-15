@@ -3,8 +3,6 @@
   ansible.builtin.user:
     name: "{{ linux_user }}"
     password: "{{ linux_password }}"
-    groups:
-     - wheel
     state: present
 
 - name: Adding new user to sudoers file so they can run sudo commands
