@@ -26,6 +26,7 @@
   yum:
     name: /tmp/epel-release-latest-7.noarch.rpm
     use_backend: yum3
+
 # - name: Install epel repo
 # yum:
 #   name: /tmp/epel-release-latest-7.noarch.rpm
