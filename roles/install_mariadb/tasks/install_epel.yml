@@ -19,11 +19,13 @@
   yum:
     name: dnf
     state: latest
+    use_backend: yum3
 
 - name: Install python3-dnf
   yum:
    name: python3-dnf
    state: latest
+   use_backend: yum3
 
 - name: Install epel repo package
   shell: |
