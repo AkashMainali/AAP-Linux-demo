@@ -18,4 +18,5 @@
        name: install_mariadb
 
    - name: ping the machine
-     ping:
+     debug:
+       msg: "test"
