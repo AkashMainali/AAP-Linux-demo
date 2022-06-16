@@ -23,8 +23,10 @@
 #   chdir: /tmp
 
 - name: install epel repo
-  yum:
+  package: 
     name: epel-release
+    state: present
+    use_backend: yum
 
 # - name: Install epel repo
 # yum:
