@@ -1,16 +1,16 @@
 ---
-- hosts: localhost
-  gather_facts: no
-#  vars:
-#    ansible_python_interpreter: auto
-  tasks:
-  - name: Create in memory inventory with created VM
-    add_host:
-      name: "{{ linux_hostname }}"
-      ansible_host: "{{ linux_ip_address }}"
-      groups: rhel_server
+# - hosts: localhost
+#   gather_facts: no
+# #  vars:
+# #    ansible_python_interpreter: auto
+#   tasks:
+#   - name: Create in memory inventory with created VM
+#     add_host:
+#       name: "{{ linux_hostname }}"
+#       ansible_host: "{{ linux_ip_address }}"
+#       groups: rhel_server
   
-- hosts: rhel_server
+- hosts: all
   gather_facts: no
   tasks:
    - name: Install and restart MariaDB
