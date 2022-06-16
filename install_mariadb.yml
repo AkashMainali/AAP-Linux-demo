@@ -16,3 +16,6 @@
    - name: Install and restart MariaDB
      include_role:
        name: install_mariadb
+
+   - name: ping the machine
+     ping:
