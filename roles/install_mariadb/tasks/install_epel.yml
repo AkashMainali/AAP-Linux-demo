@@ -16,13 +16,17 @@
 #  args:
 #    chdir: /tmp
 
-- name: Install epel repo package
-  shell: |
-   curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-  args:
-   chdir: /tmp
+#- name: Install epel repo package
+#  shell: |
+#   curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#  args:
+#   chdir: /tmp
 
-- name: Install epel repo
+- name: install epel repo
   yum:
-    name: /tmp/epel-release-latest-7.noarch.rpm
-    state: present
+    name: epel-release
+
+# - name: Install epel repo
+# yum:
+#   name: /tmp/epel-release-latest-7.noarch.rpm
+#   state: present
