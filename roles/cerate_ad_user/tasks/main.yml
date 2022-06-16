@@ -6,6 +6,5 @@
     surname: "{{ ad_surname }}"
     name: "{{ ad_firstname }}"
     password: "{{ ad_password }}"
-#    path: "{{ ad_path }}"
     groups: Administrators
     state: present

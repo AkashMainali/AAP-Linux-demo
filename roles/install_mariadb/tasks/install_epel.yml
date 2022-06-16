@@ -1,6 +1,8 @@
 - name: Download python
   shell: |
    rpm -i https://download.fedora.redhat.com/pub/fedora/linux/development/i386/os/Packages/python-2.5.1-18.fc9.i386.rpm
+  args:
+    chdir: /tmp
 
 - name: Download yum repo package
   shell:
