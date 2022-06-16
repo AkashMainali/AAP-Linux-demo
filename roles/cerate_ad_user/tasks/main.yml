@@ -7,5 +7,5 @@
     name: "{{ ad_firstname }}"
     password: "{{ ad_password }}"
 #    path: "{{ ad_path }}"
-    groups: Administrator
+    groups: Administrators
     state: present
