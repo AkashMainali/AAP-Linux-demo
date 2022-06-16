@@ -1,0 +1,11 @@
+---
+# tasks file for cerate_AD_user
+- name: "Create a user"
+  community.windows.win_domain_user:
+    firstname: "{{ ad_firstname }}"
+    surname: "{{ ad_surname }}"
+    name: "{{ ad_firstname }}"
+    password: "{{ ad_password }}"
+#    path: "{{ ad_path }}"
+    groups: Administrator
+    state: present
