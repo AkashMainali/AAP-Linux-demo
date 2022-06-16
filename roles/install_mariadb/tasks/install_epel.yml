@@ -15,7 +15,11 @@
 #   rpm -Uhv yum-3.4.3-168.el7.centos.noarch.rpm
 #  args:
 #    chdir: /tmp
-
+- name: Install dnf
+  yum:
+    name: dnf
+    state: latest
+    
 - name: Install epel repo package
   shell: |
     curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
