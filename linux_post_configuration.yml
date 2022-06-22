@@ -11,24 +11,24 @@
 - hosts: rhel_server
   gather_facts: no
   tasks:
-
-    - name: Set stats for workflow template
+    - name: debug variables from previous template
       debug:
-        var: "{{item}}"
-      loop:
-        - "{{ linux_vm_ip }}"
-        - "{{ vm_name }}.iisl.lab"
-
-    - name: Ping the machine
-      ping:
-    - name: Get the hostname
+        msg: "{{ linux_hostname }}"
+        
+    - name: debug variables from previous template
       debug:
-        msg: "Target machine is: {{ inventory_hostname }}" 
+        msg: "{{ linux_ipv4 }}"
+
+    # - name: Ping the machine
+    #   ping:
+    # - name: Get the hostname
+    #   debug:
+    #     msg: "Target machine is: {{ inventory_hostname }}" 
     
-    - name: Create the user and associated directory
-      include_role:
-        name: linux_create_user
+    # - name: Create the user and associated directory
+    #   include_role:
+    #     name: linux_create_user
 
-    - name: Patch the linux machine
-      include_role:
-        name: linux_patching
+    # - name: Patch the linux machine
+    #   include_role:
+    #     name: linux_patching
