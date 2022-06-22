@@ -1,5 +1,9 @@
 ---
 # tasks file for roles/linux_patching
+- name: Set the correct hostname
+  ansible.builtin.hostname:
+    name: "{{ vm_name }}.iisl.lab"
+    
 - name: Update all the packages except for kernel 
   yum:
     name: '*'
