@@ -4,6 +4,6 @@
   community.windows.win_domain_user:
     firstname: "{{ linux_user }}"
     name: "{{ linux_user }}"
-    password: "{{ linux_password }}"
+    password: "{{ ad_password }}"
     groups: Administrators
     state: present
