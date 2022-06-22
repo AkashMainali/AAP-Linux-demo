@@ -17,7 +17,7 @@
         
     - name: debug variables from previous template
       debug:
-        msg: "{{ linux_ipv4 }}"
+        msg: "{{ linux_ip }}"
 
     # - name: Ping the machine
     #   ping:
