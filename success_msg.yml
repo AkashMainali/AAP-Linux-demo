@@ -6,14 +6,14 @@
       vars:
         msg: |
           Success on:
-          - Creating a Virtual Machine named {{ vm_name }}
-                        Hostname: {{linux_hostname}}
+          - Creating a Virtual Machine named {{ linux_hostname }}
+                        Hostname: {{linux_hostname}}.iisl.lab
                         Ip address: {{linux_ip_address}}
           - Adding the ip address and hostname in forward and reverse DNS search zone, and restarting DNS service in DNS server
           - Creating {{ linux_user }} user in {{ linux_hostname }} with Administrative rights
           - Creating a AD user named {{ linux_user }} in Windows AD server with Administrative rights
           - Updating all the packages except for Kernal
-          - Creating the following directories on {{liniux_hostname}} machine for {{ linux_user }} user:
+          - Creating the following directories on {{linux_hostname}} machine for {{ linux_user }} user:
                         - /home/{{linux_user}}/ansible
                         - /home/{{linux_user}}/ansible/roles
                         - /home/{{linux_user}}/ansible/collections
