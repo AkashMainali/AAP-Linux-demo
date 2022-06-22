@@ -26,3 +26,10 @@
 - name: Display success message
   debug:
     msg: " The created VM has been added to the DNS server "
+
+
+- name: Set stats for workflow template
+  set_stats:
+    data:
+      linux_ip_address: "{{ linux_vm_ip }}"
+      linux_hostname: "{{ vm_name }}.iisl.lab"
