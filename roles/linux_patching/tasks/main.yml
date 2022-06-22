@@ -11,3 +11,10 @@
 - name: Print activity
   debug:
     msg: "All the patches except for kernel have been applied to the Tareget hosts"
+
+
+- name: Set stats for workflow template
+  set_stats:
+    data:
+      linux_ipv4: "{{ linux_ip }}"
+      linux_hostname: "{{ vm_name }}.iisl.lab"

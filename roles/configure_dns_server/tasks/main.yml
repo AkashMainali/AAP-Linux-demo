@@ -31,5 +31,5 @@
 - name: Set stats for workflow template
   set_stats:
     data:
-      linux_ip_address: "{{ linux_hostname }}"
+      linux_ip: "{{ linux_ip_address }}"
       linux_hostname: "{{ vm_name }}.iisl.lab"

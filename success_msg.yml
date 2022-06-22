@@ -8,7 +8,7 @@
           Success on:
           - Creating a Virtual Machine named {{ linux_hostname }}
                         Hostname: {{linux_hostname}}.iisl.lab
-                        Ip address: {{linux_ip_address}}
+                        Ip address: {{linux_ipv4}}
           - Adding the ip address and hostname in forward and reverse DNS search zone, and restarting DNS service in DNS server
           - Creating {{ linux_user }} user in {{ linux_hostname }} with Administrative rights
           - Creating a AD user named {{ linux_user }} in Windows AD server with Administrative rights
