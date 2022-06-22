@@ -27,7 +27,7 @@
        dns_servers:
          - 192.168.2.201
     customization:
-       hostname: "{{ vm_name }}.iisl.lab"
+       hostname: '{{ vm_name }}.iisl.lab'
        dns_servers:
          - 192.168.2.201
        domain: ".iisl.lab"
