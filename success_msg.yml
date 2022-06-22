@@ -7,7 +7,7 @@
         msg: |
           Success on:
           - Creating a Virtual Machine named {{ linux_hostname }}
-                        Hostname: {{linux_hostname}}.iisl.lab
+                        Hostname: {{linux_hostname}}
                         Ip address: {{linux_ip}}
           - Adding the ip address and hostname in forward and reverse DNS search zone, and restarting DNS service in DNS server
           - Creating {{ linux_user }} user in {{ linux_hostname }} with Administrative rights
