@@ -3,14 +3,14 @@
   gather_facts: no
   tasks:
     - ping:
-    # - name: debug variables from previous template
-    #   debug:
-    #     msg: "{{ linux_hostname }}"
+    - name: debug variables from previous template
+      debug:
+        msg: "{{ linux_hostname }}"
         
-    # - name: debug variables from previous template
-    #   debug:
-    #     msg: "{{ linux_ip_address }}"
+    - name: debug variables from previous template
+      debug:
+        msg: "{{ linux_ip_address }}"
 
-    # - name: Configure the DNS server
-    #   include_role:
-    #     name: configure_dns_server
+    - name: Configure the DNS server
+      include_role:
+        name: configure_dns_server
