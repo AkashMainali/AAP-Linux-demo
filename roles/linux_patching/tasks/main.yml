@@ -22,7 +22,12 @@
 - name: Print activity
   debug:
     msg: "All the patches except for kernel have been applied to the Tareget hosts"
+  when: vm_template == "RHEL7"
 
+- name: Print activity
+  debug:
+    msg: "All the patches have been applied to the Tareget hosts"
+  when: vm_template == "RHEL8"
 
 - name: Set stats for workflow template
   set_stats:
