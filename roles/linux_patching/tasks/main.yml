@@ -10,7 +10,14 @@
     state: latest
     exclude: kernel*
     skip_broken: yes
-  register: upd_result
+  when: vm_template == "RHEL7"
+
+- name: Update all the packages except for kernel 
+  yum:
+    name: '*'
+    state: latest
+    skip_broken: yes
+  when: vm_template == "RHEL8"
 
 - name: Print activity
   debug:
