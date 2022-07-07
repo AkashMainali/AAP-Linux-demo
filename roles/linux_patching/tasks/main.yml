@@ -12,7 +12,7 @@
     skip_broken: yes
   when: vm_template == "RHEL7"
 
-- name: Update all the packages except for kernel 
+- name: Update all the packages Including the kernel 
   yum:
     name: '*'
     state: latest
