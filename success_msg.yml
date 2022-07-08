@@ -2,11 +2,15 @@
 - hosts: all
   become_user: yes
   tasks:
+    - name: Split the hostname
+      set_fact:
+        computer_name: "{{ linux_hostname.split('.')[0]}}"
+
     - name: Print config
       vars:
         msg: |
           Success on:
-          - Creating a Virtual Machine named {{ linux_hostname }}
+          - Creating a Virtual Machine named {{ computer_name }}
                         Hostname: {{linux_hostname}}
                         Ip address: {{linux_ip}}
           - Adding the ip address and hostname in forward and reverse DNS search zone, and restarting DNS service in DNS server
