@@ -5,6 +5,3 @@
    - name: Include role to create Linux vms.dict
      include_role:
        name: create_linux_vm
-   - name: display a result
-     debug:
-       msg: "{{hello}}"
