@@ -8,6 +8,7 @@
       name: "{{ linux_ip_address }}"
       groups: rhel_server
       ansible_user: ansible
+    no_log: true
   
 - hosts: rhel_server
   gather_facts: no
