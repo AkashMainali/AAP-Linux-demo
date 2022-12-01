@@ -5,33 +5,32 @@
     # - name: Cleanup hostname in host level
     #   hostname:
     #     name: "{{ new_vm_name }}.healthix.org"
-    - name: Gather only registered virtual machine templates
-      vmware_vm_info:
-        vm_type: vm
-        folder: "/Plainview/RHEL7"
-      delegate_to: localhost
-      register: vm_info
+    # - name: Gather only registered virtual machine templates
+    #   vmware_vm_info:
+    #     vm_type: vm
+    #     folder: "/Plainview/RHEL7"
+    #   delegate_to: localhost
+    #   register: vm_info
 
-    - name: debug vm info
-      debug:
-        var: vm_info.virtual_machines
+    # - name: debug vm info
+    #   debug:
+    #     var: vm_info.virtual_machines
 
-    # - name: Cleanup hostname in VSphere Level
-    #   block:
-    #     - name: Get VM "{{ old_vm_name }}" uuid
-    #       vmware_guest_facts:
-    #         validate_certs: False
-    #         datacenter: "Plainview"
-    #         folder: "RHEL-Automation"
-    #         name: "{{ old_vm_name }}"
-    #       register: vm_facts
+    - name: Cleanup hostname in VSphere Level
+      block:
+        - name: Get VM "{{ old_vm_name }}" uuid
+          vmware_guest_facts:
+            validate_certs: False
+            datacenter: "Plainview"
+            name: RHEL7
+          register: vm_facts
     #     - name: Rename "{{ old_vm_name }}" to "{{ new_vm_name }}" 
     #       vmware_guest:
     #         validate_certs: False
     #         cluster: "RHEL-Automation"
     #         uuid: "{{ vm_facts.instance.hw_product_uuid }}"
     #         name: "{{ new_vm_name }}"
-    #   delegate_to: localhost
+      delegate_to: localhost
     
     # - name: Cleanup hostname in DNS server
     #   win_dns_record:
