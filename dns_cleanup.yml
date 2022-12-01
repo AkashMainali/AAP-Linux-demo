@@ -1,0 +1,30 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Cleanup hostname in host level
+      hostname:
+        name: "{{ new_vm_name }}.healthix.org"
+   
+    - name: Cleanup hostname in VSphere Level
+      block:
+        - name: Get VM "{{ old_vm_name }}" uuid
+          vmware_guest_facts:
+            validate_certs: False
+            datacenter: "Plainview"
+            folder: "RHEL-Automation"
+            name: "{{ vm_name }}"
+          register: vm_facts
+        - name: Rename "{{ vmware_vm_vm.name }}" to "{{ new_vm_name }}" 
+          vmware_guest:
+            validate_certs: False
+            cluster: "RHEL-Automation"
+            uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+            name: "{{ new_vm_name }}"
+      delegate_to: localhost
+    
+    # - name: Cleanup hostname in DNS server
+    #   win_dns_record:
+    #     name: "{{ olv_vm_name }}"
+    #     type: "PTR"
+    #     value: "{{new_vm_name}}"
