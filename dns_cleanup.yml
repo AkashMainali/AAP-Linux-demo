@@ -13,9 +13,9 @@
             validate_certs: False
             datacenter: "Plainview"
             folder: "RHEL-Automation"
-            name: "{{ vm_name }}"
+            name: "{{ old_vm_name }}"
           register: vm_facts
-        - name: Rename "{{ vmware_vm_vm.name }}" to "{{ new_vm_name }}" 
+        - name: Rename "{{ old_vm_name }}" to "{{ new_vm_name }}" 
           vmware_guest:
             validate_certs: False
             cluster: "RHEL-Automation"
