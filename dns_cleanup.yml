@@ -2,9 +2,9 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - name: Cleanup hostname in host level
-      hostname:
-        name: "{{ new_vm_name }}.healthix.org"
+    # - name: Cleanup hostname in host level
+    #   hostname:
+    #     name: "{{ new_vm_name }}.healthix.org"
    
     - name: Cleanup hostname in VSphere Level
       block:
@@ -13,7 +13,7 @@
             validate_certs: False
             datacenter: "Plainview"
             folder: "RHEL-Automation"
-            name: "{{ old_vm_name }}"
+            name: RHEL7
           register: vm_facts
         - name: Rename "{{ old_vm_name }}" to "{{ new_vm_name }}" 
           vmware_guest:
