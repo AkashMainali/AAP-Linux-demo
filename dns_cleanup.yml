@@ -8,7 +8,7 @@
     - name: Gather only registered virtual machine templates
       vmware_vm_info:
         vm_type: vm
-        folder: "RHEL-Automation"
+        folder: "Plainview/RHEL-Automation"
       delegate_to: localhost
       register: vm_info
 
