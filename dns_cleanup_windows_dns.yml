@@ -7,4 +7,5 @@
         name: "{{ old_vm_name }}"
         type: "PTR"
         value: "{{new_vm_name}}"
+        zone: "iisl.lab"
       delegate_to: 
