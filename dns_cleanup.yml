@@ -2,19 +2,9 @@
 - hosts: all
   gather_facts: no
   tasks:
-    # - name: Cleanup hostname in host level
-    #   hostname:
-    #     name: "{{ new_vm_name }}.healthix.org"
-    # - name: Gather only registered virtual machine templates
-    #   vmware_vm_info:
-    #     vm_type: vm
-    #     folder: "/Plainview/RHEL7"
-    #   delegate_to: localhost
-    #   register: vm_info
-
-    # - name: debug vm info
-    #   debug:
-    #     var: vm_info.virtual_machines
+    - name: Cleanup hostname in host level
+      hostname:
+        name: "{{ new_vm_name }}.healthix.org"
 
     - name: Cleanup hostname in VSphere Level
       block:
