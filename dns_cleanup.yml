@@ -22,14 +22,14 @@
           vmware_guest_facts:
             validate_certs: False
             datacenter: "Plainview"
-            name: RHEL7
+            name: "{{ old_vm_name }}"
           register: vm_facts
-    #     - name: Rename "{{ old_vm_name }}" to "{{ new_vm_name }}" 
-    #       vmware_guest:
-    #         validate_certs: False
-    #         cluster: "RHEL-Automation"
-    #         uuid: "{{ vm_facts.instance.hw_product_uuid }}"
-    #         name: "{{ new_vm_name }}"
+        - name: Rename "{{ old_vm_name }}" to "{{ new_vm_name }}" 
+          vmware_guest:
+            validate_certs: False
+            cluster: "RHEL-Automation"
+            uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+            name: "{{ new_vm_name }}"
       delegate_to: localhost
     
     # - name: Cleanup hostname in DNS server
