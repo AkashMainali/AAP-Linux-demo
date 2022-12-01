@@ -5,7 +5,7 @@
     - name: Cleanup hostname in DNS server
       win_dns_record:
         name: "{{ old_vm_name }}"
-        type: "PTR"
+        type: "A"
         value: "{{new_vm_name}}"
         zone: "iisl.lab"
 
