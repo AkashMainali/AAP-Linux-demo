@@ -8,8 +8,10 @@
     - name: Gather only registered virtual machine templates
       vmware_vm_info:
         vm_type: vm
+        folder: "RHEL-Automation"
       delegate_to: localhost
       register: vm_info
+
     - name: debug vm info
       debug:
         var: vm_info.virtual_machines
