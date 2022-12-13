@@ -4,9 +4,7 @@
   tasks:
     - name: Delete old hostname in DNS server
       win_dns_record:
-        name: "{{ old_vm_name }}"
-        type: "A"
-        zone: "iisl.lab"
+        name: "{{ old_vm_name }}iisl.lab"
         state: absent
 
     - name: Generate New hostname
