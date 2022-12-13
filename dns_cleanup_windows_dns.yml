@@ -4,7 +4,7 @@
   tasks:
     - name: Cleanup hostname in DNS server
       win_dns_record:
-        name: "{{ olv_vm_name }}"
+        name: "{{ old_vm_name }}"
         type: "A"
         value: "{{new_vm_name}}"
       delegate_to: 
