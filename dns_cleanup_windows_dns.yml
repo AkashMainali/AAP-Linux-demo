@@ -7,4 +7,5 @@
         name: "{{ old_vm_name }}"
         type: "A"
         value: "{{new_vm_name}}"
+        zone: "iisl.lab.zone"
       delegate_to: 
