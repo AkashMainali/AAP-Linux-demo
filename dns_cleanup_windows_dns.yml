@@ -11,9 +11,9 @@
 
     - name: Generate New hostname
       win_dns_record:
-        name: "{{ old_vm_name }}"
+        name: "{{ new_vm_name }}"
         type: "A"
-        value: "{{new_vm_name}}"
+        value: "{{192.168.2.224}}"
         zone: "iisl.lab"
         state: present
 
