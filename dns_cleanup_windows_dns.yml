@@ -7,4 +7,4 @@
         name: "rhel7"
         type: "A"
         zone: "iisl.lab.zone"
-        state: absent
+        # state: absent
