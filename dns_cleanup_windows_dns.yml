@@ -2,10 +2,20 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - name: Cleanup hostname in DNS server
+    - name: Delete old hostname in DNS server
+      win_dns_record:
+        name: "{{ old_vm_name }}"
+        type: "A"
+        value: "{{ new_vm_name }}"
+        zone: "iisl.lab"
+        state: absent
+
+    - name: Generate New hostname
       win_dns_record:
         name: "{{ old_vm_name }}"
         type: "A"
         value: "{{new_vm_name}}"
         zone: "iisl.lab"
+        state: present
+
 
