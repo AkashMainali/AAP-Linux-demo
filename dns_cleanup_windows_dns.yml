@@ -2,19 +2,9 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - name: Delete old hostname in DNS server
+    - name: Cleanup hostname in DNS server
       win_dns_record:
-        name: "{{ old_vm_name }}"
+        name: "{{ olv_vm_name }}"
         type: "A"
-        zone: "iisl.lab"
-        state: absent
-
-    - name: Generate New hostname
-      win_dns_record:
-        name: "{{ new_vm_name }}"
-        type: "A"
-        value: "192.168.2.224"
-        zone: "iisl.lab"
-        state: present
-
-
+        value: "{{new_vm_name}}"
+      delegate_to: 
