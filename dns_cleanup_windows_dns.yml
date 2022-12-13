@@ -4,8 +4,7 @@
   tasks:
     - name: Cleanup hostname in DNS server
       win_dns_record:
-        name: "{{ old_vm_name }}"
+        name: "rhel7"
         type: "A"
-        value: "{{new_vm_name}}"
         zone: "iisl.lab.zone"
-      delegate_to: 
+        state: absent
