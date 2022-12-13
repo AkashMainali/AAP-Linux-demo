@@ -7,12 +7,12 @@
         name: "rhel7"
         type: "A"
         zone: "iisl.lab.zone"
-        values: "192.168.2.224"
-    #     state: absent
+        value: "192.168.2.224"
+        state: absent
 
-    # - name: Add New hostname in DNS server
-    #   win_dns_record:
-    #     name: "ansible-rhel7"
-    #     type: "A"
-    #     zone: "iisl.lab.zone"
-    #     state: absent
+    - name: Add New hostname in DNS server
+      win_dns_record:
+        name: "ansible-rhel7"
+        type: "A"
+        zone: "iisl.lab.zone"
+        value: "192.168.2.224"
