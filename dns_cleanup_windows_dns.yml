@@ -2,9 +2,16 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - name: Cleanup hostname in DNS server
+    - name: Remove Old hostname in DNS server
       win_dns_record:
         name: "rhel7"
         type: "A"
         zone: "iisl.lab.zone"
-        # state: absent
+        state: absent
+
+    - name: Add New hostname in DNS server
+      win_dns_record:
+        name: "rhel7"
+        type: "A"
+        zone: "iisl.lab.zone"
+        state: absent
