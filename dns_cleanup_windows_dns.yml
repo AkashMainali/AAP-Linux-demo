@@ -11,7 +11,7 @@
 
     - name: Add New hostname in DNS server
       win_dns_record:
-        name: "rhel7"
+        name: "ansible-rhel7"
         type: "A"
         zone: "iisl.lab.zone"
         state: absent
