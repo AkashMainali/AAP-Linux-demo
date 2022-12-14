@@ -9,13 +9,16 @@
         zone: "iisl.lab.zone"
         state: absent
 
-    # - name: Add New hostname in DNS server
-    #   win_dns_record:
-    #     name: "{{ new_vm }}"
-    #     type: "A"
-    #     zone: "iisl.lab.zone"
-    #     value: "192.168.2.224"
+    - name: Add New hostname in DNS server - Creating A Record
+      win_dns_record:
+        name: "{{ new_vm }}"
+        type: "A"
+        zone: "iisl.lab.zone"
+        value: "{{new_ip}}"
 
-    - name: Add new hostname in DNS server
-      win_shell: |
-        Add-DnsServerResourceRecord -ComputerName winad.iisl.lab -ZoneName iisl.lab -A -Name "{{new_vm}}" -IPv4Address {{new_ip}} -CreatePtr
+    - name: Add New hostname in DNS server - Creating PTR Record
+      win_dns_record:
+        name: "{{ new_ip }}"
+        type: "PTR"
+        zone: "iisl.lab.zone"
+        value: "{{new_vm}}"
