@@ -8,7 +8,7 @@
         type: "A"
         zone: "iisl.lab.zone"
         value: "192.168.2.224"
-    #     state: absent
+        state: absent
 
     # - name: Add New hostname in DNS server
     #   win_dns_record:
