@@ -23,7 +23,7 @@
       delegate_to: localhost
 
     - name: Cleanup hostname in Windows DNS Server
-      block: Cleanup hostname in Windows DNS Server
+      block:
       - name: Remove Old hostname in DNS server
         win_dns_record:
           name: "{{ old_vm }}"
@@ -45,4 +45,4 @@
           type: "PTR"
           zone: "2.168.192.in-addr.arpa"
           value: "{{new_vm}}.iisl.lab"
-    delegate_to: winad.iisl.lab
+      delegate_to: winad.iisl.lab
