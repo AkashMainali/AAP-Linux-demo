@@ -4,14 +4,14 @@
   tasks:
     - name: Remove Old hostname in DNS server
       win_dns_record:
-        name: "rhel7"
+        name: "{{ old_vm }}"
         type: "A"
         zone: "iisl.lab.zone"
         state: absent
 
     - name: Add New hostname in DNS server
       win_dns_record:
-        name: "ansible-rhel7"
+        name: "{{ new_vm }}"
         type: "A"
         zone: "iisl.lab.zone"
         value: "192.168.2.224"
