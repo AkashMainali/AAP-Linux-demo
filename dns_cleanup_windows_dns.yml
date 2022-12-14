@@ -2,7 +2,8 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - block:
+    - name: Cleanup hostname in Windows DNS Server
+      block:
       - name: Remove Old hostname in DNS server
         win_dns_record:
           name: "{{ old_vm }}"
@@ -20,8 +21,8 @@
           value: "{{new_ip}}"
       - name: Add New hostname in DNS server - Creating PTR Record
         win_dns_record:
-          name: "{{ new_ip }}.iisl.lab"
+          name: "{{ new_ip }}"
           type: "PTR"
           zone: "2.168.192.in-addr.arpa"
-          value: "{{new_vm}}"
-    delegate_to: winad.iisl.lab
+          value: "{{new_vm}}.iisl.lab"
+      delegate_to: winad.iisl.lab
