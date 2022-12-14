@@ -21,10 +21,4 @@
             uuid: "{{ vm_facts.instance.hw_product_uuid }}"
             name: "{{ new_vm_name }}"
       delegate_to: localhost
-    
-    - name: Cleanup hostname in DNS server
-      win_dns_record:
-        name: "{{ olv_vm_name }}"
-        type: "PTR"
-        value: "{{new_vm_name}}"
-      delegate_to: 
+  
