@@ -20,5 +20,5 @@
       win_dns_record:
         name: "{{ new_ip }}"
         type: "PTR"
-        zone: "iisl.lab.zone"
+        zone: "2.168.192.in-addr.arp"
         value: "{{new_vm}}"
