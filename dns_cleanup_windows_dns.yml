@@ -2,27 +2,27 @@
 - hosts: all
   gather_facts: no
   tasks:
-    # - name: Cleanup hostname in Windows DNS Server
-    #   block:
-    #   - name: Remove Old hostname in DNS server
-    #     win_dns_record:
-    #       name: "{{ old_vm }}"
-    #       type: "{{item}}"
-    #       zone: "iisl.lab.zone"
-    #       state: absent
-    #     with_items:
-    #       - A
-    #       - PTR
+    - name: Cleanup hostname in Windows DNS Server
+      block:
+      - name: Remove Old hostname in DNS server
+        win_dns_record:
+          name: "{{ old_vm }}"
+          type: "{{item}}"
+          zone: "iisl.lab.zone"
+          state: absent
+        with_items:
+          - A
+          - PTR
       - name: Add New hostname in DNS server - Creating A Record
         win_dns_record:
-          name: "{{ new_vm }}.iisl.lab"
+          name: "{{ new_vm }}"
           type: "A"
           zone: "iisl.lab.zone"
           value: "{{new_ip}}"
-      # - name: Add New hostname in DNS server - Creating PTR Record
-      #   win_dns_record:
-      #     name: "{{ new_ip }}"
-      #     type: "PTR"
-      #     zone: "2.168.192.in-addr.arpa"
-      #     value: "{{new_vm}}.iisl.lab"
-      # delegate_to: winad.iisl.lab
+      - name: Add New hostname in DNS server - Creating PTR Record
+        win_dns_record:
+          name: "{{ new_ip }}"
+          type: "PTR"
+          zone: "2.168.192.in-addr.arpa"
+          value: "{{new_vm}}"
+      delegate_to: winad.iisl.lab
