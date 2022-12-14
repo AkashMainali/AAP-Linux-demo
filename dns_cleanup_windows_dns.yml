@@ -5,9 +5,12 @@
     - name: Remove Old hostname in DNS server
       win_dns_record:
         name: "{{ old_vm }}"
-        type: "A"
+        type: "{{item}}"
         zone: "iisl.lab.zone"
         state: absent
+      with_items:
+        - A
+        - PTR
 
     - name: Add New hostname in DNS server - Creating A Record
       win_dns_record:
