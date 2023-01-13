@@ -10,18 +10,7 @@ AAP - Job Templates
 |Linux Success Message|success_msg.yml|Displays a success message after the workflow template has been completed|
 
 AAP - Workflow-Job Template
-| Name | Templates | Descrription|
+| Name | Templates | Description|
 | ----- | --------| ------------|
-|Complete Linux VM Creation|Workflow Approval: Asking Ansible-Admin for approval
-Create Linux VM
-Configure DNS server
-Linux Post Patching
-Linux Success Message|Steps done on this workflow job template:
-Asks the ansible admin for approval to run this Workflow
-Creates an RHEL7/RHEL8 VM in vSphere-based on survey answers
-Adds the hostname and IP address of the freshly created VM into the forward and reverse DNS zone on the DNS server
-Creates a user account in a freshly created Linux Machine with admin rights
-Creates a user account in Windows AD with admin rights
-Patches the freshly created server (No Kernal Patch in RHEL7, Kernel patch present in RHEL8)
-Sends the success message with the details
+|Complete Linux VM Creation|Workflow Approval: Asking Ansible-Admin for approval<br />Create Linux VM<br />Configure DNS server<br />Linux Post Patching<br />Linux Success Message|Steps done on this workflow job template:<br />1. Asks the ansible admin for approval to run this Workflow<br />Creates an RHEL7/RHEL8 VM in vSphere-based on survey answers<br />Adds the hostname and IP address of the freshly created VM into the forward and reverse DNS zone on the DNS server<br />Creates a user account in a freshly created Linux Machine with admin rights<br />Creates a user account in Windows AD with admin rights<br />Patches the freshly created server (No Kernal Patch in RHEL7, Kernel patch present in RHEL8)<br />Sends the success message with the details
 |
