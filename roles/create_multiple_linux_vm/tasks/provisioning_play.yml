@@ -12,7 +12,7 @@
     folder: "RHEL-Automation"
     template: "{{ linux_template }}"
     validate_certs: no
-    name: "{{ vm_name }}"
+    name: "{{item.value.server_name}}"
     state: poweredon
     cluster: "RHEL-Automation"
     datastore: "Demo-Datastore01"
@@ -24,7 +24,7 @@
        dns_servers:
          - 192.168.2.201
     customization:
-       hostname: '{{ vm_name }}.iisl.lab'
+       hostname: '"{{item.value.server_name}}".iisl.lab'
        dns_servers:
          - 192.168.2.201
        domain: "iisl.lab"
