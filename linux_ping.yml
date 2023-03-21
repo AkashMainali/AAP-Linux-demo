@@ -1,6 +1,7 @@
 ---
-- hosts: all
-  gather_facts: no
+- name: Play to ping the host
+  hosts: all
+  gather_facts: false
   tasks:
    - name: Ping the RHEL server
      ping:
