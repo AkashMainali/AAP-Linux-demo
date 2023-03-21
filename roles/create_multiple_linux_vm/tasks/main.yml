@@ -11,5 +11,9 @@
     key: name
   register: vms
 
-- name: Provision RHEL server
-  include: provisioning_play.yml
+- name: debug the csv file
+  debug:
+    var: vms
+
+# - name: Provision RHEL server
+#   include: provisioning_play.yml
