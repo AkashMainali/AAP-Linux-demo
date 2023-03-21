@@ -1,0 +1,48 @@
+---
+####################################################################
+########## Creating Windows server to install Fileserver ###########
+####################################################################
+
+# Note: On  vmware_guest module, esxi_hostname and cluster are mutually exclusive parameters
+
+# The name of the servers and all of the ip_address should be passed through ansible tower, currently these values are hardcoded for testing
+
+- name: Provision RHEL machine
+  vmware_guest:
+    folder: "RHEL-Automation"
+    template: "{{ linux_template }}"
+    validate_certs: no
+    name: "{{ vm_name }}"
+    state: poweredon
+    cluster: "RHEL-Automation"
+    datastore: "Demo-Datastore01"
+    datacenter: "Plainview"
+    networks:
+     - name: "RHEL-Automation - vLAN 102"
+       type: dhcp
+       domain: "iisl.lab"
+       dns_servers:
+         - 192.168.2.201
+    customization:
+       hostname: '{{ vm_name }}.iisl.lab'
+       dns_servers:
+         - 192.168.2.201
+       domain: "iisl.lab"
+       state: started
+    wait_for_ip_address: yes
+    wait_for_customization: yes
+  register: rhel_vm
+  loop: "{{ vms.dict|dict2items }}" 
+  when: 'item.value.tnic|int == 2'
+  poll: 0
+  async: 1000
+
+- name: Wait for Above running task to finish
+  async_status:
+   jid: "{{ item.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 100
+  delay: 10
+  loop: "{{win_vm.results}}"
+  when: item.ansible_job_id  is defined

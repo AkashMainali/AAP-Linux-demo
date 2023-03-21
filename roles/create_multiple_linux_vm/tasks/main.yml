@@ -1,0 +1,15 @@
+---
+# tasks file for create_multiple_linux_vm
+####################################################################
+####################### Provision the server #######################
+####################################################################
+
+- name: Parse VM List file
+  community.general.read_csv:
+    path: vm_detail.csv
+    delimiter: ','
+    key: name
+  register: vms
+
+- name: Provision RHEL server
+  include: provisioning_play.yml
