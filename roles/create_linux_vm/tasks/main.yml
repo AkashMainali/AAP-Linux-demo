@@ -22,18 +22,21 @@
     datacenter: "Plainview"
     networks:
      - name: "RHEL-Automation - vLAN 102"
-       type: dhcp
        domain: "iisl.lab"
        dns_servers:
          - 192.168.2.201
+       gateway:
+         - 192.168.2.1
+       netmask: 255.255.255.0
+       start_connected: true         
     customization:
        hostname: '{{ vm_name }}.iisl.lab'
        dns_servers:
          - 192.168.2.201
        domain: "iisl.lab"
        state: started
-    wait_for_ip_address: yes
-    wait_for_customization: yes
+    wait_for_ip_address: true
+    wait_for_customization: true
   register: rhel_vm
 
 - name: debug ip address of vm created
