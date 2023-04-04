@@ -8,7 +8,7 @@ collections:
   source: https://galaxy.ansible.com
 
 - name: community.vmware
-  # version: 1.5.2
+  # version: 1.3.0
   source: https://galaxy.ansible.com
 
 - name: community.general

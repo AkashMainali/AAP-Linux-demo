@@ -27,7 +27,6 @@
        hostname: '"{{item.value.server_name}}".iisl.lab'
        dns_servers:
          - 192.168.2.201
-         state: connected
        domain: "iisl.lab"
        state: started
     wait_for_ip_address: yes
