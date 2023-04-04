@@ -41,6 +41,10 @@
 
 - name: Displaying success message
   debug:
+    msg: 'ip address of machine is "{{linux_vm_ip}}"'
+
+- name: Displaying success message
+  debug:
     msg: "The VM Has been provisioned successfully"
 
 - name: Set stats for workflow template
