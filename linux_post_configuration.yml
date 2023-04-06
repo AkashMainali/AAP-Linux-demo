@@ -4,8 +4,8 @@
   tasks:
   - name: Create in memory inventory with created VM
     add_host:
-#      name: "{{ linux_hostname }}"
-      name: "{{ linux_ip_address }}"
+      name: "{{ linux_hostname }}"
+#      name: "{{ linux_ip_address }}"
       groups: rhel_server
       ansible_user: ansible
     no_log: true
