@@ -12,6 +12,7 @@
   
 - hosts: rhel_server
   gather_facts: no
+  become: true
   tasks:
     - name: Get the hostname
       debug:
