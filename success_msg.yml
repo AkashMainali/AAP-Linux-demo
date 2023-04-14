@@ -1,5 +1,16 @@
 ---
-- hosts: all
+- hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: Create in memory inventory with created VM
+    add_host:
+      name: "{{ linux_hostname }}"
+#      name: "{{ linux_ip_address }}"
+      groups: rhel_server
+      ansible_user: ansible
+    no_log: true
+
+- hosts: rhel_server
   become_user: yes
   tasks:
     - name: Split the hostname
