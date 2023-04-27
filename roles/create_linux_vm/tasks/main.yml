@@ -23,8 +23,8 @@
     networks:
      - name: "RHEL-Automation - vLAN 102"
        domain: "iisl.lab"
-       type: static
-       ip: "{{ vm_ip }}"
+       type: dhcp
+      #  ip: "{{ vm_ip }}"
        dns_servers:
          - 192.168.2.201
        gateway:
