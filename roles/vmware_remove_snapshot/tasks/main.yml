@@ -33,6 +33,7 @@
     folder: RHEL-Automation
     # name: "{{ vm_facts.instance.current_snapshot.name }}"
     uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+    name: "{{ vm_facts.instance.hw_name }}"
     validate_certs: false
   register: snapshots
 
