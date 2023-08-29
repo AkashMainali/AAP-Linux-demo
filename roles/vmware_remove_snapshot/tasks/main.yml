@@ -27,13 +27,19 @@
     validate_certs: "no"
   register: vm_facts
 
-- name: List Snapshots Less Than 2 Hours Old
-  vmware_guest_snapshot_facts:
-    validate_certs: no
-    vm_id: "{{ vm_facts.virtual_machines[0].guest_id }}"
-  register: snapshot_facts
+- name: Get the latest snapshot of the vm
+  community.vmware.vmware_guest_snapshot_info:
+    datacenter: Plainview
+    name: "{{ vm_name }}"
+    validate_certs: false
+  register: snapshots
 
-- name: Display Snapshots Less Than 2 Hours Old
-  debug:
-    var: snapshot_facts.snapshots
-  when: snapshot_facts.snapshots is defined and snapshot_facts.snapshots | length > 0
+
+- name: List Snapshots Less Than 2 Hours Old
+  anssible.builtin.debug:
+   var: snapshot
+
+# - name: Display Snapshots Less Than 2 Hours Old
+#   debug:
+#     var: snapshot_facts.snapshots
+#   when: snapshot_facts.snapshots is defined and snapshot_facts.snapshots | length > 0
