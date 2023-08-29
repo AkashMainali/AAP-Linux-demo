@@ -35,9 +35,9 @@
   register: snapshots
 
 
-- name: List Snapshots Less Than 2 Hours Old
-  anssible.builtin.debug:
-    var: snapshot
+# - name: List Snapshots Less Than 2 Hours Old
+#   anssible.builtin.debug:
+#     var: snapshot
 
 # - name: Display Snapshots Less Than 2 Hours Old
 #   debug:
