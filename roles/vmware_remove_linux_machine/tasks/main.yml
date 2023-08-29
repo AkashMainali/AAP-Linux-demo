@@ -7,4 +7,3 @@
     state: absent
     validate_certs: false
   delegate_to: localhost
-
