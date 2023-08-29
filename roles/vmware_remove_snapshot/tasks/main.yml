@@ -20,12 +20,11 @@
 #       validate_certs: false
 #   loop: "{{snapshot_info.stdout}}"
 #   delegate_to: localhost
-
 - name: Get VM facts
-  vmware_guest_facts:
-    validate_certs: no
+  community.vmware.vmware_guest_info:
     datacenter: "Plainview"
-    vm_name: "{{ vm_name }}"
+    name: "{{ vm_1name }}"
+    validate_certs: "no"
   register: vm_facts
 
 - name: List Snapshots Less Than 2 Hours Old
