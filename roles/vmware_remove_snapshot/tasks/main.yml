@@ -28,7 +28,7 @@
   register: vm_facts
 
 - name: Remove all Snapshot of the VM
-  community.vmware.vmware_guest_snapshot_info:
+  community.vmware.vmware_guest_snapshot:
     datacenter: Plainview
     folder: RHEL-Automation
     # name: "{{ vm_facts.instance.current_snapshot.name }}"
