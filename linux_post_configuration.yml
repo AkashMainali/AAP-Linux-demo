@@ -7,7 +7,7 @@
       name: "{{ linux_ip_address }}"
       # hostname: "{{ linux_ip_address }}"
       groups: rhel_server
-      ansible_user: ansible
+      ansible_user: root
     no_log: true
   
 - hosts: rhel_server
