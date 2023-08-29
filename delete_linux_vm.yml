@@ -4,4 +4,4 @@
   tasks:
    - name: Include role to create Linux
      include_role:
-       name: create_linux_vm
+       name: vmware_remove_linux_machine
