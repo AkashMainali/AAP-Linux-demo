@@ -27,13 +27,14 @@
     validate_certs: "no"
   register: vm_facts
 
-- name: Get the latest snapshot of the vm
+- name: Remove all Snapshot of the VM
   community.vmware.vmware_guest_snapshot_info:
     datacenter: Plainview
     folder: RHEL-Automation
     # name: "{{ vm_facts.instance.current_snapshot.name }}"
     uuid: "{{ vm_facts.instance.hw_product_uuid }}"
     name: "{{ vm_facts.instance.hw_name }}"
+    state: remove_all
     validate_certs: false
   register: snapshots
 
