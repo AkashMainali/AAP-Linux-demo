@@ -1,4 +1,13 @@
 ---
+- name: Poweroff the the Virtual machine
+  community.vmware.vmware_guest:
+    validate_certs: false
+    datacenter: "Plainview"
+    folder: RHEL-Automation
+    name: "{{ vm_name }}"
+    state: poweredoff
+  delegate_to: localhost
+
 - name: Remove a machine in Vmware
   community.vmware.vmware_guest:
     datacenter: "Plainview"
