@@ -24,6 +24,7 @@
 - name: Get VM facts
   vmware_guest_facts:
     validate_certs: no
+    datacenter: "Plainview"
     vm_name: "{{ vm_name }}"
   register: vm_facts
 
