@@ -30,6 +30,7 @@
 - name: Get the latest snapshot of the vm
   community.vmware.vmware_guest_snapshot_info:
     datacenter: Plainview
+    folder: RHEL-Automation
     name: "{{ vm_name }}"
     validate_certs: false
   register: snapshots
