@@ -29,9 +29,6 @@
 
 - name: List Snapshots Less Than 2 Hours Old
   vmware_guest_snapshot_facts:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
     validate_certs: no
     vm_id: "{{ vm_facts.virtual_machines[0].guest_id }}"
   register: snapshot_facts
