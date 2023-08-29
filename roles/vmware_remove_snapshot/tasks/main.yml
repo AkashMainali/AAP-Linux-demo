@@ -1,0 +1,42 @@
+---
+# tasks file for vmware_remove_snapshot
+# - name: Find all the snapshots older then 3 days in Vmware
+#   community.vmware.vmware_guest_snapshot_info:
+#       hostname: "{{ vcenter_hostname }}"
+#       username: "{{ vcenter_username }}"
+#       password: "{{ _password_ }}"
+#       datacenter: "{{ datacenter_name }}"
+#       folder: /{{ datacenter_name }}/vm/
+#       name: "{{ guest_name }}"
+#   register: snapshot_info
+
+# - name: Remove Snapshot older then 3 days in VSphere
+#   community.vmware.vmware_guest_snapshot:
+#       datacenter: "Plainview"
+#       folder: "RHEL-Automation"
+#       name: "{{ guest_name }}"
+#       state: remove_all
+#       snapshot_name: "{{item}}"
+#       validate_certs: false
+#   loop: "{{snapshot_info.stdout}}"
+#   delegate_to: localhost
+
+- name: Get VM facts
+  vmware_guest_facts:
+    validate_certs: no
+    vm_name: "{{ vm_name }}"
+  register: vm_facts
+
+- name: List Snapshots Less Than 2 Hours Old
+  vmware_guest_snapshot_facts:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: no
+    vm_id: "{{ vm_facts.virtual_machines[0].guest_id }}"
+  register: snapshot_facts
+
+- name: Display Snapshots Less Than 2 Hours Old
+  debug:
+    var: snapshot_facts.snapshots
+  when: snapshot_facts.snapshots is defined and snapshot_facts.snapshots | length > 0

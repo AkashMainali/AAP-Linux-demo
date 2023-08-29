@@ -1,0 +1,10 @@
+---
+- name: Remove a machine in Vmware
+  community.vmware.vmware_guest:
+    datacenter: "{{ datacenter_name }}"
+    folder: RHEL-Automation
+    name: "{{ vm_name }}"
+    state: absent
+    validate_certs: false
+  delegate_to: localhost
+

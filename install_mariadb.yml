@@ -1,5 +1,5 @@
 ---
-# - hosts: localhost
+# - hosts: all
 #   gather_facts: no
 #   tasks:
 #   - name: Create in memory inventory with created VM
