@@ -12,7 +12,7 @@
 
     - name: Debug ip address of vm created
       ansible.builtin.set_fact:
-        linux_ip_address: "{{ rhel_vm.instance.hw_eth0.ipaddresses[0] }}"
+        linux_ip_address: "{{ rhel_vm.instance.ipv4 }}"
         linux_hostname: "{{ vm_name }}.iisl.lab"
 
     - name: Include role to create Linux
