@@ -4,11 +4,10 @@
   ansible.builtin.hostname:
     name: "{{ vm_name }}.iisl.lab"
     
-- name: Update all the packages except for kernel 
+- name: Update all the packages Including the kernel 
   yum:
     name: '*'
     state: latest
-    exclude: kernel*
     skip_broken: yes
   when: vm_template == "RHEL7"
 
@@ -21,7 +20,7 @@
 
 - name: Print activity
   debug:
-    msg: "All the patches except for kernel have been applied to the Tareget hosts"
+    msg: "All the patches have been applied to the Tareget hosts" #"All the patches except for kernel have been applied to the Tareget hosts"
   when: vm_template == "RHEL7"
 
 - name: Print activity
