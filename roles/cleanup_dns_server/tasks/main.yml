@@ -1,16 +1,24 @@
 ---
 # tasks file for configure_dns
+- name: Get the last octate of the ip address
+  set_fact:
+   ip_last_octate:  "{{linux_ip_address.split('.')[3] }}"
+
+- name: Get the last octate of the ip address
+  set_fact:
+   short_hostname: "{{linux_hostname.split('.')[0] }}"
+
 - name: Remove server entry in forward DNS zone
   ansible.builtin.lineinfile:
     dest: /var/named/iisl.lab.zone
     state: absent
-    regexp: "^{{ vm_name }}"
+    regexp: "^{{ short_hostname }}"
 
 - name: Remove server entry in reverse DNS zone
   ansible.builtin.lineinfile:
     dest: /var/named/reverse.2.168.192.zone
     state: absent
-    regexp: "^{{ vm_name }}"
+    regexp: "^{{ ip_last_octate }}"
 
 - name: Restart DNS serveice
   ansible.builtin.service:
