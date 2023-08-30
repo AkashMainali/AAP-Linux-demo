@@ -1,12 +1,12 @@
 ---
 # tasks file for configure_dns
 - name: Get the last octate of the ip address
-  set_fact:
-   ip_last_octate:  "{{linux_ip_address.split('.')[3] }}"
+  ansible.builtin.set_fact:
+    ip_last_octate: "{{ linux_ip_address.split('.')[3] }}"
 
 - name: Get the last octate of the ip address
-  set_fact:
-   short_hostname: "{{linux_hostname.split('.')[0] }}"
+  ansible.builtin.set_fact:
+    short_hostname: "{{ linux_hostname.split('.')[0] }}"
 
 - name: Remove server entry in forward DNS zone
   ansible.builtin.lineinfile:
