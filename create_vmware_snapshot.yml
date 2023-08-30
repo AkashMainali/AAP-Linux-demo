@@ -1,7 +1,8 @@
 ---
-- hosts: localhost
-  gather_facts: yes
+- name: This play creates Snapshot in VMware
+  hosts: localhost
+  gather_facts: true
   tasks:
    - name: Include role to create Linux
-     include_role:
+     ansible.builtin.include_role:
        name: vmware_take_snapshot
