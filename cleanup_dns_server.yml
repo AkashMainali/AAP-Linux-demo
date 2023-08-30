@@ -8,6 +8,7 @@
         name: "{{ vm_name }}"
         validate_certs: "no"
       register: rhel_vm
+      delegate_to: localhost
 
     - name: Debug ip address of vm created
       ansible.builtin.set_fact:
