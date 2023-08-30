@@ -38,20 +38,27 @@
     wait_for_customization: true
   register: rhel_vm
 
-- name: debug ip address of vm created
-  set_fact:
-    linux_vm_ip: "{{ rhel_vm.instance.hw_eth0.ipaddresses[0] }}"  #Rhel_vm.instance.ipv4
+- name: Get VM facts
+  community.vmware.vmware_guest_info:
+    datacenter: "Plainview"
+    name: "{{ vm_name }}"
+    validate_certs: "no"
+  register: vm_facts
 
-- name: Displaying success message
-  debug:
-    msg: 'ip address of machine is "{{linux_vm_ip}}"'
+# - name: debug ip address of vm created
+#   set_fact:
+#     linux_vm_ip: "{{ rhel_vm.instance.hw_eth0.ipaddresses[0] }}"  #Rhel_vm.instance.ipv4
 
-- name: Displaying success message
-  debug:
-    msg: "The VM Has been provisioned successfully"
+# - name: Displaying success message
+#   debug:
+#     msg: 'ip address of machine is "{{linux_vm_ip}}"'
 
-- name: Set stats for workflow template
-  set_stats:
-    data:
-      linux_ip_address: "{{ linux_vm_ip }}"
-      linux_hostname: "{{ vm_name }}.iisl.lab"
+# - name: Displaying success message
+#   debug:
+#     msg: "The VM Has been provisioned successfully"
+
+# - name: Set stats for workflow template
+#   set_stats:
+#     data:
+#       linux_ip_address: "{{ linux_vm_ip }}"
+#       linux_hostname: "{{ vm_name }}.iisl.lab"
