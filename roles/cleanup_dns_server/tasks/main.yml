@@ -1,0 +1,22 @@
+---
+# tasks file for configure_dns
+- name: Remove server entry in forward DNS zone
+  ansible.builtin.lineinfile:
+    dest: /var/named/iisl.lab.zone
+    state: absent
+    regexp: "^{{ vm_name }}"
+
+- name: Remove server entry in reverse DNS zone
+  ansible.builtin.lineinfile:
+    dest: /var/named/reverse.2.168.192.zone
+    state: absent
+    regexp: "^{{ vm_name }}"
+
+- name: Restart DNS serveice
+  ansible.builtin.service:
+    name: named
+    state: restarted
+
+- name: Display success message
+  ansible.builtin.debug:
+    msg: " The VM entry has been removed from the DNS server "
