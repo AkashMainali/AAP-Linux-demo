@@ -3,21 +3,7 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Get VM facts
-      community.vmware.vmware_guest_info:
-        datacenter: "Plainview"
-        name: "{{ vm_name }}"
-        validate_certs: "no"
-      register: rhel_vm
 
-    - name: Debug ip address of vm created
-      ansible.builtin.set_fact:
-        linux_ip_address: "{{ rhel_vm.instance.hw_eth0.ipaddresses[0] }}"
-        linux_hostname: "{{ vm_name }}.iisl.lab"
-
-    - name: Include role to create Linux
-      ansible.builtin.include_role:
-        name: cleanup_dns_server
 
     - name: Include role to create Linux
       ansible.builtin.include_role:
