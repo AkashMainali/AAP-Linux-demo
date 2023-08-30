@@ -1,0 +1,40 @@
+---
+# tasks file for vmware_remove_snapshot
+- name: Take snapshot of the vm
+  community.vmware.vmware_guest_snapshot:
+    datacenter: Plainview
+    validate_certs: false
+    name: "{{ vm_name }}"
+    snapshot_name: "ansible-generated-{{ ansible_date_time.iso8601 }}"
+    state: present
+    folder: RHEL-Automation
+    memory_dump: false
+  delegate_to: localhost
+
+# - name: Get VM facts
+#   community.vmware.vmware_guest_info:
+#     datacenter: "Plainview"
+#     name: "{{ vm_name }}"
+#     validate_certs: "no"
+#   register: vm_facts
+
+# - name: Remove all Snapshot of the VM
+#   community.vmware.vmware_guest_snapshot:
+#     datacenter: Plainview
+#     folder: RHEL-Automation
+#     # name: "{{ vm_facts.instance.current_snapshot.name }}"
+#     uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+#     name: "{{ vm_facts.instance.hw_name }}"
+#     state: remove_all
+#     validate_certs: false
+#   register: snapshots
+
+
+# - name: List Snapshots Less Than 2 Hours Old
+#   anssible.builtin.debug:
+#     var: snapshot
+
+# - name: Display Snapshots Less Than 2 Hours Old
+#   debug:
+#     var: snapshot_facts.snapshots
+#   when: snapshot_facts.snapshots is defined and snapshot_facts.snapshots | length > 0
