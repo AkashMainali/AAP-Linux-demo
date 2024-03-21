@@ -8,7 +8,7 @@
   community.general.read_csv:
     path: vm_detail.csv
     delimiter: ','
-    key: hostname
+    key: server_name
   register: vms
 
 - name: debug the csv file
@@ -18,7 +18,7 @@
 - name: Select RHEL-8 template
   set_fact:
       linux_template: "rhel8_template"
-      
+
 - name: Provision RHEL server
   include: provisioning_play.yml
   loop: "{{ vms.dict|dict2items }}" 

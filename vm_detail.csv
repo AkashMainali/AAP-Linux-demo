@@ -1,4 +1,4 @@
-hostname,env,vm_ip,size
+server_name,env,vm_ip,size
 test-A1,dev,192.168.2.211,small
 test-A2,dev,192.168.2.212,medium
 test-B1,stage,192.168.2.213,small
