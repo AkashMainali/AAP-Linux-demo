@@ -1,64 +1,18 @@
 ---
 # tasks file for create_linux_vm
-- name: Select RHEL-7 template
-  set_fact:
-      linux_template: "rhel7_template"
-  when: vm_template == "RHEL7"
+- name: Include vars file
+  include_vars:
+   - vm_size_details.yml
 
 - name: Select RHEL-8 template
   set_fact:
       linux_template: "rhel8_template"
-  when: vm_template == "RHEL8"
 
-- name: Provision RHEL machine
-  vmware_guest:
-    folder: "RHEL-Automation"
-    template: "{{ linux_template }}"
-    validate_certs: no
-    name: "{{ vm_name }}"
-    state: poweredon
-    cluster: "RHEL-Automation"
-    datastore: "Demo-Datastore01"
-    datacenter: "Plainview"
-    networks:
-     - name: "RHEL-Automation - vLAN 102"
-       domain: "iisl.lab"
-       type: dhcp 
-      #  ip: "{{ vm_ip }}"
-       dns_servers:
-         - 192.168.2.201
-       start_connected: true         
-    customization:
-       hostname: '{{ vm_name }}.iisl.lab'
-       dns_servers:
-         - 192.168.2.201
-       domain: "iisl.lab"
-       state: started
-    wait_for_ip_address: true
-    wait_for_customization: true
-  register: rhel_vm
+- name: Parse VM List file
+  community.general.read_csv:
+    path: vm_detail.csv
+    delimiter: ','
+    key: hostname
+  register: vms
 
-- name: Get VM facts
-  community.vmware.vmware_guest_info:
-    datacenter: "Plainview"
-    name: "{{ vm_name }}"
-    validate_certs: "no"
-  register: rhel_vm
-
-- name: debug ip address of vm created
-  set_fact:
-    linux_vm_ip: "{{ rhel_vm.instance.ipv4 }}" #"{{ rhel_vm.instance.hw_eth0.ipaddresses[0] }}"  #Rhel_vm.instance.ipv4
-
-- name: Displaying success message
-  debug:
-    msg: 'ip address of machine is "{{linux_vm_ip}}"'
-
-- name: Displaying success message
-  debug:
-    msg: "The VM Has been provisioned successfully"
-
-- name: Set stats for workflow template
-  set_stats:
-    data:
-      linux_ip_address: "{{ linux_vm_ip }}"
-      linux_hostname: "{{ vm_name }}.iisl.lab"
+# - name: Call the task to provision multiple machines
