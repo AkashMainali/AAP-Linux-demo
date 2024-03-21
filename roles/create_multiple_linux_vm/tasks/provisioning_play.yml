@@ -12,7 +12,6 @@
     file: provision_small_machine.yml
   when: 
     - "item.value.size == 'small' "
-    - "item.value.env == 'dev' "
 
 - name: Wait for Above running task to finish
   async_status:
