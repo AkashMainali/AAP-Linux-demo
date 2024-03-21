@@ -1,0 +1,38 @@
+---
+- name: Provision small RHEL machine
+  vmware_guest:
+    folder: "RHEL-Automation"
+    template: "{{ linux_template }}"
+    validate_certs: no
+    name: "{{item.value.server_name}}"
+    state: poweredon
+    cluster: "RHEL-Automation"
+    datastore: "Demo-Datastore01"
+    datacenter: "Plainview"
+    disk:
+    - size_gb: 25
+    hardware:
+      memory_mb: 1024
+      num_cpus: 2
+    networks:
+     - name: "RHEL-Automation - vLAN 102"
+       type: dhcp
+       domain: "iisl.lab"
+       gateway:
+         - 192.168.2.1
+       netmask: 255.255.255.0
+       start_connected: true
+       dns_servers:
+         - 192.168.2.201
+    customization:
+       hostname: '"{{item.value.server_name}}".iisl.lab'
+       dns_servers:
+         - 192.168.2.201
+       domain: "iisl.lab"
+    wait_for_ip_address: true
+    wait_for_customization: true
+  register: rhel_vm
+  loop: "{{ vms.dict|dict2items }}" 
+  when: "item.value.size == 'small'"
+  poll: 0
+  async: 1000

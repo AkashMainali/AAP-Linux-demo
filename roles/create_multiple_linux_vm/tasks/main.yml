@@ -9,11 +9,11 @@
     path: vm_detail.csv
     delimiter: ','
     key: hostname
-  register: vm_details
+  register: vms
 
 - name: debug the csv file
   debug:
-    var: vm_details
+    var: vms
 
-# - name: Provision RHEL server
-#   include: provisioning_play.yml
+- name: Provision RHEL server
+  include: provisioning_play.yml
