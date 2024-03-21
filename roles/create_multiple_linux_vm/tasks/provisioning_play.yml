@@ -7,11 +7,17 @@
 
 # The name of the servers and all of the ip_address should be passed through ansible tower, currently these values are hardcoded for testing
 
+- name: Select RHEL-8 template
+  set_fact:
+      linux_template: "rhel8_template"
+
+
 - name: Provision if machine is small
   include_tasks:
     file: provision_small_machine.yml
   when: 
     - "item.value.size == 'small' "
+
 
 - name: Wait for Above running task to finish
   async_status:
