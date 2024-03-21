@@ -16,7 +16,7 @@
       num_cpus: 2
     networks:
      - name: "RHEL-Automation - vLAN 102"
-       ip: "{{item.value.ip_address}}"
+       ip: "{{item.value.vm_ip}}"
        domain: "iisl.lab"
        gateway:
          - 192.168.2.1
