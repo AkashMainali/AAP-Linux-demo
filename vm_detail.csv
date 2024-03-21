@@ -3,5 +3,3 @@ test-A1,dev,192.168.2.211,small
 test-A2,dev,192.168.2.212,medium
 test-B1,stage,192.168.2.213,small
 test-B2,stage,192.168.2.214,medium
-test-C1,prod,192.168.2.215,small
-test-C2,prod,192.168.2.216,medium
