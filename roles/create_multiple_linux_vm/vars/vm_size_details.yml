@@ -1,0 +1,7 @@
+vm_size:
+  small:
+    cpu:
+    ram:
+  medium:
+    cpu:
+    ram:
