@@ -15,10 +15,5 @@
   debug:
     var: vms
 
-- name: Select RHEL-8 template
-  set_fact:
-      linux_template: "rhel8_template"
-
 - name: Provision RHEL server
   include: provisioning_play.yml
-  loop: "{{ vms.dict|dict2items }}" 

@@ -1,4 +1,8 @@
 ---
+- name: Select RHEL-8 template
+  set_fact:
+      linux_template: "rhel8_template"
+      
 - name: Provision small RHEL machine
   vmware_guest:
     folder: "RHEL-Automation"
