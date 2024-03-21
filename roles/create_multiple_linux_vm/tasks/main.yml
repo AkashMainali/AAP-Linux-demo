@@ -8,12 +8,12 @@
   community.general.read_csv:
     path: vm_detail.csv
     delimiter: ','
-    key: name
-  register: vms
+    key: hostname
+  register: vm_details
 
 - name: debug the csv file
   debug:
-    var: vms
+    var: vm_details
 
 # - name: Provision RHEL server
 #   include: provisioning_play.yml
