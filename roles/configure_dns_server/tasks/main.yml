@@ -29,7 +29,7 @@
 
 
 - name: Set stats for workflow template
-  sansible.builtin.et_stats:
+  ansible.builtin.set_stats:
     data:
       linux_ip: "{{ linux_ip_address }}"
       linux_hostname: "{{ vm_name }}.iisl.lab"
