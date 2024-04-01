@@ -8,6 +8,15 @@
   ansible.builtin.set_fact:
    short_hostname: "{{linux_hostname.split('.')[0] }}"
 
+- name: Check server name
+  ansible.builtin.shell: |
+     hostname -I
+  register: server_hostname
+
+- name: Debug hostname
+  ansible.builtin.debug:
+    var: server_hostname
+
 - name: Add server entry in forward DNS zone
   ansible.builtin.lineinfile:
     dest: /var/named/iisl.lab.zone
