@@ -2,18 +2,18 @@
 - name: Playbook to Check service status in RHEL machine
   hosts: all
   gather_facts: false
+  vars:
+    # services_to_check:
+    #     - accounts-daemon.service
+    #     - colord.service
+    #     - ebtables.service
+    #     - insights-client-boot.service
   tasks:
   - name: Populate service facts
     ansible.builtin.service_facts:
     register: service_out
 
   - name: Check and print service status
-    vars:
-      services_to_check:
-        - accounts-daemon.service
-        - colord.service
-        - ebtables.service
-        - nsights-client-boot.service
     block:
       - name: Check service status
         ansible.builtin.debug:
@@ -26,3 +26,5 @@
           msg: "{{ item }} service is not found"
         with_items: "{{ services_to_check }}"
         when: "item not in service_out.ansible_facts.services"
+
+ou
