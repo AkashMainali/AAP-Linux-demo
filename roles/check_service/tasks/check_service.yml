@@ -7,4 +7,4 @@
 
 - name: Print status of services
   debug:
-    msg: "{{ item.stdout }}"
+    msg: "{{ item }}"
