@@ -7,9 +7,22 @@
     ansible.builtin.service_facts:
     register: service_out
 
-  - name: Debug all the service
-    ansible.builtin.debug:
-      msg: "{{ service_out.ansible_facts.services.item }}"
-    with_items:
-    - accounts-daemon.service
-    - apparmor.service
+  - name: Check and print service status
+    vars:
+      services_to_check:
+        - accounts-daemon.service
+        - colord.service
+        - ebtables.service
+        - nsights-client-boot.service
+    block:
+      - name: Check service status
+        ansible.builtin.debug:
+          msg: "{{ item }} is {{ 'running' if service_out.ansible_facts.services[item].state == 'running' else 'not running' }}"
+        with_items: "{{ services_to_check }}"
+        when: "item in service_out.ansible_facts.services"
+
+      - name: Service not found
+        ansible.builtin.debug:
+          msg: "{{ item }} service is not found"
+        with_items: "{{ services_to_check }}"
+        when: "item not in service_out.ansible_facts.services"
