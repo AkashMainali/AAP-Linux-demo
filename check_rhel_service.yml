@@ -9,4 +9,7 @@
 
   - name: Debug all the service
     ansible.builtin.debug:
-      var: ansible_facts.services
+      msg: "{{ service_out.ansible_facts.serrvices.'{{item}}' }}"
+    with_items:
+    - accounts-daemon.service
+    - apparmor.service
