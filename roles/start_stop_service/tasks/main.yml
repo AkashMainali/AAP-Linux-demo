@@ -2,12 +2,12 @@
 # tasks file for start_stop_service
 - name: Start service {{ service_name }}, if not started
   ansible.builtin.service:
-    name: "{{ item }}"
+    name: "{{ service_name }}"
     state: started
   when: service_state == 'started'
 
 - name: Stop service {{ service_name }}
   ansible.builtin.service:
-    name: "{{ item }}"
+    name: "{{ service_name }}"
     state: stopped
   when: service_state == 'started'
