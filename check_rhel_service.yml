@@ -27,4 +27,17 @@
         with_items: "{{ services_to_check }}"
         when: "item not in service_out.ansible_facts.services"
 
-ou
+  # - name: Start services if not running
+  #   block:
+  #     - name: Start the service if not running
+  #       ansible.builtin.service:
+  #         name: "{{ item }}"
+  #         state: started
+  #       with_items: "{{ services_to_check }}"
+  #       when: "item in service_out.ansible_facts.services and service_out.ansible_facts.services[item].state != 'running'"
+
+  #     - name: Service not found and cannot start
+  #       ansible.builtin.debug:
+  #         msg: "{{ item }} service is not found and cannot be started"
+  #       with_items: "{{ services_to_check }}"
+  #       when: "item not in service_out.ansible_facts.services"
