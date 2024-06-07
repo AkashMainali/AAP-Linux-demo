@@ -7,4 +7,4 @@
 
 - name: Print status of services
   debug:
-    msg: "{{ item }} is {{ 'running' if ('active' in item.stdout) else 'not running' }}"
+    msg: "{{ item.stdout }}"
