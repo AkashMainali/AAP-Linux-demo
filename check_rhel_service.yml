@@ -11,7 +11,7 @@
         - sshd*
   tasks:
     - name: Call role to check services
-      ansible.buiultin.include_role:
+      ansible.builtin.include_role:
         name: check_service
 
   # - name: Populate service facts
