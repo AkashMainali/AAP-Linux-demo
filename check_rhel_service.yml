@@ -1,0 +1,11 @@
+---
+- name: Playbook to Check service status in RHEL machine
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Populate service facts
+    ansible.builtin.service_facts:
+    register: service_out
+  - name: Debug all the service
+    ansible.builtin.debug:
+      msg: "{{ service_out }}"

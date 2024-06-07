@@ -4,7 +4,7 @@
   become: true
   become_user: root
   tasks:
-    - ping:
+  
     - name: debug variables from previous template
       debug:
         msg: "{{ linux_hostname }}"
