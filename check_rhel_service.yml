@@ -1,19 +1,43 @@
 ---
-- name: Playbook to Check service status in RHEL machine
-  hosts: all
-  gather_facts: false
+# - name: Playbook to Check service status in RHEL machine
+#   hosts: all
+#   gather_facts: false
+#   vars:
+#     services_to_check:
+#         - accounts-daemon.service
+#         - colord.service
+#         - ebtables.service
+#         - insights-client-boot.service
+#         - sshd*
+#   tasks:
+#     - name: Call role to check services
+#       ansible.builtin.include_role:
+#         name: check_service
+
+- name: Check status of specified services
+  hosts: your_host_group
   vars:
     services_to_check:
         - accounts-daemon.service
         - colord.service
         - ebtables.service
         - insights-client-boot.service
-        - sshd*
+        - sshd
   tasks:
-    - name: Call role to check services
-      ansible.builtin.include_role:
-        name: check_service
+    - name: Check status of services
+      shell: systemctl status "{{ item }}" | grep "Active:"
+      loop: "{{ services_to_check }}"
+      register: service_status
+      ignore_errors: yes
+      changed_when: false
 
+    - name: Print status of services
+      debug:
+        msg: "{{ item.item }} is {{ 'running' if ('active' in item.stdout_lines[0]) else 'not running' }}"
+      loop: "{{ service_status.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+        
   # - name: Populate service facts
   #   ansible.builtin.service_facts:
   #   register: service_out
