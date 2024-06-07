@@ -10,20 +10,7 @@
         - insights-client-boot.service
         - sshd*
   tasks:
-    - name: Check status of services
-      ansible.builtin.shell: |
-          systemctl is-active "{{ item }}"
-      loop: "{{ services_to_check }}"
-      register: service_status
-      ignore_errors: yes
-      changed_when: false
 
-    - name: Print status of services
-      debug:
-        msg: "{{ item.item }} is {{ 'running' if ('active' in item.stdout) else 'not running' }}"
-      loop: "{{ service_status.results }}"
-      loop_control:
-        label: "{{ item.item }}"
 
   # - name: Populate service facts
   #   ansible.builtin.service_facts:

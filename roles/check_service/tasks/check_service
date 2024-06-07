@@ -1,0 +1,10 @@
+- name: Check status of services
+  ansible.builtin.shell: |
+      systemctl is-active "{{ item }}"
+  register: service_status
+  ignore_errors: yes
+  changed_when: false
+
+- name: Print status of services
+  debug:
+    msg: "{{ item }} is {{ 'running' if ('active' in item.stdout) else 'not running' }}"

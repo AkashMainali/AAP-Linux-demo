@@ -1,0 +1,5 @@
+---
+# tasks file for check_service
+- name: Call task file to check service
+  include_tasks: check_service.yml
+  with_items: "{{ services_to_check }}"
