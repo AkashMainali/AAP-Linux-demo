@@ -10,7 +10,9 @@
         - insights-client-boot.service
         - sshd*
   tasks:
-
+    - name: Call role to check services
+      include_role:
+        name: check_service
 
   # - name: Populate service facts
   #   ansible.builtin.service_facts:
