@@ -1,0 +1,7 @@
+- name: Playbook to Check service status in RHEL machine
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Call role to check services
+      ansible.builtin.include_role:
+        name: start_stop_service
