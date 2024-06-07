@@ -8,6 +8,7 @@
         - colord.service
         - ebtables.service
         - insights-client-boot.service
+        - sshd*
   tasks:
     - name: Check status of services
       shell: systemctl is-active "{{ item }}"
