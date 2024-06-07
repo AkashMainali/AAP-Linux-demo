@@ -6,6 +6,7 @@
   - name: Populate service facts
     ansible.builtin.service_facts:
     register: service_out
+
   - name: Debug all the service
     ansible.builtin.debug:
-      msg: "{{ service_out }}"
+      var: ansible_facts.services
