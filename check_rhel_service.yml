@@ -18,11 +18,11 @@
 
     - name: Print status of services
       debug:
-        msg: "{{ item }} is {{ 'running' if (item.stdout == 'active') else 'not running' }}"
+        msg: "{{ item.item }} is {{ 'running' if ('active' in item.stdout_lines[0]) else 'not running' }}"
       loop: "{{ service_status.results }}"
       loop_control:
         label: "{{ item.item }}"
-        
+
   # - name: Populate service facts
   #   ansible.builtin.service_facts:
   #   register: service_out
