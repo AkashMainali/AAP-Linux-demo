@@ -3,29 +3,43 @@
   hosts: all
   gather_facts: false
   vars:
-    # services_to_check:
-    #     - accounts-daemon.service
-    #     - colord.service
-    #     - ebtables.service
-    #     - insights-client-boot.service
+    services_to_check:
+        - accounts-daemon.service
+        - colord.service
+        - ebtables.service
+        - insights-client-boot.service
   tasks:
-  - name: Populate service facts
-    ansible.builtin.service_facts:
-    register: service_out
+    - name: Check status of services
+      shell: systemctl is-active "{{ item }}"
+      loop: "{{ services_to_check }}"
+      register: service_status
+      ignore_errors: yes
+      changed_when: false
 
-  - name: Check and print service status
-    block:
-      - name: Check service status
-        ansible.builtin.debug:
-          msg: "{{ item }} is {{ 'running' if service_out.ansible_facts.services[item].state == 'running' else 'not running' }}"
-        with_items: "{{ services_to_check }}"
-        when: "item in service_out.ansible_facts.services"
+    - name: Print status of services
+      debug:
+        msg: "{{ item }} is {{ 'running' if (item.stdout == 'active') else 'not running' }}"
+      loop: "{{ service_status.results }}"
+      loop_control:
+        label: "{{ item.item }}"
+        
+  # - name: Populate service facts
+  #   ansible.builtin.service_facts:
+  #   register: service_out
 
-      - name: Service not found
-        ansible.builtin.debug:
-          msg: "{{ item }} service is not found"
-        with_items: "{{ services_to_check }}"
-        when: "item not in service_out.ansible_facts.services"
+  # - name: Check and print service status
+  #   block:
+  #     - name: Check service status
+  #       ansible.builtin.debug:
+  #         msg: "{{ item }} is {{ 'running' if service_out.ansible_facts.services[item].state == 'running' else 'not running' }}"
+  #       with_items: "{{ services_to_check }}"
+  #       when: "item in service_out.ansible_facts.services"
+
+  #     - name: Service not found
+  #       ansible.builtin.debug:
+  #         msg: "{{ item }} service is not found"
+  #       with_items: "{{ services_to_check }}"
+  #       when: "item not in service_out.ansible_facts.services"
 
   # - name: Start services if not running
   #   block:
