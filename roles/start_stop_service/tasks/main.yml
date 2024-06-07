@@ -4,10 +4,10 @@
   ansible.builtin.service:
     name: "{{ service_name }}"
     state: started
-  when: "{{service_state}}" == 'started'
+  when: service_state == 'started'
 
 - name: Stop service {{ service_name }}
   ansible.builtin.service:
     name: "{{ service_name }}"
     state: stopped
-  when: "{{service_state}}" == 'started'
+  when: service_state == 'started'
