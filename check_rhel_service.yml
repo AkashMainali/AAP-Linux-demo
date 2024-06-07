@@ -11,7 +11,8 @@
         - sshd*
   tasks:
     - name: Check status of services
-      shell: systemctl is-active "{{ item }}"
+      ansible.builtin.shell: |
+          systemctl is-active "{{ item }}"
       loop: "{{ services_to_check }}"
       register: service_status
       ignore_errors: yes
@@ -19,7 +20,7 @@
 
     - name: Print status of services
       debug:
-        msg: "{{ item.item }} is {{ 'running' if ('active' in item.stdout_lines[0]) else 'not running' }}"
+        msg: "{{ item.item }} is {{ 'running' if ('active' in item.stdout) else 'not running' }}"
       loop: "{{ service_status.results }}"
       loop_control:
         label: "{{ item.item }}"
