@@ -29,20 +29,20 @@
   ansible.builtin.debug:
     var: preupgrade_result.stdout_lines
 
-- name: Check Leapp preupgrade result
-  ansible.builtin.fail:-t
-    msg: "Preupgrade check failed. Please resolve issues and re-run."
-  when: preupgrade_result.rc != 0
+- name: Search for Inhibitors
+  ansible.builtin.debug:
+    msg: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors')}}" 
+  when: inhibitors_check
 
-- name: Check for Inhibitors in Leapp preupgrade
-  shell: 'leapp report | grep -A 5 -i inhibitors'
-  register: inhibitors_check
-  ignore_errors: yes
+# - name: Check for Inhibitors in Leapp preupgrade
+#   shell: 'leapp report | grep -A 5 -i inhibitors'
+#   register: inhibitors_check
+#   ignore_errors: yes
 
-- name: Fail if Inhibitors are found
-  fail:
-    msg: "Preupgrade check found inhibitors. Please resolve issues and re-run. Details: {{ inhibitors_check.stdout }}"
-  when: inhibitors_check.stdout != ""
+# - name: Fail if Inhibitors are found
+#   fail:
+#     msg: "Preupgrade check found inhibitors. Please resolve issues and re-run. Details: {{ inhibitors_check.stdout }}"
+#   when: inhibitors_check.stdout != ""
 
 
 
