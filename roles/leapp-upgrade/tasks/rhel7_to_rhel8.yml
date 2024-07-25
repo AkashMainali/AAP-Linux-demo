@@ -33,6 +33,19 @@
   ansible.builtin.debug:
     msg: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors')}}" 
 
+- name: Parse Leapp report for inhibitors after upgrade
+  ansible.builtin.slurp:
+    src: /var/log/leapp/leapp-report.json
+  register: report_content_upgrade
+
+- name: Convert report content from base64 after upgrade
+  ansible.builtin.set_fact:
+    report_json_upgrade: "{{ report_content_upgrade.content | b64decode | from_json }}"
+
+- name: Check for inhibitors in the report after upgrade
+  ansible.builtin.set_fact:
+    inhibitors_upgrade: "{{ report_json_upgrade.reports | selectattr('flags', 'search', 'inhibitor') | list }}"
+
 # - name: Check for Inhibitors in Leapp preupgrade
 #   shell: 'leapp report | grep -A 5 -i inhibitors'
 #   register: inhibitors_check
