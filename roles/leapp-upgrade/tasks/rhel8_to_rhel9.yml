@@ -4,11 +4,6 @@
     name: '*'
     state: latest
 
-- name: Install EPEL repository
-  ansible.builtin.yum:
-    name: epel-release
-    state: present
-
 - name: Install Leapp packages
   ansible.builtin.yum:
     name: "{{ leapp_packages }}"

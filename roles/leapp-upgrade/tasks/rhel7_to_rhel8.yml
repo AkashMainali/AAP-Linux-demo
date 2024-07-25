@@ -14,6 +14,7 @@
   ansible.builtin.yum:
     name: "{{ leapp_packages }}"
     state: present
+    enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
 
 - name: Run Leapp preupgrade to RHEL 8
   ansible.builtin.command: leapp preupgrade
@@ -25,10 +26,12 @@
     msg: "Preupgrade check failed. Please resolve issues and re-run."
   when: preupgrade_result.rc != 0
 
+####################################################################
 - name: Fix preupgrade issues
   # Here, you can add tasks to handle common preupgrade issues
   ansible.builtin.debug:
     msg: "Resolve any issues identified by the preupgrade check manually or with additional tasks."
+####################################################################
 
 - name: Run Leapp upgrade to RHEL 8
   ansible.builtin.command: leapp upgrade
