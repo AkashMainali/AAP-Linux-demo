@@ -35,7 +35,7 @@
 
 - name: Fail if Inhibitors not 0
   ansible.builtin.fail:
-    msg: "Inhibitors:         {{inhibitors_count}}"
+    msg: "Inhibitors:         {{ inhibitors_count }}"
   when: inhibitors_count !=0
 
   
