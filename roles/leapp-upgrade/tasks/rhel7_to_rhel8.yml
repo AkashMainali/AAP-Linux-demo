@@ -31,7 +31,7 @@
 
 - name: Search for Inhibitors
   ansible.builtin.debug:
-    msg: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors:* ')}}" 
+    msg: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1')}}" 
 
 
 
