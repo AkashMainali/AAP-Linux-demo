@@ -21,7 +21,7 @@
       - leapp-repository 
 
 - name: Run Leapp preupgrade to RHEL 8
-  ansible.builtin.command: leapp preupgrade --target==8.10
+  ansible.builtin.command: leapp preupgrade --target 8.10
   register: preupgrade_result
   ignore_errors: yes
 
@@ -32,7 +32,6 @@
 - name: Search for Inhibitors
   ansible.builtin.debug:
     msg: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors')}}" 
-  when: inhibitors_check
 
 # - name: Check for Inhibitors in Leapp preupgrade
 #   shell: 'leapp report | grep -A 5 -i inhibitors'
