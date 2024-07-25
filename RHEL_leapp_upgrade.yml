@@ -1,6 +1,7 @@
 ---
 - name: Leapp Upgrade Playbook
   hosts: all
+  become: true
   vars:
     leapp_repo: "http://download.devel.redhat.com/project/rhel/9.0/compose/BaseOS/x86_64/os/"
     leapp_packages:
