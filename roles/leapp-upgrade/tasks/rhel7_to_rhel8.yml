@@ -4,11 +4,11 @@
     name: '*'
     state: latest
 
-- name: Install EPEL repository
-  ansible.builtin.yum:
-    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    state: present
-    validate_certs: false
+# - name: Install EPEL repository
+#   ansible.builtin.yum:
+#     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#     state: present
+#     validate_certs: false
 
 - name: Install Leapp packages
   ansible.builtin.yum:
