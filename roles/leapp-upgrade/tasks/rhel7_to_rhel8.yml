@@ -6,7 +6,7 @@
 
 - name: Install EPEL repository
   ansible.builtin.yum:
-    name: epel-release
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     state: present
 
 - name: Install Leapp packages
