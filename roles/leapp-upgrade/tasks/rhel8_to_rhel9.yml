@@ -1,0 +1,70 @@
+---
+- name: Ensure system is updated
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+
+- name: Install EPEL repository
+  ansible.builtin.yum:
+    name: epel-release
+    state: present
+
+- name: Install Leapp packages
+  ansible.builtin.yum:
+    name: "{{ leapp_packages }}"
+    state: present
+
+- name: Run Leapp preupgrade to RHEL 9
+  ansible.builtin.command: leapp preupgrade
+  register: preupgrade_result
+  ignore_errors: yes
+
+- name: Check Leapp preupgrade result
+  ansible.builtin.fail:
+    msg: "Preupgrade check failed. Please resolve issues and re-run."
+  when: preupgrade_result.rc != 0
+
+- name: Fix preupgrade issues
+  # Here, you can add tasks to handle common preupgrade issues
+  ansible.builtin.debug:
+    msg: "Resolve any issues identified by the preupgrade check manually or with additional tasks."
+
+- name: Run Leapp upgrade to RHEL 9
+  ansible.builtin.command: leapp upgrade
+  register: upgrade_result
+  ignore_errors: yes
+
+- name: Check Leapp upgrade result
+  ansible.builtin.fail:
+    msg: "Upgrade to RHEL 9 failed. Please check the logs and resolve issues."
+  when: upgrade_result.rc != 0
+
+- name: Reboot the system after RHEL 9 upgrade
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
+
+- name: Ensure the system is running RHEL 9
+  ansible.builtin.wait_for_connection:
+    delay: 30
+    sleep: 5
+    timeout: 300
+  when: upgrade_result.rc == 0
+
+- name: Finalize the upgrade to RHEL 9
+  ansible.builtin.command: leapp finalize
+  register: finalize_result
+  ignore_errors: yes
+
+- name: Check Leapp finalize result
+  ansible.builtin.fail:
+    msg: "Finalize to RHEL 9 failed. Please check the logs and resolve issues."
+  when: finalize_result.rc != 0
+
+- name: Verify RHEL version
+  ansible.builtin.command: cat /etc/redhat-release
+  register: rhel_version
+
+- name: Display RHEL version
+  ansible.builtin.debug:
+    msg: "System upgraded to {{ rhel_version.stdout }}"
+  when: rhel_version.stdout is search("Red Hat Enterprise Linux release 9")

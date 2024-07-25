@@ -1,0 +1,11 @@
+---
+- name: Leapp Upgrade Playbook
+  hosts: all
+  vars:
+    leapp_repo: "http://download.devel.redhat.com/project/rhel/9.0/compose/BaseOS/x86_64/os/"
+    leapp_packages:
+      - leapp
+      - leapp-repository   
+  tasks:
+    - name: Call the role for leapp upgrade
+      ansible.builtin.include_role: leapp-upgrade

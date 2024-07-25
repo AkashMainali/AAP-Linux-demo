@@ -1,0 +1,6 @@
+---
+- name: Call playbook for Leapp upgrade from RHEL7 to RHEL8
+  ansible.builtin.include_tasks: rhel7_to_rhel8.yml
+
+# - name: Call playbook for Leapp upgrade from RHEL8 to RHEL9
+#   ansible.builtin.include_tasks: rhel8_to_rhel9.yml
