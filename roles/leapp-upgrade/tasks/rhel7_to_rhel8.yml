@@ -1,74 +1,106 @@
 ---
-- name: Ensure system is updated
+#################################
+####### Prep the machine ########
+#################################
+
+- name: Unset RHEL version
+  ansible.builtin.shell: subscription-manager relase unset
+
+- name: Ensure system is updated -- Makes system to 7.9
   ansible.builtin.yum:
     name: '*'
     state: latest
 
-# - name: Install EPEL repository
-#   ansible.builtin.yum:
-#     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-#     state: present
-#     validate_certs: false
-
 - name: Install Leapp packages
   ansible.builtin.yum:
-    name: "{{ leapp_packages }}"
+    name: "{{ item }}"
     state: present
     enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
+  loop:
+      - leapp
+      - leapp-repository 
 
 - name: Run Leapp preupgrade to RHEL 8
-  ansible.builtin.command: leapp preupgrade
+  ansible.builtin.command: leapp preupgrade --target==8.10
   register: preupgrade_result
   ignore_errors: yes
 
+- name: Debug the preupgrade_result
+  ansible.builtin.debug:
+    var: preupgrade_result.stdout_lines
+
 - name: Check Leapp preupgrade result
-  ansible.builtin.fail:
+  ansible.builtin.fail:-t
     msg: "Preupgrade check failed. Please resolve issues and re-run."
   when: preupgrade_result.rc != 0
 
-####################################################################
-- name: Fix preupgrade issues
-  # Here, you can add tasks to handle common preupgrade issues
-  ansible.builtin.debug:
-    msg: "Resolve any issues identified by the preupgrade check manually or with additional tasks."
-####################################################################
-
-- name: Run Leapp upgrade to RHEL 8
-  ansible.builtin.command: leapp upgrade
-  register: upgrade_result
+- name: Check for Inhibitors in Leapp preupgrade
+  shell: 'leapp report | grep -A 5 -i inhibitors'
+  register: inhibitors_check
   ignore_errors: yes
 
-- name: Check Leapp upgrade result
-  ansible.builtin.fail:
-    msg: "Upgrade to RHEL 8 failed. Please check the logs and resolve issues."
-  when: upgrade_result.rc != 0
+- name: Fail if Inhibitors are found
+  fail:
+    msg: "Preupgrade check found inhibitors. Please resolve issues and re-run. Details: {{ inhibitors_check.stdout }}"
+  when: inhibitors_check.stdout != ""
 
-- name: Reboot the system after RHEL 8 upgrade
-  ansible.builtin.reboot:
-    reboot_timeout: 3600
 
-- name: Ensure the system is running RHEL 8
-  ansible.builtin.wait_for_connection:
-    delay: 30
-    sleep: 5
-    timeout: 300
-  when: upgrade_result.rc == 0
 
-- name: Finalize the upgrade to RHEL 8
-  ansible.builtin.command: leapp finalize
-  register: finalize_result
-  ignore_errors: yes
 
-- name: Check Leapp finalize result
-  ansible.builtin.fail:
-    msg: "Finalize to RHEL 8 failed. Please check the logs and resolve issues."
-  when: finalize_result.rc != 0
 
-- name: Verify RHEL version
-  ansible.builtin.command: cat /etc/redhat-release
-  register: rhel_version
+  
+####################################################################
+# - name: Fix preupgrade issues
+#   # Here, you can add tasks to handle common preupgrade issues
+#   ansible.builtin.debug:
+#     msg: "Resolve any issues identified by the preupgrade check manually or with additional tasks."
+####################################################################
 
-- name: Display RHEL version
-  ansible.builtin.debug:
-    msg: "System upgraded to {{ rhel_version.stdout }}"
-  when: rhel_version.stdout is search("Red Hat Enterprise Linux release 8")
+#################################
+####### Run the Upgrade #########
+#################################
+
+
+# - name: Run Leapp upgrade to RHEL 8
+#   ansible.builtin.command: leapp upgrade
+#   register: upgrade_result
+#   ignore_errors: yes
+
+# - name: Check Leapp upgrade result
+#   ansible.builtin.fail:
+#     msg: "Upgrade to RHEL 8 failed. Please check the logs and resolve issues."
+#   when: upgrade_result.rc != 0
+
+# - name: Reboot the system after RHEL 8 upgrade
+#   ansible.builtin.reboot:
+#     reboot_timeout: 3600
+
+# - name: Ensure the system is running RHEL 8
+#   ansible.builtin.wait_for_connection:
+#     delay: 30
+#     sleep: 5
+#     timeout: 300
+#   when: upgrade_result.rc == 0
+
+# #################################
+# ####### Finalize Upgrade ########
+# #################################
+
+# - name: Finalize the upgrade to RHEL 8
+#   ansible.builtin.command: leapp finalize
+#   register: finalize_result
+#   ignore_errors: yes
+
+# - name: Check Leapp finalize result
+#   ansible.builtin.fail:
+#     msg: "Finalize to RHEL 8 failed. Please check the logs and resolve issues."
+#   when: finalize_result.rc != 0
+
+# - name: Verify RHEL version
+#   ansible.builtin.command: cat /etc/redhat-release
+#   register: rhel_version
+
+# - name: Display RHEL version
+#   ansible.builtin.debug:
+#     msg: "System upgraded to {{ rhel_version.stdout }}"
+#   when: rhel_version.stdout is search("Red Hat Enterprise Linux release 8")
