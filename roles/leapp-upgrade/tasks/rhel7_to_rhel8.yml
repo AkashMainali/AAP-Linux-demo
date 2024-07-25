@@ -40,7 +40,7 @@
 
 - name: Convert report content from base64 after upgrade
   ansible.builtin.set_fact:
-    report_json_upgrade: "{{ report_content_upgrade.content | b64decode | from_json }}"
+    report_json_upgrade: "{{ report_content_upgrade.content | from_json }}"
 
 - name: Check for inhibitors in the report after upgrade
   ansible.builtin.set_fact:
