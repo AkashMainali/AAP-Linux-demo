@@ -4,7 +4,7 @@
 #################################
 
 - name: Unset RHEL version
-  ansible.builtin.shell: subscription-manager relese --unset
+  ansible.builtin.shell: subscription-manager release --unset
 
 - name: Ensure system is updated -- Makes system to 7.9
   ansible.builtin.yum:
