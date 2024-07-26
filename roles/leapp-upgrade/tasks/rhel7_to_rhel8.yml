@@ -33,6 +33,10 @@
   ansible.builtin.set_fact:
     inhibitors_count: "{{preupgrade_result | regex_search('Inhibitors:\\s+(\\d+)', '\\1' | int)}}" 
 
+- debug:
+    msg: "NO Inhibitors present"
+  when: inhibitors_count == 0 
+
 - name: Fail if Inhibitors not 0
   ansible.builtin.fail:
     msg: "Inhibitors:         {{ inhibitors_count }}"
