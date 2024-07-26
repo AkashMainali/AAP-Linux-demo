@@ -1,6 +1,6 @@
 ---
 # vars file for leapp-upgrade
-present_preupgrade_out: |
+present_preupgrade_out:
   [
     "==> Processing phase `configuration_phase`",
     "====> * ipu_workflow_config",
