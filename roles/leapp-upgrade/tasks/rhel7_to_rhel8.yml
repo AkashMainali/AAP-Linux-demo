@@ -28,6 +28,7 @@
 - name: Debug the preupgrade_result
   ansible.builtin.debug:
     var: preupgrade_result.stdout_lines
+    
 # - debug:
 #     var: present_preupgrade_out
 
