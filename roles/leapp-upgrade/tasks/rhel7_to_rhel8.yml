@@ -33,7 +33,7 @@
 
 - name: Search for Inhibitors
   ansible.builtin.set_fact:
-    inhibitors_count: "{{present_preupgrade_out | regex_search('Inhibitors:\\s+(\\d+)', '\\1')}}"
+    inhibitors_count: "{{present_preupgrade_out[0] | regex_search('Inhibitors:\\s+(\\d+)', '\\1')}}"
 
 - name: Ensure inhibitors count is set
   ansible.builtin.set_fact:
