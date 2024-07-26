@@ -28,7 +28,7 @@
 - name: Debug the preupgrade_result
   ansible.builtin.debug:
     var: preupgrade_result.stdout_lines
-    
+
 # - debug:
 #     var: present_preupgrade_out
 
@@ -38,7 +38,7 @@
 
 - name: Ensure inhibitors count is set
   ansible.builtin.set_fact:
-    inhibitors_count: "{{ inhibitors_count_str | default('0') | int }}"
+    inhibitors_count: "{{ inhibitors_count_str[0] | default('0') | int }}"
 
 - debug:
     msg: "NO Inhibitors present"
