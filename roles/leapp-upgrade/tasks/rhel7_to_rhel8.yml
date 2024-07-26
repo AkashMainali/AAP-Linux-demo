@@ -31,7 +31,7 @@
 
 - name: Search for Inhibitors
   vars:
-    preupgrade_result.stdout_lines: |
+    preupgrade_result: |
         Errors:                      0
         Inhibitors:                  0
         HIGH severity reports:       4
@@ -39,7 +39,7 @@
         LOW severity reports:        5
         INFO severity reports:       4
   ansible.builtin.set_fact:
-    inhibitors_count: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1' | int)}}" 
+    inhibitors_count: "{{preupgrade_result | regex_search('Inhibitors:\\s+(\\d+)', '\\1' | int)}}" 
 
 - name: Fail if Inhibitors not 0
   ansible.builtin.fail:
