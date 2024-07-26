@@ -31,7 +31,7 @@
 
 - name: Search for Inhibitors
   ansible.builtin.set_fact:
-    inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') } list}}"
+    inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') | list }}"
 
 
 - name: Fail if Inhibitors not 0
