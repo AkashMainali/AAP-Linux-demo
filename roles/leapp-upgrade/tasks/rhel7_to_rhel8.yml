@@ -27,13 +27,13 @@
 
 - name: Debug the preupgrade_result
   ansible.builtin.debug:
-    var: preupgrade_result.stdout_lines[0]
+    var: preupgrade_result.stdout_lines
 # - debug:
 #     var: present_preupgrade_out
 
 - name: Search for Inhibitors
   ansible.builtin.set_fact:
-    inhibitors_count: "{{preupgrade_result.stdout_lines[0] | regex_search('Inhibitors:\\s+(\\d+)', '\\1')}}"
+    inhibitors_count: "{{preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1')}}"
 
 - name: Ensure inhibitors count is set
   ansible.builtin.set_fact:
