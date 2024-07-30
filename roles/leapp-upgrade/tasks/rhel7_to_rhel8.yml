@@ -11,32 +11,32 @@
     name: '*'
     state: latest
 
-- name: Install Leapp packages
-  ansible.builtin.yum:
-    name: "{{ item }}"
-    state: present
-    enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
-  loop:
-      - leapp
-      - leapp-repository 
+# - name: Install Leapp packages
+#   ansible.builtin.yum:
+#     name: "{{ item }}"
+#     state: present
+#     enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
+#   loop:
+#       - leapp
+#       - leapp-repository 
 
-- name: Run Leapp preupgrade to RHEL 8
-  ansible.builtin.command: leapp preupgrade --target 8.10
-  register: preupgrade_result
-  ignore_errors: yes
+# - name: Run Leapp preupgrade to RHEL 8
+#   ansible.builtin.command: leapp preupgrade --target 8.10
+#   register: preupgrade_result
+#   ignore_errors: yes
 
-- name: Debug the preupgrade_result
-  ansible.builtin.debug:
-    var: preupgrade_result.stdout_lines
+# - name: Debug the preupgrade_result
+#   ansible.builtin.debug:
+#     var: preupgrade_result.stdout_lines
 
-- name: Search for Inhibitors
-  ansible.builtin.set_fact:
-    inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
+# - name: Search for Inhibitors
+#   ansible.builtin.set_fact:
+#     inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
 
-- name: Fail if Inhibitors not 1
-  ansible.builtin.debug:
-    msg: "Inhibitors:         {{ inhibitors_count[0] }}"
-  failed_when: inhibitors_count[0] | int != 0
+# - name: Fail if Inhibitors not 1
+#   ansible.builtin.debug:
+#     msg: "Inhibitors:         {{ inhibitors_count[0] }}"
+#   failed_when: inhibitors_count[0] | int != 0
 
   
 ####################################################################
