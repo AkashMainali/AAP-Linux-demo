@@ -1,0 +1,75 @@
+---
+- name: Remove all packages from the exclude list
+  command: yum config-manager --save --setopt exclude=''
+  ignore_errors: true
+
+- name: Get the old kernel version
+  find:
+    paths: /lib/modules
+    patterns: "*.el7*"
+    file_type: directory
+  register: old_kernel_version
+
+- name: Remove the old kernel using weak-modules
+  ansible.builtin.shell: /usr/sbin/weak-modules --remove-kernel {{ item.path | basename }}
+  loop: "{{ old_kernel_version.files }}"
+  when: old_kernel_version.matched > 0
+  ignore_errors: true
+
+- name: Remove old kernel from boot loader entry
+  ansible.builtin.shell: /bin/kernel-install remove {{ item.path | basename }} /lib/modules/{{ item.path | basename }}/vmlinuz
+  loop: "{{ old_kernel_version.files }}"
+  when: old_kernel_version.matched > 0
+  ignore_errors: true
+
+- name: Locate remaining RHEL 7 packages
+  command: rpm -qa | grep -e '\.el[67]' | grep -vE '^(gpg-pubkey|libmodulemd|katello-ca-consumer)' | sort
+  register: rhel7_packages
+  ignore_errors: true
+
+- name: Remove remaining RHEL 7 packages and kernel-workaround package
+  command: yum remove kernel-workaround {{ item }}
+  with_items: "{{ rhel7_packages.stdout_lines }}"
+  when: rhel7_packages.stdout_lines is defined and rhel7_packages.stdout_lines | length > 0
+  ignore_errors: true
+
+- name: Remove LEAPP dependencies
+  ansible.builtin.yum:
+    name: 
+      - leapp-deps-el8
+      - leapp-repository-deps-el8
+    state: absent
+  ignore_errors: true
+
+- name: Remove old kernel directories
+  ansible.builtin.file:
+    path: /lib/modules/*el7*
+    state: absent
+  ignore_errors: true
+
+- name: Remove LEAPP directories and logs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/log/leapp
+    - /root/tmp_leapp_py3
+    - /var/lib/leapp
+  ignore_errors: true
+
+- name: Disable non-compatible YUM repositories, Repositories Handled by RHSM are handled automatically
+  command: yum config-manager --set-disabled <repository_id>
+  ignore_errors: true
+
+- name: Remove existing rescue kernel and initial RAM disk
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /boot/vmlinuz-*rescue*
+    - /boot/initramfs-*rescue*
+  ignore_errors: true
+
+- name: Reinstall the rescue kernel and related initial RAM disk
+  command: /usr/lib/kernel/install.d/51-dracut-rescue.install add "{{ ansible_kernel }}" /boot "/boot/vmlinuz-{{ ansible_kernel }}"
+  ignore_errors: true
