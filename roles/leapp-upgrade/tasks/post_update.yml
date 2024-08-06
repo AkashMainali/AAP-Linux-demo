@@ -23,12 +23,12 @@
   ignore_errors: true
 
 - name: Locate remaining RHEL 7 packages
-  command: rpm -qa | grep -e '\.el[67]' | grep -vE '^(gpg-pubkey|libmodulemd|katello-ca-consumer)' | sort
+  ansible.builtin.command: rpm -qa | grep -e '\.el[67]' | grep -vE '^(gpg-pubkey|libmodulemd|katello-ca-consumer)' | sort
   register: rhel7_packages
   ignore_errors: true
 
 - name: Remove remaining RHEL 7 packages and kernel-workaround package
-  command: yum remove kernel-workaround {{ item }}
+  ansible.builtin.command: yum remove kernel-workaround {{ item }}
   with_items: "{{ rhel7_packages.stdout_lines }}"
   when: rhel7_packages.stdout_lines is defined and rhel7_packages.stdout_lines | length > 0
   ignore_errors: true

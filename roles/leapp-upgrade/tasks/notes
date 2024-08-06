@@ -1,7 +1,9 @@
 remove all packages from the exclude list
 # yum config-manager --save --setopt exclude=''
+
 # cd /lib/modules && ls -d *.el7* --> This gives the old kernal version
 # [ -x /usr/sbin/weak-modules ] && /usr/sbin/weak-modules --remove-kernel <version> -- This removes the old kernal
+
 Ignore the following error message, which is generated if the kernel package has been previously removed:
 /usr/sbin/weak-modules: line 1081: cd: /lib/modules/<version>/weak-updates: No such file or directory
 

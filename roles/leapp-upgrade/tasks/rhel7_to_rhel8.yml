@@ -3,40 +3,40 @@
 ####### Prep the machine ########
 #################################
 
-- name: Unset RHEL version
-  ansible.builtin.shell: subscription-manager release --unset
+# - name: Unset RHEL version
+#   ansible.builtin.shell: subscription-manager release --unset
 
-- name: Ensure system is updated -- Makes system to 7.9
-  ansible.builtin.yum:
-    name: '*'
-    state: latest
+# - name: Ensure system is updated -- Makes system to 7.9
+#   ansible.builtin.yum:
+#     name: '*'
+#     state: latest
 
-- name: Install Leapp packages
-  ansible.builtin.yum:
-    name: "{{ item }}"
-    state: present
-    enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
-  loop:
-      - leapp
-      - leapp-repository 
+# - name: Install Leapp packages
+#   ansible.builtin.yum:
+#     name: "{{ item }}"
+#     state: present
+#     enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
+#   loop:
+#       - leapp
+#       - leapp-repository 
 
-- name: Run Leapp preupgrade to RHEL 8
-  ansible.builtin.command: leapp preupgrade --target 8.10
-  register: preupgrade_result
-  ignore_errors: yes
+# - name: Run Leapp preupgrade to RHEL 8
+#   ansible.builtin.command: leapp preupgrade --target 8.10
+#   register: preupgrade_result
+#   ignore_errors: yes
 
-- name: Debug the preupgrade_result
-  ansible.builtin.debug:
-    var: preupgrade_result.stdout_lines
+# - name: Debug the preupgrade_result
+#   ansible.builtin.debug:
+#     var: preupgrade_result.stdout_lines
 
-- name: Search for Inhibitors
-  ansible.builtin.set_fact:
-    inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
+# - name: Search for Inhibitors
+#   ansible.builtin.set_fact:
+#     inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
 
-- name: Fail if Inhibitors not 1
-  ansible.builtin.debug:
-    msg: "Inhibitors:         {{ inhibitors_count[0] }}"
-  failed_when: inhibitors_count[0] | int != 0
+# - name: Fail if Inhibitors not 1
+#   ansible.builtin.debug:
+#     msg: "Inhibitors:         {{ inhibitors_count[0] }}"
+#   failed_when: inhibitors_count[0] | int != 0
 
   
 ####################################################################
@@ -51,11 +51,14 @@
 #################################
 
 
-# - name: Run Leapp upgrade to RHEL 8
-#   ansible.builtin.command: leapp upgrade
-#   register: upgrade_result
-#   ignore_errors: yes
+- name: Run Leapp upgrade to RHEL 8
+  ansible.builtin.command: leapp upgrade --target 8.10 -- reboot
+  register: upgrade_result
+  ignore_errors: yes
 
+- name: Ping ther server
+  ansible.builtin.ping:
+  
 # - name: Check Leapp upgrade result
 #   ansible.builtin.fail:
 #     msg: "Upgrade to RHEL 8 failed. Please check the logs and resolve issues."
@@ -94,3 +97,12 @@
 #   ansible.builtin.debug:
 #     msg: "System upgraded to {{ rhel_version.stdout }}"
 #   when: rhel_version.stdout is search("Red Hat Enterprise Linux release 8")
+
+
+- name: Remove remaining RHEL7 packages
+  ansible.builting.yum:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - kernal-workaround
+    - "{{ rhel7_package.stdout_lines }}"
