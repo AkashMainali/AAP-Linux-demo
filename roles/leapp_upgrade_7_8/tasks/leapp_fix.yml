@@ -1,0 +1,21 @@
+---
+- name: Leapp fix 1
+  ansible.builtin.shell: |
+    modprobe -r floppy pata_acpi
+
+- name: Leapp fix 2 
+  block:
+    - name: Get the current running kernel version
+      ansible..builtin.shell: uname -r
+      register: current_kernel
+
+    - name: List all installed kernels
+      ansible..builtin.shell: rpm -qa | grep kernel
+      register: installed_kernels
+
+    - name: Remove old kernels using yum
+      ansible..builtin.yum:
+        name: "{{ item }}"
+        state: absent
+      with_items: "{{ installed_kernels.stdout_lines }}"
+      when: "'{{ current_kernel.stdout }}' not in item"
