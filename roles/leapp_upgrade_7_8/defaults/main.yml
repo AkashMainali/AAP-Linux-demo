@@ -1,4 +1,5 @@
 ---
 # defaults file for leapp-upgrade
+result_filename: '/var/log/leapp/leapp-report.txt'
 result_filename_prefix: /var/log/leapp/leapp-report
 result_filename_json: "{{ result_filename_prefix }}.json"
