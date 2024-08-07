@@ -1,26 +1,23 @@
-- name: leapp-upgrade From RHEL7 to RHEL8
-  block:
-    - name: Start Leapp OS upgrade
-      ansible.builtin.shell: |
-        leapp upgrade --target 8.10 --reboot 
-      args:
-        executable: /bin/bash
-      async: 1000
-      poll: 0
-      changed_when: true
-    - name: Pause for 30 minutes and Wait for system to reboot
-      ansible.builtin.pause:
-        minutes: 25
-    - name: Wait for the machine to come back online
-      ansible.builtin.wait_for:
-        port: 22 #Port number to poll.
-        delay: 10 # Number of seconds to wait before starting to poll.
-        sleep: 5 # Number of seconds to sleep between checks.
-        timeout: 900 #seconds
-        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
-  rescue:
-    - name: leapp-upgrade | Include the parse_leapp_report role to check for inhibitors
-      ansible.builtin.include_tasks: leapp_parse_report.yml
+- name: Start Leapp OS upgrade
+  ansible.builtin.shell: |
+    leapp upgrade --target 8.10 --reboot 
+  args:
+    executable: /bin/bash
+  async: 1000
+  poll: 0
+  changed_when: true
+
+- name: Pause for 30 minutes and Wait for system to reboot
+  ansible.builtin.pause:
+    minutes: 25
+    
+- name: Wait for the machine to come back online
+  ansible.builtin.wait_for:
+    port: 22 #Port number to poll.
+    delay: 10 # Number of seconds to wait before starting to poll.
+    sleep: 5 # Number of seconds to sleep between checks.
+    timeout: 900 #seconds
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
 
 - name: Ensure the machine is fully rebooted
   ansible.builtin.shell: |
