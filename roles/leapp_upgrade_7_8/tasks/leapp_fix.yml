@@ -1,7 +1,6 @@
 ---
 - name: Leapp fix 1
-  ansible.builtin.shell: |
-    modprobe -r floppy pata_acpi
+  ansible.builtin.shell: modprobe -r floppy pata_acpi
 
 - name: Leapp fix 2 
   block:
