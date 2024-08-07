@@ -5,4 +5,4 @@ result_filename_prefix: '/var/log/leapp/leapp-report'
 result_filename_json: "{{ result_filename_prefix }}.json"
 
 # Treat all high risk findings as inhibitors, not just those exclusively marked as inhibitors by Leapp
-leapp_high_sev_as_inhibitors: true
+leapp_high_sev_as_inhibitors: false
