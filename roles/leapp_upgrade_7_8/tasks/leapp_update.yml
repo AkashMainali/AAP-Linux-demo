@@ -12,19 +12,17 @@
       async: 7200
       poll: 0
       changed_when: true
+    - name: Wait for system to reboot
+      ansible.builtin.pause:
+        minutes: 20
+    - name: Wait for the machine to come back online
+      ansible.builtin.wait_for_connection:
+        delay: 10
+        sleep: 5
+        timeout: 300
   rescue:
     - name: leapp-upgrade | Include the parse_leapp_report role to check for inhibitors
       ansible.builtin.include_tasks: leapp_parse_report.yml
-
-- name: Wait for system to reboot
-  ansible.builtin.pause:
-    minutes: 20
-
-- name: Wait for the machine to come back online
-  ansible.builtin.wait_for_connection:
-    delay: 10
-    sleep: 5
-    timeout: 300
 
 - name: Ensure the machine is fully rebooted
   ansible.builtin.shell: >
