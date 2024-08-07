@@ -1,6 +1,6 @@
 - name: leapp-upgrade From RHEL7 to RHEL8
   block:
-    - name: leapp-upgrade | Start Leapp OS upgrade
+    - name: Start Leapp OS upgrade
       ansible.builtin.shell: >
         set -o pipefail;
         leapp upgrade
