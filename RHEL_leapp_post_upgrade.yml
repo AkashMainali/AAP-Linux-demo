@@ -4,7 +4,7 @@
   become: true
   become_user: root
   tasks:
-    - name: Call the role for leapp upgrade
+    - name: Call the role for leapp pre upgrade
       ansible.builtin.include_role:
         name: leapp_upgrade_7_8
-        tasks_from: leapp_update.yml
+        tasks_from: leapp_post_update.yml
