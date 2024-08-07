@@ -3,10 +3,7 @@
     - name: Start Leapp OS upgrade
       ansible.builtin.shell: >
         set -o pipefail;
-        leapp upgrade
-        --target 8.10
-        --reboot
-        2>&1 | tee -a {{ log_file }}
+        leapp upgrade --target 8.10 --reboot 2>&1 | tee -a {{ log_file }}
       args:
         executable: /bin/bash
       async: 7200
