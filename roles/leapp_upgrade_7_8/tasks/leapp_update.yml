@@ -12,7 +12,7 @@
       changed_when: true
     - name: Pause for 30 minutes and Wait for system to reboot
       ansible.builtin.pause:
-        minutes: 30
+        minutes: 25
     - name: Wait for the machine to come back online
       ansible.builtin.wait_for:
         port: 22 #Port number to poll.
