@@ -9,7 +9,7 @@
       - leapp
       - leapp-repository
   tasks:
-    - name: Call the role for leapp upgrade
+    - name: Call the role for leapp pre upgrade
       ansible.builtin.include_role:
         name: leapp_upgrade_7_8
         tasks_from: leapp_preupdate.yml
