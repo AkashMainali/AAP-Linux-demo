@@ -2,11 +2,12 @@
   block:
     - name: Start Leapp OS upgrade
       ansible.builtin.shell: |
-        set -o pipefail
-        leapp upgrade --target 8.10 --reboot 2>&1 | tee -a /var/log/ansible-leapp.log
+# set -o pipefail
+        leapp upgrade --target 8.10 --reboot 
+#2>&1 | tee -a /var/log/ansible-leapp.log
       args:
         executable: /bin/bash
-      async: 7200
+      async: 1000
       poll: 0
       changed_when: true
     - name: Pause for 30 minutes and Wait for system to reboot
