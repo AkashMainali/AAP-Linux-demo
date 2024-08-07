@@ -19,7 +19,7 @@
       ansible.builtin.wait_for_connection:
         delay: 10
         sleep: 5
-        timeout: 300
+        timeout: 3600 #1 hour
   rescue:
     - name: leapp-upgrade | Include the parse_leapp_report role to check for inhibitors
       ansible.builtin.include_tasks: leapp_parse_report.yml
