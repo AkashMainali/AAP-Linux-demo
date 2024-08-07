@@ -12,4 +12,4 @@
     - name: Call the role for leapp upgrade
       ansible.builtin.include_role:
         name: leapp_upgrade_7_8
-        tasks_from: leapp_update.yml
+        tasks_from: leapp_preupdate.yml

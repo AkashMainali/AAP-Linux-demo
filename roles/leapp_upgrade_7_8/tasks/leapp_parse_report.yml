@@ -1,0 +1,69 @@
+---
+- name: Default upgrade_inhibited to false
+  ansible.builtin.set_fact:
+    upgrade_inhibited: false
+
+- name: Collect human readable report results
+  ansible.builtin.slurp:
+    src: "{{ result_filename }}"
+  register: results_txt
+
+- name: Collect JSON report results
+  ansible.builtin.slurp:
+    src: "{{ result_filename_json }}"
+  register: results_json
+
+- name: Parse report results
+  ansible.builtin.set_fact:
+    leapp_report_txt: "{{ results_txt.content | b64decode | split('\n') }}"
+    leapp_report_json: "{{ results_json.content | b64decode | from_json }}"
+
+- name: Check for inhibitors
+  ansible.builtin.set_fact:
+    upgrade_inhibited: true
+  when:
+    - item.key not in leapp_known_inhibitors | default([], true)
+    - (leapp_high_sev_as_inhibitors | default(false, true) | bool and item.severity == 'high') or
+      'inhibitor' in item.flags
+  loop: "{{ leapp_report_json.entries }}"
+
+- name: Collect inhibitors
+  vars:
+    high_filter: "{{ '|Risk Factor: high' if leapp_high_sev_as_inhibitors | default(false, true) | bool else '' }}"
+  ansible.builtin.command:
+    cmd: awk '/\(inhibitor\){{ high_filter }}/,/^-------/' {{ result_filename }}
+  register: results_inhibitors
+  changed_when: false
+  failed_when: false
+
+- name: Collect high errors
+  ansible.builtin.command:
+    cmd: awk '/high \(error\)/,/^-------/' {{ result_filename }}
+  register: results_errors
+  changed_when: false
+  failed_when: false
+
+- name: Block for handling leapp-report.txt errors
+  when: results_errors.stdout_lines | length > 0
+  block:
+    - name: Update upgrade_inhibited to true
+      ansible.builtin.set_fact:
+        upgrade_inhibited: true
+
+    - name: Construct a data structure to add high errors to leapp_report_json
+      ansible.builtin.set_fact:
+        __results_errors:
+          entries:
+            - audience: sysadmin
+              flags:
+                - inhibitor
+              severity: high
+              summary: "{{ results_errors.stdout }}"
+              title: "Likely issues found with high (error) severity found, see summary."
+              hostname: "{{ ansible_fqdn }}"
+
+    - name: Add errors as inhibitors to leapp_report_json
+      ansible.builtin.set_fact:
+        leapp_report_json: "{{ leapp_report_json | ansible.builtin.combine(__results_errors, list_merge='append') }}"
+
+...

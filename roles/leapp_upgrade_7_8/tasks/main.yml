@@ -1,0 +1,9 @@
+---
+- name: Call playbook for Leapp preupgrade from RHEL7 to RHEL8
+  ansible.builtin.include_tasks: leapp_preupdate.yml
+
+- name: Call pllaybook for Leapp report
+  ansible.builtin.include_tasks: leapp_parse_report.yml
+
+- name: Call plalybook for Leapp Update form RHEL7 to RHEL8
+  ansible.builtin.include_tasks: leapp_update.yml
