@@ -14,10 +14,11 @@
         minutes: 30
     - name: Wait for the machine to come back online
       ansible.builtin.wait_for:
-        port: 22
-        delay: 10
-        sleep: 5
+        port: 22 #Port number to poll.
+        delay: 10 # Number of seconds to wait before starting to poll.
+        sleep: 5 # Number of seconds to sleep between checks.
         timeout: 900 #seconds
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
   rescue:
     - name: leapp-upgrade | Include the parse_leapp_report role to check for inhibitors
       ansible.builtin.include_tasks: leapp_parse_report.yml
