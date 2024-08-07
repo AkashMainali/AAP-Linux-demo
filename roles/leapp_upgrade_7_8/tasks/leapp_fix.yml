@@ -5,7 +5,7 @@
 - name: Leapp fix 2 
   block:
     - name: Get the current running kernel version
-      ansible..builtin.shell: uname -r
+      ansible.builtin.shell: uname -r
       register: current_kernel
 
     - name: List all installed kernels
