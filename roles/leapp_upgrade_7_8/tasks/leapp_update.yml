@@ -22,8 +22,8 @@
       ansible.builtin.include_tasks: leapp_parse_report.yml
 
 - name: Ensure the machine is fully rebooted
-  ansible.builtin.shell: >
-    until who -b | grep -q $(date +"%Y-%m-%d"); do sleep 10; done
+  ansible.builtin.shell: |
+    cat /etc/redhat-release
   args:
     executable: /bin/bash
   changed_when: false
