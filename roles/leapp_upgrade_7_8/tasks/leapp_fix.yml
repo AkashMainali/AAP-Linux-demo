@@ -1,20 +1,20 @@
 ---
-- name: Unregister from Red Hat CDN
-  community.general.redhat_subscription:
-    state: absent
-  ignore_errors: true
+# - name: Unregister from Red Hat CDN
+#   community.general.redhat_subscription:
+#     state: absent
+#   ignore_errors: true
 
-- name: Clean subscription manager configuration
-  ansible.builtin.shell: subscription-manager clean
+# - name: Clean subscription manager configuration
+#   ansible.builtin.shell: subscription-manager clean
 
-- name: Register to Red Hat CDN
-  community.general.redhat_subscription:
-    state: present
-    username: "{{ subscription_username }}"
-    password: "{{ subscription_password }}"
+# - name: Register to Red Hat CDN
+#   community.general.redhat_subscription:
+#     state: present
+#     username: "{{ subscription_username }}"
+#     password: "{{ subscription_password }}"
 
-- name: Leapp inhibitor fix 1 - Removed unsopperted device driver
-  ansible.builtin.shell: modprobe -r floppy pata_acpi
+# - name: Leapp inhibitor fix 1 - Removed unsopperted device driver
+#   ansible.builtin.shell: modprobe -r floppy pata_acpi
 
 - name: Leapp fix 2 - Remove unused kernel
   block:
@@ -28,10 +28,10 @@
       ansible.builtin.yum:
         name: "{{ item }}"
         state: absent
-      loop: "{{ installed_kernels.stdout_lines | difference([running_kernel.stdout, 'kernel-' + running_kernel.stdout]) | sort | reverse | list | slice(1, 999) }}"
-      when: item not in ['kernel-' + running_kernel.stdout]
+      loop: "{{ installed_kernels.stdout_lines | difference([ 'kernel-' + running_kernel.stdout ]) }}"
+      when: item != 'kernel-' + running_kernel.stdout
 
-- name: Leap inhibitor fix 3 - Populate the Answerfile
-  ansible.builtin.template:
-    src: answerfile.j2
-    dest: '/var/log/leapp/answerfile'
+# - name: Leap inhibitor fix 3 - Populate the Answerfile
+#   ansible.builtin.template:
+#     src: answerfile.j2
+#     dest: '/var/log/leapp/answerfile'
