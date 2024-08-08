@@ -59,16 +59,18 @@
   rescue:
     - name: Call the playbook for Leapp Fix
       ansible.builtin.include_tasks: leapp_fix.yml
-    - name: Re-Run the Preupgrade
+    #########################################################
+    - name: Re-Run the Preupgrade second time
       ansible.builtin.command: leapp preupgrade --target 8.10
-      register: preupgrade_result
+      register: preupgrade_result_2
       ignore_errors: true
-    - name: Generate inhibitors_count variable to search for Inhibitors
+    #########################################################
+    - name: Generate inhibitors_count variable to search for Inhibitors using preupgrade_result_2
       ansible.builtin.set_fact:
-        inhibitors_count: "{{ preupgrade_result.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
-    - name: Generate report of the preupgrade
-      ansible.builtin.include_tasks: leapp_parse_report.yml
-    - name: Fail if Inhibitors not 1
+        inhibitors_count: "{{ preupgrade_result_2.stdout_lines | regex_search('Inhibitors:\\s+(\\d+)', '\\1') }}"
+    #########################################################
+    - name: Fail if Inhibitors not 1 after applying Fix
       ansible.builtin.debug:
         msg: "Inhibitors:         {{ inhibitors_count[0] }}"
       failed_when: inhibitors_count[0] | int != 0
+
