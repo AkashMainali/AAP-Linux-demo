@@ -34,6 +34,9 @@
 - name: Check RHEL Version
   ansible.builtin.shell: |
     cat /etc/redhat-release
-  args:
-    executable: /bin/bash
+  register: rhel_version
   changed_when: false
+
+- name: Debug the RHEL Version
+  ansible.builtin.debug:
+    msg: " RHEL VERSION IS : {{ rhel_version.stdout }}"
