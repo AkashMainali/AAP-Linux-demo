@@ -1,17 +1,4 @@
 ---
-- name: Unregister from Red Hat CDN
-  community.general.redhat_subscription:
-    state: absent
-  ignore_errors: true
-
-- name: Clean subscription manager configuration
-  ansible.builtin.shell: subscription-manager clean
-
-- name: Register to Red Hat CDN
-  community.general.redhat_subscription:
-    state: present
-    username: "{{ subscription_username }}"
-    password: "{{ subscription_password }}"
 
 - name: Leapp inhibitor fix 1 - Removed unsopperted device driver
   ansible.builtin.shell: modprobe -r floppy pata_acpi
