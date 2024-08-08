@@ -7,7 +7,6 @@
 - name: Clean subscription manager configuration
   ansible.builtin.shell: subscription-manager clean
 
-
 - name: Register to Red Hat CDN
   community.general.redhat_subscription:
     state: present
@@ -26,7 +25,7 @@
       ansible.builtin.shell: uname -r
     - name: Remove unused kernels
       ansible.builtin.yum:
-        name:
+        name: "{{ item }}"
         state: absent
       loop: "{{ installed_kernels.stdout_lines | difference([running_kernel.stdout, 'kernel-' + running_kernel.stdout]) | sort | reverse | list | slice(1, 999) }}"
       when: item not in ['kernel-' + running_kernel.stdout]
