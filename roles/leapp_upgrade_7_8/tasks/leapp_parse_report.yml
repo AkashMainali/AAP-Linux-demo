@@ -22,7 +22,7 @@
   ansible.builtin.set_fact:
     upgrade_inhibited: true
   when:
-    - (leapp_high_sev_as_inhibitors | default(false, true) | bool and item.severity == 'high') or
+    - (leapp_high_sev_as_inhibitors | default(false, true) | bool and item.severity == 'high (error)') or
       'inhibitor' in item.flags
   loop: "{{ leapp_report_json.entries }}"
 
