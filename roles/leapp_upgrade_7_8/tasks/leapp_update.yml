@@ -37,6 +37,12 @@
   register: rhel_version
   changed_when: false
 
-- name: Debug the RHEL Version
+- name: Debug the RHEL Version if RHEL8
   ansible.builtin.debug:
     msg: " RHEL VERSION IS : {{ rhel_version.stdout }}"
+  when: "'Red Hat Enterprise Linux release 8.10 (Ootpa)' in rhel_version.stdout "
+
+- name: FAIL IF RHEL7
+  ansible.builtin.debug:
+    msg: " RHEL VERSION IS : {{ rhel_version.stdout }}"
+  when: "'Red Hat Enterprise Linux Server release 7.9 (Maipo)' in rhel_version.stdout "
