@@ -21,13 +21,11 @@
     name: '*'
     state: latest
 
-- name: Enable desired repo
-  ansible.builtin.yum_repository:
-    name: "{{ item }}"
-    enabled: yes
-  loop:
-    - rhel-7-server-rpms
-    - rhel-7-server-extras-rpms
+- name: Enable rhel-7-server-rpms repository
+  shell: subscription-manager repos --enable=rhel-7-server-rpms
+
+- name: Enable rhel-7-server-extras-rpms repository
+  shell: subscription-manager repos --enable=rhel-7-server-extras-rpms
 
 - name: Install Leapp packages
   ansible.builtin.yum:
