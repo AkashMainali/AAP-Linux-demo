@@ -7,8 +7,6 @@
 - name: Clean subscription manager configuration
   ansible.builtin.shell: subscription-manager clean
 
-- name: Clean yum cache
-  ansible.builtin.shell: yum clean all
 
 - name: Register to Red Hat CDN
   community.general.redhat_subscription:
