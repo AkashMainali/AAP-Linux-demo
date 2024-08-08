@@ -26,6 +26,7 @@
 
 - name: Reboot the machine
   ansible.builtin.reboot:
+    reboot_timeout: 1200
 
 - name: Wait for the machine to come back online
   ansible.builtin.wait_for_connection:
