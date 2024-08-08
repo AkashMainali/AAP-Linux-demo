@@ -8,7 +8,7 @@
     state: latest
 
 - name: Enable desired repo
-  asnible.builtin.yum_repository:
+  ansible.builtin.yum_repository:
     name: "{{ item }}"
     enabled: yes
   loop:
