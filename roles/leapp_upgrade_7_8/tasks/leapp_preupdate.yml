@@ -35,6 +35,8 @@
     name: '*'
     state: latest
 
+###############################################################
+
 - name: Run Leapp preupgrade to RHEL 8
   ansible.builtin.command: leapp preupgrade --target 8.10
   register: preupgrade_result

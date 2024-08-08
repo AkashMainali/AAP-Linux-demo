@@ -1,7 +1,7 @@
 ---
 - name: Start Leapp OS upgrade
   ansible.builtin.shell: |
-    leapp upgrade --target 8.10  
+    leapp upgrade --target 8.10
   async: 1000
   poll: 0
   changed_when: true
