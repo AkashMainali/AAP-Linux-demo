@@ -20,7 +20,7 @@
   block:
     - name: Get list of all installed kernels
       ansible.builtin.shell: rpm -qa kernel
-      register: installed_kernel
+      register: installed_kernels
     - name: Get current used kernel
       ansible.builtin.shell: uname -r
       register: running_kernel
