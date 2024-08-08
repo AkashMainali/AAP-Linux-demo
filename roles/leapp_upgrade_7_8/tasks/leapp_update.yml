@@ -20,7 +20,7 @@
     path: '/var/log/leapp/leapp-upgrade.log'
     search_regex: 'Answerfile will be created at /var/log/leapp/answerfile'
     delay: 10
-    timeout: 600
+    timeout: 1200
   when: logfile_stat.stat.exists
 
 - name: Reboot the machine
