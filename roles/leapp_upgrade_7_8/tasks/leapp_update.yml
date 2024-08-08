@@ -18,7 +18,7 @@
 
 - name: Wait for a specific sentence in the log file
   ansible.builtin.wait_for:
-    path: /var/logs/leapp/leapp-upgrade.log
+    path: '/var/log/leapp/leapp-upgrade.log'
     search_regex: 'Answerfile will be created at /var/log/leapp/answerfile'
     delay: 10
     timeout: 600
