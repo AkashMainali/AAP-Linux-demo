@@ -6,9 +6,9 @@
   poll: 0
   changed_when: true
 
-- name: Pause for 25 minutes and Wait for system to reboot
+- name: Pause for 20 minutes and Wait for system to reboot
   ansible.builtin.pause:
-    minutes: 25
+    minutes: 20
 
 - name: Check if the log file exists
   ansible.builtin.stat:
