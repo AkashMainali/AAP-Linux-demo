@@ -1,24 +1,27 @@
 ---
-#################################
-####### Prep the machine ########
-#################################
+- name: Unset RHEL version
+  ansible.builtin.shell: subscription-manager release --unset
 
-# - name: Unset RHEL version
-#   ansible.builtin.shell: subscription-manager release --unset
+- name: Ensure system is updated -- Makes system to 7.9
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
 
-# - name: Ensure system is updated -- Makes system to 7.9
-#   ansible.builtin.yum:
-#     name: '*'
-#     state: latest
+- name: Enable desired repo
+  asnible.builtin.yum_repository:
+    name: "{{ item }}"
+    enabled: yes
+  loop:
+    - rhel-7-server-rpms
+    - rhel-7-server-extras-rpms
 
-# - name: Install Leapp packages
-#   ansible.builtin.yum:
-#     name: "{{ item }}"
-#     state: present
-#     enablerepo: "rhel-7-server-rpms,rhel-7-server-extras-rpms"
-#   loop:
-#       - leapp
-#       - leapp-repository 
+- name: Install Leapp packages
+  ansible.builtin.yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+      - leapp
+      - leapp-repository 
 
 - name: Run Leapp preupgrade to RHEL 8
   ansible.builtin.command: leapp preupgrade --target 8.10
@@ -55,4 +58,3 @@
       ansible.builtin.debug:
         msg: "Inhibitors:         {{ inhibitors_count[0] }}"
       failed_when: inhibitors_count[0] | int != 0
-...
