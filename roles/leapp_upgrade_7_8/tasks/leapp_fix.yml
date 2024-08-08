@@ -14,24 +14,24 @@
     username: "{{ subscription_username }}"
     password: "{{ subscription_password }}"
 
-# - name: Leapp inhibitor fix 1 - Removed unsopperted device driver
-#   ansible.builtin.shell: modprobe -r floppy pata_acpi
+- name: Leapp inhibitor fix 1 - Removed unsopperted device driver
+  ansible.builtin.shell: modprobe -r floppy pata_acpi
 
-# - name: Leapp fix 2 - Remove unused kernel
-#   block:
-#     - name: Get list of all installed kernels
-#       ansible.builtin.shell: rpm -qa kernel
-#       register: installed_kernel
-#     - name: Get current used kernel
-#       ansible.builtin.shell: uname -r
-#     - name: Remove unused kernels
-#       ansible.builtin.yum:
-#         name:
-#         state: absent
-#       loop: "{{ installed_kernels.stdout_lines | difference([running_kernel.stdout, 'kernel-' + running_kernel.stdout]) | sort | reverse | list | slice(1, 999) }}"
-#       when: item not in ['kernel-' + running_kernel.stdout]
+- name: Leapp fix 2 - Remove unused kernel
+  block:
+    - name: Get list of all installed kernels
+      ansible.builtin.shell: rpm -qa kernel
+      register: installed_kernel
+    - name: Get current used kernel
+      ansible.builtin.shell: uname -r
+    - name: Remove unused kernels
+      ansible.builtin.yum:
+        name:
+        state: absent
+      loop: "{{ installed_kernels.stdout_lines | difference([running_kernel.stdout, 'kernel-' + running_kernel.stdout]) | sort | reverse | list | slice(1, 999) }}"
+      when: item not in ['kernel-' + running_kernel.stdout]
 
-# - name: Leap inhibitor fix 3 - Populate the Answerfile
-#   ansible.builtin.template:
-#     src: answerfile.j2
-#     dest: '/var/log/leapp/answerfile'
+- name: Leap inhibitor fix 3 - Populate the Answerfile
+  ansible.builtin.template:
+    src: answerfile.j2
+    dest: '/var/log/leapp/answerfile'
