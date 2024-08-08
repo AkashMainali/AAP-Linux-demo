@@ -13,8 +13,6 @@
 
 - name: Wait for the machine to come back online
   ansible.builtin.wait_for_connection:
-    delay: 10 # Number of seconds to wait before starting to poll.
-    sleep: 5 # Number of seconds to sleep between checks.
     timeout: 1200 #seconds
 
 - name: Ensure the machine is fully rebooted
