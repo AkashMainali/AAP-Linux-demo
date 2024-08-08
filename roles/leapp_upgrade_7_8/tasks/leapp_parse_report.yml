@@ -1,6 +1,6 @@
 ---
 - name: Treat all high risk findings as inhibitors set true here
-  ansible..builtin.set_fact:
+  ansible.builtin.set_fact:
     leapp_high_sev_as_inhibitors: false
 
 - name: Default upgrade_inhibited to false
