@@ -23,6 +23,7 @@
       register: installed_kernel
     - name: Get current used kernel
       ansible.builtin.shell: uname -r
+      register: running_kernel
     - name: Remove unused kernels
       ansible.builtin.yum:
         name: "{{ item }}"
