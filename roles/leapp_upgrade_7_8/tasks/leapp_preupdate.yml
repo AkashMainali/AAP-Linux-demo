@@ -16,11 +16,6 @@
 - name: Unset RHEL version
   ansible.builtin.shell: subscription-manager release --unset
 
-- name: Ensure system is updated -- Makes system to 7.9
-  ansible.builtin.yum:
-    name: '*'
-    state: latest
-
 - name: Enable rhel-7-server-rpms repository
   shell: subscription-manager repos --enable=rhel-7-server-rpms
 
@@ -34,6 +29,11 @@
   loop:
       - leapp
       - leapp-repository 
+
+- name: Ensure system is updated -- Makes system to 7.9
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
 
 - name: Run Leapp preupgrade to RHEL 8
   ansible.builtin.command: leapp preupgrade --target 8.10
