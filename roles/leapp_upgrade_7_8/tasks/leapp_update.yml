@@ -1,15 +1,15 @@
-- name: Start Leapp OS upgrade
-  ansible.builtin.shell: |
-    leapp upgrade --target 8.10  
-  args:
-    executable: /bin/bash
-  async: 1000
-  poll: 0
-  changed_when: true
+# - name: Start Leapp OS upgrade
+#   ansible.builtin.shell: |
+#     leapp upgrade --target 8.10  
+#   args:
+#     executable: /bin/bash
+#   async: 1000
+#   poll: 0
+#   changed_when: true
 
-- name: Pause for 25 minutes and Wait for system to reboot
-  ansible.builtin.pause:
-    minutes: 25
+# - name: Pause for 25 minutes and Wait for system to reboot
+#   ansible.builtin.pause:
+#     minutes: 25
 
 - name: Check if the log file exists
   ansible.builtin.stat:
@@ -19,7 +19,7 @@
 - name: Wait for a specific sentence in the log file
   ansible.builtin.wait_for:
     path: /var/logs/leapp/leapp-upgrade.log
-    search_regex: "Answerfile will be created at /var/log/leapp/answerfile "
+    search_regex: 'Answerfile will be created at /var/log/leapp/answerfile'
     delay: 10
     timeout: 600
   when: logfile_stat.stat.exists
