@@ -3,5 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
-   - name: Ping the RHEL server
+   - name: Ping the Windows server for the First time
+     win_ping:
+   - name: Ping the Windows server for the Second time
      win_ping:
