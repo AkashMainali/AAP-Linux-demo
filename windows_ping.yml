@@ -1,0 +1,7 @@
+---
+- name: Play to ping the windows host
+  hosts: all
+  gather_facts: false
+  tasks:
+   - name: Ping the RHEL server
+     win_ping:
