@@ -13,6 +13,6 @@
         ansible.builtin.setup:
         register: machine_facts
 
-      - name: Debug machine_facts
+      - name: Debug ansible powershell version
         ansible.builtin.debug:
           var: machine_facts.ansible_facts.ansible_powershell_version
