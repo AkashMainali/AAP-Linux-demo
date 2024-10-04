@@ -15,4 +15,4 @@
 
       - name: Debug Machine Facts
         ansible.builtin.debug:
-            var: machine_facts.ansible_facts.ansible_os_name
+            var: machine_facts
