@@ -8,11 +8,3 @@
 
       - name: Ping the Windows server for the Second time
         ansible.windows.win_ping:
-
-      - name: Gather Facts of the machine
-        ansible.builtin.setup:
-        register: machine_facts
-
-      - name: Debug Machine Facts
-        ansible.builtin.debug:
-            var: machine_facts
