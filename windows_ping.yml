@@ -15,4 +15,4 @@
 
       - name: Debug machine_facts
         ansible.builtin.debug:
-          var: machine_facts
+          var: machine_facts.ansible_facts.ansible_powershell_version
