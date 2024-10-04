@@ -8,6 +8,7 @@
 
       - name: Ping the Windows server for the Second time
         ansible.windows.win_ping:
+        register: windows_ping_output
 
       - name: Gather facts of the machine
         ansible.builtin.setup:
@@ -16,4 +17,11 @@
       - name: Debug ansible powershell version
         ansible.builtin.debug:
           msg: "{{ machine_facts.ansible_facts.ansible_powershell_version }}"
-          
+
+      - name: Ensure user bob is present
+        ansible.windows.win_user:
+            name: bob
+            password: B0bP4ssw0rd
+            state: present
+            groups:
+              - Users
