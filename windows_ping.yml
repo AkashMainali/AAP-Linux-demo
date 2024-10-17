@@ -2,26 +2,29 @@
 - name: Play to ping the windows host
   hosts: all
   gather_facts: false
+  vars:
+    vm_create_iscsi_lun: true
   tasks:
-      - name: Ping the Windows server for the First time
-        ansible.windows.win_ping:
+      # - name: Ping the Windows server for the First time
+      #   ansible.windows.win_ping:
 
-      - name: Ping the Windows server for the Second time
-        ansible.windows.win_ping:
-        register: windows_ping_output
+      # - name: Ping the Windows server for the Second time
+      #   ansible.windows.win_ping:
+      #   register: windows_ping_output
 
-      - name: Gather facts of the machine
-        ansible.builtin.setup:
-        register: machine_facts
+      # - name: Gather facts of the machine
+      #   ansible.builtin.setup:
+      #   register: machine_facts
 
-      - name: Debug ansible powershell version
-        ansible.builtin.debug:
-          msg: "{{ machine_facts.ansible_facts.ansible_powershell_version }}"
+      # - name: Debug ansible powershell version
+      #   ansible.builtin.debug:
+      #     msg: "{{ machine_facts.ansible_facts.ansible_powershell_version }}"
+    - name: Run task when vm_create_iscsi_lun is true
+      ansible.builtin.debug:
+        msg: "iSCSI LUN creation is enabled"
+      when: vm_create_iscsi_lun | bool == true
 
-      - name: Ensure user bob is present
-        ansible.windows.win_user:
-            name: bob
-            password: B0bP4ssw0rd
-            state: present
-            groups:
-              - Users
+    - name: Run task when vm_create_iscsi_lun is not defined or set to false
+      ansible.builtin.debug:
+        msg: "iSCSI LUN creation is disabled or not defined"
+      when: vm_create_iscsi_lun is not defined or vm_create_iscsi_lun | bool == false
