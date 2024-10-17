@@ -3,13 +3,13 @@
   hosts: all
   gather_facts: false
   vars:
-    # vm_create_iscsi_lun: false
+    vm_create_iscsi_lun: false
   tasks:
 
     - name: Run task when vm_create_iscsi_lun is true
       ansible.builtin.debug:
         msg: "iSCSI LUN creation is enabled"
-      when: vm_create_iscsi_lun | default(false) 
+      when: vm_create_iscsi_lun | default(false)
 
     - name: Run task when vm_create_iscsi_lun is not defined or set to false
       ansible.builtin.debug:
