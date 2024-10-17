@@ -9,7 +9,7 @@
     - name: Run task when vm_create_iscsi_lun is true
       ansible.builtin.debug:
         msg: "iSCSI LUN creation is enabled"
-      when: vm_create_iscsi_lun
+      when: vm_create_iscsi_lun or vm_create_iscsi_lun is defined
 
     - name: Run task when vm_create_iscsi_lun is not defined or set to false
       ansible.builtin.debug:
