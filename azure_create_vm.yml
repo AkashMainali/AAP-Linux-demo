@@ -35,40 +35,51 @@
     #     address_prefix: "10.0.1.0/24"
     #     virtual_network: "ansible-VNet"
 
-    - name: Create network interface
-      azure.azcollection.azure_rm_networkinterface:
-        resource_group: "ansible-test-RG"
-        name: "{{ network_interface }}"
-        location: "{{ location }}"
-        subnet_name: "ansible-Subnet"
-        virtual_network: "ansible-VNet"
-        create_with_security_group: false
-        ip_configurations:
-          - name: ipconfig1
-            primary: true
+    # - name: Create network interface
+    #   azure.azcollection.azure_rm_networkinterface:
+    #     resource_group: "ansible-test-RG"
+    #     name: "{{ network_interface }}"
+    #     location: "{{ location }}"
+    #     subnet_name: "ansible-Subnet"
+    #     virtual_network: "ansible-VNet"
+    #     create_with_security_group: false
+    #     ip_configurations:
+    #       - name: ipconfig1
+    #         primary: true
 
-
-    - name: Create Windows VM
-      azure.azcollection.azure_rm_virtualmachine:
+    - name: Create VM with defaults
+      azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
         name: "{{ vm_name }}"
-        location: "{{ location }}"
-        vm_size: "{{ vm_size }}"
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
-        network_interfaces: "{{ network_interface }}"
         image:
           offer: "{{ image.offer }}"
           publisher: "{{ image.publisher }}"
           sku: "{{ image.sku }}"
           version: "{{ image.version }}"
-        os_disk:
-          name: "osdisk"
-          caching: "ReadWrite"
-          create_option: "FromImage"
-          managed_disk_type: "Standard_LRS"
-        enable_automatic_updates: true
-        time_zone: "UTC"
+
+    # - name: Create Windows VM
+    #   azure.azcollection.azure_rm_virtualmachine:
+    #     resource_group: "{{ resource_group }}"
+    #     name: "{{ vm_name }}"
+    #     location: "{{ location }}"
+    #     vm_size: "{{ vm_size }}"
+    #     admin_username: "{{ admin_username }}"
+    #     admin_password: "{{ admin_password }}"
+    #     network_interfaces: "{{ network_interface }}"
+    #     image:
+    #       offer: "{{ image.offer }}"
+    #       publisher: "{{ image.publisher }}"
+    #       sku: "{{ image.sku }}"
+    #       version: "{{ image.version }}"
+    #     os_disk:
+    #       name: "osdisk"
+    #       caching: "ReadWrite"
+    #       create_option: "FromImage"
+    #       managed_disk_type: "Standard_LRS"
+    #     enable_automatic_updates: true
+    #     time_zone: "UTC"
 
     - name: Output VM details
       ansible.builtin.debug:
