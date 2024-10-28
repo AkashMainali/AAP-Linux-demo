@@ -25,30 +25,30 @@ dependencies:
       - azure.azcollection
 options:
   package_manager_path: /usr/bin/microdnf
+```
 
 2. Log in to the Red Hat Registry
 Authenticate with Red Hat's registry to access the base image:
 ```bash
 # podman login registry.redhat.io
-
+```
 3. Build the Custom Image
 Run the ansible-builder command in the directory containing the execution-environment.yml file:
-
 ```bash
 # ansible-builder build --tag custom-azure-ee:latest
-
+```
 4. Tag the created Image
-
 ```bash
 # podman tag custom_azure_ee quay.io/amainali/custom_azure_ee:latest
-
+```
 5. Push the Image to Quay.io
 Log in to Quay.io through the web UI, and complete initial configuration.
 
 6. Log in to Quay.io via CLI:
 ```bash
 # podman login quay.io
-
+```
 7. Push the image to your Quay.io repository:
 ```bash
 # podman push quay.io/<username>/custom_azure_ee:latest
+```
