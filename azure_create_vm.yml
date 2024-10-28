@@ -7,4 +7,13 @@
       azure.azcollection.azure_rm_resourcegroup:
         name: ansible-test-RG
         location: eastus
- 
+
+    - name: Deploy Azure VM using ARM template
+      azure.azcollection.azure_rm_deployment:
+        resource_group: myResourceGroup
+        location: eastus
+        deployment_mode: Complete
+        template: "{{ lookup('file', 'azure_vm_template.json') }}"
+        parameters:
+          adminUsername: { "value": "azureuser" }
+          adminPassword: { "value": "P@ssw0rd123!" }
