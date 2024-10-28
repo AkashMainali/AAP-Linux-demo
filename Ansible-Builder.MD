@@ -41,8 +41,7 @@ Run the ansible-builder command in the directory containing the execution-enviro
 ```bash
 # podman tag custom_azure_ee quay.io/amainali/custom_azure_ee:latest
 ```
-5. Push the Image to Quay.io
-Log in to Quay.io through the web UI, and complete initial configuration.
+5. Log in to Quay.io through the web UI, and complete initial configuration.
 
 6. Log in to Quay.io via CLI:
 ```bash
