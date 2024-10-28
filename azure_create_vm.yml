@@ -40,6 +40,8 @@
         resource_group: "ansible-test-RG"
         name: "{{ network_interface }}"
         location: "{{ location }}"
+        subnet_name: "ansible-Subnet"
+        virtual_network: "ansible-VNet"
         ip_configurations:
           - name: "ansible-IPConfig"
             public_ip_address: "ansible-PublicIP"
