@@ -2,18 +2,75 @@
 - name: Deploy Azure VM from ARM template
   hosts: all
   gather_facts: false
+  vars:
+    resource_group: "ansible-test-RG"            # Replace with your resource group name
+    location: "East US"                          # Replace with your preferred Azure region
+    vm_name: "win2016vm"                         # Desired VM name
+    vm_size: "Standard_DS1_v2"                   # VM size (adjust based on your requirements)
+    admin_username: "ansible"                    # Administrator username for the VM
+    admin_password: "ansible"                    # Administrator password for the VM (must meet Azure complexity requirements)
+    image:
+      offer: "WindowsServer"
+      publisher: "MicrosoftWindowsServer"
+      sku: "2016-Datacenter"
+      version: "latest"
+    network_interface: "myNIC"
   tasks:
     - name: Create resource group
       azure.azcollection.azure_rm_resourcegroup:
         name: ansible-test-RG
         location: eastus
 
-    - name: Deploy Azure VM using ARM template
-      azure.azcollection.azure_rm_deployment:
-        resource_group: myResourceGroup
-        location: eastus
-        deployment_mode: Complete
-        template: "{{ lookup('file', 'azure_vm_template.json') }}"
-        parameters:
-          adminUsername: { "value": "azureuser" }
-          adminPassword: { "value": "P@ssw0rd123!" }
+    - name: Create virtual network
+      azure.azcollection.azure_rm_virtualnetwork:
+        resource_group: "ansible-test-RG"
+        name: "ansible-Vnet"
+        address_prefixes: "10.0.0.0/16"
+        subnets:
+          - name: "ansible-subnet"
+            address_prefix: "10.0.0.0/24"
+            
+    - name: Create subnet
+      azure.azcollection.azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        name: "mySubnet"
+        address_prefix: "10.0.1.0/24"
+        virtual_network: "myVNet"
+
+    - name: Create network interface
+      azure.azcollection.azure_rm_networkinterface:
+        resource_group: "ansible-test-RG"
+        name: "{{ network_interface }}"
+        location: "{{ location }}"
+        ip_configurations:
+          - name: "myIPConfig"
+            public_ip_address: "myPublicIP"
+            subnet: "mySubnet"
+            virtual_network: "myVNet"
+
+
+    - name: Create Windows VM
+      azure.azcollection.azure_rm_virtualmachine:
+        resource_group: "{{ resource_group }}"
+        name: "{{ vm_name }}"
+        location: "{{ location }}"
+        vm_size: "{{ vm_size }}"
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: "{{ network_interface }}"
+        image:
+          offer: "{{ image.offer }}"
+          publisher: "{{ image.publisher }}"
+          sku: "{{ image.sku }}"
+          version: "{{ image.version }}"
+        os_disk:
+          name: "osdisk"
+          caching: "ReadWrite"
+          create_option: "FromImage"
+          managed_disk_type: "Standard_LRS"
+        enable_automatic_updates: true
+        time_zone: "UTC"
+
+    - name: Output VM details
+      ansible.builtin.debug:
+        msg: "Windows Server 2016 VM {{ vm_name }} created successfully in resource group {{ resource_group }}."
