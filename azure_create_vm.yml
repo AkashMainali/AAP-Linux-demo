@@ -1,0 +1,10 @@
+---
+- name: Deploy Azure VM from ARM template
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create resource group
+      azure.azcollection.azure_rm_resourcegroup:
+        name: ansible-test-RG
+        location: eastus
+ 

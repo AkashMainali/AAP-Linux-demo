@@ -14,7 +14,9 @@
     - name: Run task when vm_create_iscsi_lun is not defined or set to false
       ansible.builtin.debug:
         msg: "iSCSI LUN creation is disabled or not defined"
-      when: not vm_create_iscsi_lun | default(false)
+      when:  vm_create_iscsi_lun | bool == true
+
+      #not vm_create_iscsi_lun | default(false)
 
 
       # - name: Ping the Windows server for the First time
