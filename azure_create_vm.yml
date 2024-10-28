@@ -1,7 +1,7 @@
 ---
 - name: Deploy Azure VM from ARM template
-  hosts: localhost
-  connection: local
+  hosts: all
+  gather_facts: false
   tasks:
     - name: Create resource group
       azure.azcollection.azure_rm_resourcegroup:
