@@ -42,11 +42,11 @@
         location: "{{ location }}"
         subnet_name: "ansible-Subnet"
         virtual_network: "ansible-VNet"
+        create_with_security_group: false
         ip_configurations:
-          - name: "ansible-IPConfig"
-            public_ip_address: "ansible-PublicIP"
-            subnet: "ansible-Subnet"
-            virtual_network: "ansible-VNet"
+          - name: ipconfig1
+            primary: true
+
 
     - name: Create Windows VM
       azure.azcollection.azure_rm_virtualmachine:
