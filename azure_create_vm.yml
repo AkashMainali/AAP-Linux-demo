@@ -56,7 +56,7 @@
         image:
           offer: CentOS
           publisher: OpenLogic
-          sku: '7.1'
+          sku: '8_5-gen2'
           version: latest
 
     # - name: Create Windows VM
