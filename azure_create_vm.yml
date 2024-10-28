@@ -14,7 +14,7 @@
       publisher: "MicrosoftWindowsServer"
       sku: "2016-Datacenter"
       version: "latest"
-    network_interface: "myNIC"
+    network_interface: "ansible-NIC"
   tasks:
     - name: Create resource group
       azure.azcollection.azure_rm_resourcegroup:
@@ -23,19 +23,17 @@
 
     - name: Create virtual network
       azure.azcollection.azure_rm_virtualnetwork:
-        resource_group: "ansible-test-RG"
-        name: "ansible-Vnet"
+        resource_group: "{{ resource_group }}"
+        name: "ansible-VNet"
         address_prefixes: "10.0.0.0/16"
-        subnets:
-          - name: "ansible-subnet"
-            address_prefix: "10.0.0.0/24"
-            
+        location: "{{ location }}"
+
     - name: Create subnet
       azure.azcollection.azure_rm_subnet:
         resource_group: "{{ resource_group }}"
-        name: "mySubnet"
+        name: "ansible-Subnet"
         address_prefix: "10.0.1.0/24"
-        virtual_network: "myVNet"
+        virtual_network: "ansible-VNet"
 
     - name: Create network interface
       azure.azcollection.azure_rm_networkinterface:
@@ -43,11 +41,10 @@
         name: "{{ network_interface }}"
         location: "{{ location }}"
         ip_configurations:
-          - name: "myIPConfig"
-            public_ip_address: "myPublicIP"
-            subnet: "mySubnet"
-            virtual_network: "myVNet"
-
+          - name: "ansible-IPConfig"
+            public_ip_address: "ansible-PublicIP"
+            subnet: "ansible-Subnet"
+            virtual_network: "ansible-VNet"
 
     - name: Create Windows VM
       azure.azcollection.azure_rm_virtualmachine:
