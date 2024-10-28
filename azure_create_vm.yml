@@ -48,16 +48,16 @@
     #         primary: true
 
     - name: Create VM with defaults
-      azure_rm_virtualmachine:
+      azure.azcollection.azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
         name: "{{ vm_name }}"
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
         image:
-          offer: "{{ image.offer }}"
-          publisher: "{{ image.publisher }}"
-          sku: "{{ image.sku }}"
-          version: "{{ image.version }}"
+          offer: CentOS
+          publisher: OpenLogic
+          sku: '7.1'
+          version: latest
 
     # - name: Create Windows VM
     #   azure.azcollection.azure_rm_virtualmachine:
