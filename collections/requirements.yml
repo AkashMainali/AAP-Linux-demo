@@ -36,6 +36,6 @@ collections:
   version: 1.2.0
   source: https://galaxy.ansible.com
 
-- name: azure.azcollection
-  version: 2.7.0
-  source: https://galaxy.ansible.com
+# - name: azure.azcollection
+#   version: 2.7.0
+#   source: https://galaxy.ansible.com
