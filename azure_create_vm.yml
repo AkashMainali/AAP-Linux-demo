@@ -24,10 +24,11 @@
         name: "{{ vm_name }}"
         location: "{{ location }}"
         vm_size: "{{ vm_size }}"
-        storage_account: "{{ storage_account }}"
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
         network_interfaces: "{{ network_interface }}"
+        boot_diagnostics:
+          storage_account: "{{ storage_account }}"
         image:
           offer: "{{ image.offer }}"
           publisher: "{{ image.publisher }}"
