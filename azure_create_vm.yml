@@ -9,7 +9,7 @@
     vm_size: "Standard_DS1_v2"                   # VM size (adjust based on your requirements)
     admin_username: "ansible"                    # Administrator username for the VM
     admin_password: "ansible"                    # Administrator password for the VM (must meet Azure complexity requirements)
-    storage_account: account123
+    storage_account: "account123"
     image:
       offer: "WindowsServer"
       publisher: "MicrosoftWindowsServer"
