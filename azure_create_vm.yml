@@ -16,71 +16,25 @@
       version: "latest"
     network_interface: "ansible-NIC"
   tasks:
-    - name: Create resource group
-      azure.azcollection.azure_rm_resourcegroup:
-        name: ansible-test-RG
-        location: eastus
 
-    - name: Create virtual network
-      azure.azcollection.azure_rm_virtualnetwork:
+    - name: Create Windows VM
+      azure.azcollection.azure_rm_virtualmachine:
         resource_group: "{{ resource_group }}"
-        name: "ansible-VNet"
-        address_prefixes: "10.0.0.0/16"
+        name: "{{ vm_name }}"
         location: "{{ location }}"
-
-    - name: Create subnet
-      azure.azcollection.azure_rm_subnet:
-        resource_group: "{{ resource_group }}"
-        name: "ansible-Subnet"
-        address_prefix: "10.0.1.0/24"
-        virtual_network: "ansible-VNet"
-
-    - name: Create network interface
-      azure.azcollection.azure_rm_networkinterface:
-        resource_group: "ansible-test-RG"
-        name: "{{ network_interface }}"
-        location: "{{ location }}"
-        subnet_name: "ansible-Subnet"
-        virtual_network: "ansible-VNet"
-        create_with_security_group: false
-        ip_configurations:
-          - name: ipconfig1
-            primary: true
-
-    # - name: Create VM with defaults
-    #   azure.azcollection.azure_rm_virtualmachine:
-    #     resource_group: "{{ resource_group }}"
-    #     name: "{{ vm_name }}"
-    #     admin_username: "{{ admin_username }}"
-    #     admin_password: "{{ admin_password }}"
-    #     image:
-    #       offer: CentOS
-    #       publisher: OpenLogic
-    #       sku: '8_5-gen2'
-    #       version: latest
-
-    # - name: Create Windows VM
-    #   azure.azcollection.azure_rm_virtualmachine:
-    #     resource_group: "{{ resource_group }}"
-    #     name: "{{ vm_name }}"
-    #     location: "{{ location }}"
-    #     vm_size: "{{ vm_size }}"
-    #     admin_username: "{{ admin_username }}"
-    #     admin_password: "{{ admin_password }}"
-    #     network_interfaces: "{{ network_interface }}"
-    #     image:
-    #       offer: "{{ image.offer }}"
-    #       publisher: "{{ image.publisher }}"
-    #       sku: "{{ image.sku }}"
-    #       version: "{{ image.version }}"
-    #     os_disk:
-    #       name: "osdisk"
-    #       caching: "ReadWrite"
-    #       create_option: "FromImage"
-    #       managed_disk_type: "Standard_LRS"
-    #     enable_automatic_updates: true
-    #     time_zone: "UTC"
-
-    # - name: Output VM details
-    #   ansible.builtin.debug:
-    #     msg: "Windows Server 2016 VM {{ vm_name }} created successfully in resource group {{ resource_group }}."
+        vm_size: "{{ vm_size }}"
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: "{{ network_interface }}"
+        image:
+          offer: "{{ image.offer }}"
+          publisher: "{{ image.publisher }}"
+          sku: "{{ image.sku }}"
+          version: "{{ image.version }}"
+        os_disk:
+          name: "osdisk"
+          caching: "ReadWrite"
+          create_option: "FromImage"
+          managed_disk_type: "Standard_LRS"
+        enable_automatic_updates: true
+        time_zone: "UTC"
