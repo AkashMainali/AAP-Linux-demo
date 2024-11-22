@@ -2,42 +2,44 @@
 - name: Deploy Azure VM from ARM template
   hosts: all
   gather_facts: false
-  vars:
-    resource_group: "ansible-test-RG"            # Replace with your resource group name
-    location: "East US"                          # Replace with your preferred Azure region
-    vm_name: "win2016vm"                         # Desired VM name
-    vm_size: "Standard_DS1_v2"                   # VM size (adjust based on your requirements)
-    admin_username: "ansible"                    # Administrator username for the VM
-    admin_password: "ansible"                    # Administrator password for the VM (must meet Azure complexity requirements)
-    storage_account: "account123"
-    image:
-      offer: "WindowsServer"
-      publisher: "MicrosoftWindowsServer"
-      sku: "2016-Datacenter"
-      version: "latest"
-    network_interface: "ansible-NIC"
+  # vars:
+  #   resource_group: "ansible-test-RG"            # Replace with your resource group name
+  #   location: "East US"                          # Replace with your preferred Azure region
+  #   vm_name: "win2016vm"                         # Desired VM name
+  #   vm_size: "Standard_DS1_v2"                   # VM size (adjust based on your requirements)
+  #   admin_username: "ansible"                    # Administrator username for the VM
+  #   admin_password: "ansible"                    # Administrator password for the VM (must meet Azure complexity requirements)
+  #   storage_account: "account123"
+  #   image:
+  #     offer: "WindowsServer"
+  #     publisher: "MicrosoftWindowsServer"
+  #     sku: "2016-Datacenter"
+  #     version: "latest"
+  #   network_interface: "ansible-NIC"
   tasks:
-
-    - name: Create Windows VM
-      azure.azcollection.azure_rm_virtualmachine:
-        resource_group: "{{ resource_group }}"
-        name: "{{ vm_name }}"
-        location: "{{ location }}"
-        vm_size: "{{ vm_size }}"
-        admin_username: "{{ admin_username }}"
-        admin_password: "{{ admin_password }}"
-        network_interfaces: "{{ network_interface }}"
-        boot_diagnostics:
-          storage_account: "{{ storage_account }}"
-        image:
-          offer: "{{ image.offer }}"
-          publisher: "{{ image.publisher }}"
-          sku: "{{ image.sku }}"
-          version: "{{ image.version }}"
-        os_disk:
-          name: "osdisk"
-          caching: "ReadWrite"
-          create_option: "FromImage"
-          managed_disk_type: "Standard_LRS"
-        enable_automatic_updates: true
-        time_zone: "UTC"
+    - name: Debug the variable name
+      ansible.builtin.debug:
+        msg: "{{ vm _name }}"
+    # - name: Create Windows VM
+    #   azure.azcollection.azure_rm_virtualmachine:
+    #     resource_group: "{{ resource_group }}"
+    #     name: "{{ vm_name }}"
+    #     location: "{{ location }}"
+    #     vm_size: "{{ vm_size }}"
+    #     admin_username: "{{ admin_username }}"
+    #     admin_password: "{{ admin_password }}"
+    #     network_interfaces: "{{ network_interface }}"
+    #     boot_diagnostics:
+    #       storage_account: "{{ storage_account }}"
+    #     image:
+    #       offer: "{{ image.offer }}"
+    #       publisher: "{{ image.publisher }}"
+    #       sku: "{{ image.sku }}"
+    #       version: "{{ image.version }}"
+    #     os_disk:
+    #       name: "osdisk"
+    #       caching: "ReadWrite"
+    #       create_option: "FromImage"
+    #       managed_disk_type: "Standard_LRS"
+    #     enable_automatic_updates: true
+    #     time_zone: "UTC"

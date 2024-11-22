@@ -1,0 +1,4 @@
+---
+# tasks file for new_role
+- name: Ping the RHEL server
+  ping:

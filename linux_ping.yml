@@ -3,5 +3,8 @@
   hosts: all
   gather_facts: false
   tasks:
-   - name: Ping the RHEL server
-     ping:
+    - ansible.builtin.include_role:
+         name: linux_ping
+- name: Debug Json Variable
+  ansible.builtin.debug:
+      msg: "{{ vm_info.vms[0].id }}"
