@@ -19,7 +19,8 @@
   tasks:
     - name: Debug the variable name
       ansible.builtin.debug:
-        msg: "{{ vm _name }}"
+        msg: "{{ vm_name }}"
+
     # - name: Create Windows VM
     #   azure.azcollection.azure_rm_virtualmachine:
     #     resource_group: "{{ resource_group }}"
