@@ -46,6 +46,5 @@
       ansible.windows.win_shell: |
         $partition = New-Partition -DiskNumber 1 -UseMaximumSize
         Assign-Partition -InputObject $partition -DriveLetter Z
-      loop: "{{ raw_disks | list }}"
 
 ...
