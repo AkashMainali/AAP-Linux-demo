@@ -13,15 +13,25 @@
 
         # Loop through each disk
         foreach ($disk in $disks) {
-            # Get partitions on the current disk
-            $partitions = Get-Partition -DiskNumber $disk.Number
+            # Check if the disk is online and initialized
+            if ($disk.IsOffline -eq $false -and $disk.PartitionStyle -ne "RAW") {
+                try {
+                    # Get partitions on the current disk
+                    $partitions = Get-Partition -DiskNumber $disk.Number -ErrorAction Stop
 
-            # Check if any partition is raw (no file system)
-            $rawPartitions = $partitions | Where-Object { $_.Type -eq "RAW" }
+                    # Check if any partition is raw (no file system)
+                    $rawPartitions = $partitions | Where-Object { $_.Type -eq "RAW" }
 
-            # If raw partitions exist, add the disk number to the array
-            if ($rawPartitions) {
-                $rawDiskNumbers += $disk.Number
+                    # If raw partitions exist, add the disk number to the array
+                    if ($rawPartitions) {
+                        $rawDiskNumbers += $disk.Number
+                    }
+                } catch {
+                    # Handle errors (e.g., no partitions found)
+                    Write-Warning "No partitions found on Disk $($disk.Number) or an error occurred."
+                }
+            } else {
+                Write-Warning "Disk $($disk.Number) is offline or not initialized."
             }
         }
 
