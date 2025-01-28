@@ -1,72 +1,76 @@
 ---
 - name: Initialize disk, mount ISO, and run setup.exe on Windows
-  hosts: windows
+  hosts: all
   gather_facts: false
   tasks:
-    - name: Initialize the disk and bring it online
+    - name: Task to get disk info
       ansible.windows.win_shell: |
-        Initialize-Disk -Number 1 -PartitionStyle GPT -PassThru
-        Set-Disk -Number 1 -IsOffline $false
-      register: disk_init
+        Get-Disk
+      register: get_disk_output
+    # - name: Initialize the disk and bring it online
+    #   ansible.windows.win_shell: |
+    #     Initialize-Disk -Number 1 -PartitionStyle GPT -PassThru
+    #     Set-Disk -Number 1 -IsOffline $false
+    #   register: disk_init
 
-    - name: Debug disk initialization result
-      ansible.builtin.debug:
-        var: disk_init.stdout_lines
+    # - name: Debug disk initialization result
+    #   ansible.builtin.debug:
+    #     var: disk_init.stdout_lines
 
-    - name: Create a new partition on the disk
-      ansible.windows.win_shell: |
-        New-Partition -DiskNumber 1 -UseMaximumSize -AssignDriveLetter
-      register: partition_create
+    # - name: Create a new partition on the disk
+    #   ansible.windows.win_shell: |
+    #     New-Partition -DiskNumber 1 -UseMaximumSize -AssignDriveLetter
+    #   register: partition_create
 
-    - name: Debug partition creation result
-      ansible.builtin.debug:
-        var: partition_create.stdout_lines
+    # - name: Debug partition creation result
+    #   ansible.builtin.debug:
+    #     var: partition_create.stdout_lines
 
-    - name: Get the drive letter of the new partition
-      ansible.windows.win_shell: |
-        Get-Partition -DiskNumber 1 | Select-Object -ExpandProperty DriveLetter
-      register: drive_letter_result
+    # - name: Get the drive letter of the new partition
+    #   ansible.windows.win_shell: |
+    #     Get-Partition -DiskNumber 1 | Select-Object -ExpandProperty DriveLetter
+    #   register: drive_letter_result
 
-    - name: Set the drive letter as a fact
-      ansible.builtin.set_fact:
-        drive_letter: "{{ drive_letter_result.stdout_lines | first }}"
+    # - name: Set the drive letter as a fact
+    #   ansible.builtin.set_fact:
+    #     drive_letter: "{{ drive_letter_result.stdout_lines | first }}"
 
-    - name: Debug drive letter
-      ansible.builtin.debug:
-        var: drive_letter
+    # - name: Debug drive letter
+    #   ansible.builtin.debug:
+    #     var: drive_letter
 
-    - name: Mount the ISO file using PowerShell
-      ansible.windows.win_shell: |
-        $isoPath = '{{ drive_letter }}:\path\to\your.iso'  # Replace with the correct ISO path
-        $mountResult = Mount-DiskImage -ImagePath $isoPath -PassThru
-        $isoDriveLetter = ($mountResult | Get-Volume).DriveLetter
-        Write-Output "ISO mounted at: $isoDriveLetter"
-      register: mount_result
+    # - name: Mount the ISO file using PowerShell
+    #   ansible.windows.win_shell: |
+    #     $isoPath = '{{ drive_letter }}:\path\to\your.iso'  # Replace with the correct ISO path
+    #     $mountResult = Mount-DiskImage -ImagePath $isoPath -PassThru
+    #     $isoDriveLetter = ($mountResult | Get-Volume).DriveLetter
+    #     Write-Output "ISO mounted at: $isoDriveLetter"
+    #   register: mount_result
 
-    - name: Debug mount result
-      ansible.builtin.debug:
-        var: mount_result.stdout_lines
+    # - name: Debug mount result
+    #   ansible.builtin.debug:
+    #     var: mount_result.stdout_lines
 
-    - name: Get the mounted ISO drive letter
-      ansible.builtin.set_fact:
-        iso_drive_letter: "{{ mount_result.stdout_lines | select('search', 'ISO mounted at:') | first | regex_replace('ISO mounted at: ', '') }}"
+    # - name: Get the mounted ISO drive letter
+    #   ansible.builtin.set_fact:
+    #     iso_drive_letter: "{{ mount_result.stdout_lines | select('search', 'ISO mounted at:') | first | regex_replace('ISO mounted at: ', '') }}"
 
-    - name: Run setup.exe from the mounted ISO
-      ansible.windows.win_command: '{{ iso_drive_letter }}:\setup.exe'
-      args:
-        chdir: '{{ iso_drive_letter }}:'
-      register: setup_output
+    # - name: Run setup.exe from the mounted ISO
+    #   ansible.windows.win_command: '{{ iso_drive_letter }}:\setup.exe'
+    #   args:
+    #     chdir: '{{ iso_drive_letter }}:'
+    #   register: setup_output
 
-    - name: Display setup.exe output
-      ansible.builtin.debug:
-        var: setup_output.stdout_lines
+    # - name: Display setup.exe output
+    #   ansible.builtin.debug:
+    #     var: setup_output.stdout_lines
 
-    - name: Unmount the ISO file using PowerShell
-      ansible.windows.win_shell: |
-        $isoPath = '{{ drive_letter }}:\path\to\your.iso'  # Replace with the correct ISO path
-        Dismount-DiskImage -ImagePath $isoPath
-      register: unmount_result
+    # - name: Unmount the ISO file using PowerShell
+    #   ansible.windows.win_shell: |
+    #     $isoPath = '{{ drive_letter }}:\path\to\your.iso'  # Replace with the correct ISO path
+    #     Dismount-DiskImage -ImagePath $isoPath
+    #   register: unmount_result
 
-    - name: Debug unmount result
-      ansible.builtin.debug:
-        var: unmount_result.stdout_lines
+    # - name: Debug unmount result
+    #   ansible.builtin.debug:
+    #     var: unmount_result.stdout_lines
