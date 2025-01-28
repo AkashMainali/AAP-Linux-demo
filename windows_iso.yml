@@ -5,47 +5,21 @@
   tasks:
     - name: Get disk numbers with raw partitions
       ansible.windows.win_shell: |
-        # Get all disks
-        $disks = Get-Disk
-
-        # Initialize an array to store disk numbers with raw partitions
-        $rawDiskNumbers = @()
-
-        # Loop through each disk
-        foreach ($disk in $disks) {
-            # Check if the disk is online and initialized
-            if ($disk.IsOffline -eq $false -and $disk.PartitionStyle -ne "RAW") {
-                try {
-                    # Get partitions on the current disk
-                    $partitions = Get-Partition -DiskNumber $disk.Number -ErrorAction Stop
-
-                    # Check if any partition is raw (no file system)
-                    $rawPartitions = $partitions | Where-Object { $_.Type -eq "RAW" }
-
-                    # If raw partitions exist, add the disk number to the array
-                    if ($rawPartitions) {
-                        $rawDiskNumbers += $disk.Number
-                    }
-                } catch {
-                    # Handle errors (e.g., no partitions found)
-                    Write-Warning "No partitions found on Disk $($disk.Number) or an error occurred."
-                }
-            } else {
-                Write-Warning "Disk $($disk.Number) is offline or not initialized."
-            }
-        }
-
-        # Output the disk numbers with raw partitions
-        if ($rawDiskNumbers.Count -gt 0) {
-            Write-Output "Disk numbers with raw partitions: $($rawDiskNumbers -join ', ')"
-        } else {
-            Write-Output "No disks with raw partitions found."
-        }
+        Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
       register: raw_disks_result
 
-    - name: Convert get_disk_output to json
+    - name: Parse raw partition information
+      ansible.builtin.set_fact:
+        raw_disks: >-
+          {{
+            disk_info.stdout | from_json 
+            | selectattr('PartitionStyle', 'eq', 'RAW') 
+            | list
+          }}
+
+    - name: Display raw partition information
       ansible.builtin.debug:
-        msg: "{{ raw_disks_result }}"
+        msg: "{{ raw_disks }}"
 
 ...
     # - name: Initialize the disk and bring it online
