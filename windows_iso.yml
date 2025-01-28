@@ -4,8 +4,7 @@
   gather_facts: false
   tasks:
     - name: Task to get disk info
-      ansible.windows.win_shell: |
-        Get-Disk
+      ansible.windows.win_shell: Get-Disk
       register: get_disk_output
     # - name: Initialize the disk and bring it online
     #   ansible.windows.win_shell: |
