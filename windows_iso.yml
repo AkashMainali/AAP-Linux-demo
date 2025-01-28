@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: false
   tasks:
+    - name: Ping the windows host
+      ansible.windows.win_ping:
+        
     - name: Task to get disk info
       ansible.windows.win_shell: Get-Disk
       register: get_disk_output
