@@ -6,7 +6,7 @@ The environment uses a minimal Red Hat Enterprise Linux (RHEL) image and include
 ## Prerequisites
 
 - Install [Ansible Builder](https://ansible-builder.readthedocs.io/):
-  ```bash
+   
   # pip3 install ansible-builder
   ```
 
