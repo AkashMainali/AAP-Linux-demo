@@ -35,7 +35,7 @@
 
     - name: Convert get_disk_output to json
       ansible.builtin.debug:
-        msg: "{{ get_disk_output.stdout_lines | items2dict }}"
+        msg: "{{ raw_disks_result }}"
 
 ...
     # - name: Initialize the disk and bring it online
