@@ -6,7 +6,7 @@
     - name: Get disk numbers with raw partitions
       ansible.windows.win_shell: |
         Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
-      register: raw_disks_result
+      register: disk_info
 
     - name: Parse raw partition information
       ansible.builtin.set_fact:
