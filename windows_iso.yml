@@ -9,7 +9,7 @@
 
     - name: Convert get_disk_output to json
       ansible.builtin.set_fact:
-        massaged_get_disk_output: "{{ get_disk_output.stdout_lines | to_json }}"
+        massaged_get_disk_output: "{{ get_disk_output.stdout_lines }}"
 ...
     # - name: Initialize the disk and bring it online
     #   ansible.windows.win_shell: |
