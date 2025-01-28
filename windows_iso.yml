@@ -15,10 +15,7 @@
 
     - name: Parse raw partition information
       ansible.builtin.set_fact:
-        raw_disks: >-
-          {{
-            disk_info.stdout | from_json | selectattr('PartitionStyle', 'eq', 'RAW') | list 
-          }}
+        raw_disks: "{{ disk_info.stdout | from_json | selectattr('PartitionStyle', 'eq', 'RAW') | list }}"
 
     - name: Display raw partition information
       ansible.builtin.debug:
