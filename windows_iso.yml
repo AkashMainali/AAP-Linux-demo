@@ -37,5 +37,4 @@
     - name: Format the partition
       ansible.windows.win_shell: |
         Format-Volume -DriveLetter Z -FileSystem NTFS -NewFileSystemLabel "NewDisk" -Confirm:$false
-      loop: "{{ raw_disks }}"
       when: raw_disks | length > 0
