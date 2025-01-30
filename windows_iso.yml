@@ -3,29 +3,29 @@
   hosts: all
   gather_facts: false
   tasks:
-    # - name: Get disk numbers with raw partitions
-    #   ansible.windows.win_shell: |
-    #     Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
-    #   register: disk_info
+    - name: Get disk numbers with raw partitions
+      ansible.windows.win_shell: |
+        Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
+      register: disk_info
 
-    # - name: Fail if disk info is empty
-    #   ansible.builtin.fail:
-    #     msg: "Disk info is empty or undefined. Please check the Get-Disk command."
-    #   when: disk_info is not defined or disk_info.stdout is undefined
+    - name: Fail if disk info is empty
+      ansible.builtin.fail:
+        msg: "Disk info is empty or undefined. Please check the Get-Disk command."
+      when: disk_info is not defined or disk_info.stdout is undefined
 
-    # - name: Parse raw partition information
-    #   ansible.builtin.set_fact:
-    #     raw_disks: "{{ disk_info.stdout | from_json | selectattr('PartitionStyle', 'eq', 'RAW') | list }}"
+    - name: Parse raw partition information
+      ansible.builtin.set_fact:
+        raw_disks: "{{ disk_info.stdout | from_json | selectattr('PartitionStyle', 'eq', 'RAW') | list }}"
 
-    # - name: Display raw partition information
-    #   ansible.builtin.debug:
-    #     msg: "{{ raw_disks }}"
+    - name: Display raw partition information
+      ansible.builtin.debug:
+        msg: "{{ raw_disks }}"
 
-    # - name: Initialize raw disks
-    #   ansible.windows.win_shell: |
-    #     Initialize-Disk -Number {{ item.Number }} -PartitionStyle GPT
-    #   loop: "{{ raw_disks }}"
-    #   when: raw_disks | length > 0
+    - name: Initialize raw disks
+      ansible.windows.win_shell: |
+        Initialize-Disk -Number {{ item.Number }} -PartitionStyle GPT
+      loop: "{{ raw_disks }}"
+      when: raw_disks | length > 0
 
     # - name: Create a partition and assign a drive letter
     #   vars:
@@ -44,7 +44,10 @@
     #     }}
     - name: Create a partition and assign a drive letter
       ansible.windows.win_shell: |
-        $partition = New-Partition -DiskNumber 1 -UseMaximumSize
-        Assign-Partition -InputObject $partition -DriveLetter Z
+        $partition = New-Partition -DiskNumber {{ item.Number }} -UseMaximumSize
+        Set-Partition -PartitionNumber $partition.PartitionNumber -DiskNumber {{ item.Number }} -NewDriveLetter Z
+      loop: "{{ raw_disks }}"
+      when: raw_disks | length > 0
+
 
 ...
