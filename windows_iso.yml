@@ -27,21 +27,6 @@
       loop: "{{ raw_disks }}"
       when: raw_disks | length > 0
 
-    # - name: Create a partition and assign a drive letter
-    #   vars:
-    #     raw_disks:
-    #       Number: 1
-    #       PartitionStyle": RAW
-    #       Size: 10737418240
-    #     drive_letters:
-    #       - { Number: 1, letter: 'Z' }
-    #   ansible.windows.win_shell: |
-    #     $partition = New-Partition -DiskNumber {{ item.Number }} -UseMaximumSize
-    #     Assign-Partition -InputObject $partition -DriveLetter {{ item.drive_letter }}
-    #   loop: >-
-    #     {{
-    #       raw_disks | map('combine', {'drive_letter': drive_letters.letter}) | list
-    #     }}
     - name: Create a partition and assign a drive letter
       ansible.windows.win_shell: |
         $partition = New-Partition -DiskNumber {{ item.Number }} -UseMaximumSize
@@ -49,5 +34,8 @@
       loop: "{{ raw_disks }}"
       when: raw_disks | length > 0
 
-
-...
+    - name: Format the partition
+      ansible.windows.win_shell: |
+        Format-Volume -DriveLetter Z -FileSystem NTFS -NewFileSystemLabel "NewDisk" -Confirm:$false
+      loop: "{{ raw_disks }}"
+      when: raw_disks | length > 0
