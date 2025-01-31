@@ -14,7 +14,15 @@
       ansible.builtin.debug:
         msg: "{{ systeminfo_output.stdout_lines }}"
 
-        
+    - name: Ensure ansible-user exists
+      ansible.windows.win_user:
+        name: ansible
+        password: "ansible"
+        state: present
+        groups:
+          - Administrators
+        password_never_expires: true
+   
 #     - name: Get disk numbers with raw partitions
 #       ansible.windows.win_shell: |
 #         Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
