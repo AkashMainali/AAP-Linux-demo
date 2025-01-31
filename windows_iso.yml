@@ -21,6 +21,8 @@
       ansible.builtin.debug:
         msg: "{{ raw_disks }}"
 
+######################
+
     - name: Initialize raw disks
       ansible.windows.win_shell: |
         Initialize-Disk -Number {{ item.Number }} -PartitionStyle GPT
