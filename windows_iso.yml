@@ -6,6 +6,15 @@
     - name: Ping the Windows Machine
       ansible.windows.win_ping:
 
+    - name: Run systeminfo to get Windows version
+      ansible.windows.win_command: systeminfo
+      register: systeminfo_output
+
+    - name: Display Windows version
+      ansible.builtin.debug:
+        msg: "{{ systeminfo_output.stdout_lines }}"
+
+        
 #     - name: Get disk numbers with raw partitions
 #       ansible.windows.win_shell: |
 #         Get-Disk | Select-Object Number, Size, PartitionStyle | ConvertTo-Json -Depth 2
