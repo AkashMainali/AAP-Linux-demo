@@ -3,8 +3,15 @@
   hosts: all
   gather_facts: false
   tasks:
-    - ansible.builtin.include_role:
-         name: linux_ping
-- name: Debug Json Variable
-  ansible.builtin.debug:
-      msg: "{{ vm_info.vms[0].id }}"
+      - ansible.builtin.include_role:
+          name: linux_ping
+
+      - name: Call the preval.yml playbook from check_service role
+        ansible.builtin.include_role:
+          name: chceck_service
+          tasks_from: preval.yml
+
+      - name: Call the preval.yml playbook from check_service role
+        ansible.builtin.include_role:
+          name: check_service
+          tasks_from: change the file here

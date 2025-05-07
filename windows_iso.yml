@@ -40,3 +40,4 @@
       ansible.windows.win_shell: |
         Format-Volume -DriveLetter Z -FileSystem NTFS -NewFileSystemLabel "NewDisk" -Confirm:$false
       when: raw_disks | length > 0
+
