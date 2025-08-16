@@ -2,11 +2,11 @@
 - name: Watch for new and modified files on Windows
   hosts: localhost
   sources:
-    # - ansible.eda.watchdog:
-    #     path: C:\Users\Administrator\Downloads
-    #     recursive: true
-    #     patterns:
-    #       - "*.txt"
+    - watchdog:
+        path: C:\Users\Administrator\Downloads
+        recursive: true
+        patterns:
+          - "*.txt"
 
   rules:
     - name: New file created
