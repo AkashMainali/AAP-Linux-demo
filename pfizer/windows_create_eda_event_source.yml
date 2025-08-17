@@ -54,8 +54,8 @@
           while ($true) {
               Start-Sleep -Seconds 5
           }
-        async: 3600 # Run asynchronously for 1 hour
-        poll: 0     # Don't wait for the async task to complete
+      async: 3600 # Run asynchronously for 1 hour
+      poll: 0     # Don't wait for the async task to complete
       register: script_result
 
     - name: Display async task result
