@@ -6,7 +6,10 @@
         path: "C:\\Users\\Administrator\\Downloads"
         recursive: true
         # patterns: "*.txt"
-
+    # - ansible.eda.kafka:
+    #     host: 192.168.2.216
+    #     port: 9092
+    #     topic: logs
   rules:
     - name: New file created
       condition: event.type == 'created'
