@@ -2,11 +2,14 @@
 - name: Watch for new and modified files on Windows
   hosts: localhost
   sources:
-    - ansible.eda.file_watch:
-        path: "C:\\Users\\Administrator\\Downloads"
-        recursive: true
-        # patterns: "*.txt"
-
+    # - ansible.eda.file_watch:
+    #     path: "C:\\Users\\Administrator\\Downloads"
+    #     recursive: true
+    #     # patterns: "*.txt"
+    - ansible.eda.kafka:
+        host: 192.168.2.216
+        port: 9092
+        topic: logs
   rules:
     - name: New file created
       condition: event.type == 'created'
