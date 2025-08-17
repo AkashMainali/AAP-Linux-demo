@@ -5,7 +5,7 @@
   tasks:
     - name: Insert a block of text
       ansible.builtin.blockinfile:
-        path: C:\\Users\\Administrator\\Downloads
+        path: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
         block: |
           # Start of configuration block
           Setting1=Value1

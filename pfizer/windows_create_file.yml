@@ -5,7 +5,7 @@
   tasks:
     - name: Create a file with content on Windows
       ansible.windows.win_copy:
-        dest: C:\\Users\\Administrator\\Downloads
+        dest: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
         content: |
           This is the first line of content.
           This is the second line.
