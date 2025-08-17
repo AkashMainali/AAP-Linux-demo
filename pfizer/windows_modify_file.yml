@@ -19,8 +19,8 @@
           This is the second line.
 
     - name: Append the random string to a file
-      ansible.windows.win_lineinfile:
+      community.windows.win_lineinfile:
         path: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
         line: "{{ random_string }}"
-        create: yes
-        state: present
+        create: true
+        state: present 

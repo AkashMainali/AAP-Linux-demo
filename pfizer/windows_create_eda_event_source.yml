@@ -1,5 +1,5 @@
 ---
-- name: Play to Create a File in Windows
+- name: Play to run PowerShell script to monitor folder and send events
   hosts: all
   gather_facts: false
   tasks:
