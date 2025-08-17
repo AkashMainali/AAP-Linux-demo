@@ -2,25 +2,36 @@
 - name: Watch for new and modified files on Windows
   hosts: localhost
   sources:
-    - ansible.eda.file_watch:
-        path: "C:\\Users\\Administrator\\Downloads"
-        recursive: true
+    - ansible.eda.webhook:
+        host: 0.0.0.0   # listen on all interfaces
+        port: 5000      # EDA will listen on port 5000
+
+    # - ansible.eda.file_watch:
+    #     path: "C:\\Users\\Administrator\\Downloads"
+    #     recursive: true
         # patterns: "*.txt"
     # - ansible.eda.kafka:
     #     host: 192.168.2.216
     #     port: 9092
     #     topic: logs
   rules:
-    - name: New file created
-      condition: event.type == 'created'
+    - name: Trigger on Windows file changes
+      condition: event.payload.change_type is defined
       action:
         run_job_template:
           name: "Pfizer-Windows-Demo-Notification-Template"
           organization: "Default"
 
-    - name: File modified
-      condition: event.type == 'modified'
-      action:
-        run_job_template:
-          name: "Pfizer-Windows-Demo-Notification-Template"
-          organization: "Default"
+    # - name: New file created
+    #   condition: event.type == 'created'
+    #   action:
+    #     run_job_template:
+    #       name: "Pfizer-Windows-Demo-Notification-Template"
+    #       organization: "Default"
+
+    # - name: File modified
+    #   condition: event.type == 'modified'
+    #   action:
+    #     run_job_template:
+    #       name: "Pfizer-Windows-Demo-Notification-Template"
+    #       organization: "Default"

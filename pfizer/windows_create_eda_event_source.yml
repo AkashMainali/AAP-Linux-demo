@@ -6,8 +6,8 @@
     - name: Run PowerShell script to monitor folder and send events
       ansible.windows.win_powershell:
         script: |
-          $folder = "C:\monitored_folder"
-          $edaUrl = "http://eda-controller.example.com:5000/endpoint"
+          $folder = "C:\Users\Administrator\Downloads"
+          $edaUrl = "http://192.168.2.203:5000/endpoint"
 
           # Check if the directory exists, create if it does not
           if (-not (Test-Path -Path $folder -PathType Container)) {
