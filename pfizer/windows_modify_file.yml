@@ -1,0 +1,14 @@
+---
+- name: Play to Create a File in Windows
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Insert a block of text
+      ansible.builtin.blockinfile:
+        path: C:\\Users\\Administrator\\Downloads
+        block: |
+          # Start of configuration block
+          Setting1=Value1
+          Setting2=Value2
+          # End of configuration block
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"

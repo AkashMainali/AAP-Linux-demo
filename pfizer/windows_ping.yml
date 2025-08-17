@@ -2,8 +2,6 @@
 - name: Play to ping the windows host
   hosts: all
   gather_facts: false
-  vars:
-    vm_create_iscsi_lun: false
   tasks:
 
     - name: Ping the Windows server for the First time

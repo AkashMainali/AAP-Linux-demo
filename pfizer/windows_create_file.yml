@@ -1,0 +1,11 @@
+---
+- name: Play to Create a File in Windows
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Create a file with content on Windows
+      ansible.windows.win_copy:
+        dest: C:\\Users\\Administrator\\Downloads
+        content: |
+          This is the first line of content.
+          This is the second line.
