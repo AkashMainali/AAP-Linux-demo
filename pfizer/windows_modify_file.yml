@@ -3,12 +3,9 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Insert a block of text
-      ansible.builtin.blockinfile:
-        path: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
-        block: |
-          # Start of configuration block
-          Setting1=Value1
-          Setting2=Value2
-          # End of configuration block
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    - name: Create a file with content on Windows
+      ansible.windows.win_copy:
+        dest: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
+        content: |
+          This is the first line of content.
+          This is the second line.

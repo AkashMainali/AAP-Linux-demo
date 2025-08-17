@@ -4,8 +4,6 @@
   gather_facts: false
   tasks:
     - name: Create a file with content on Windows
-      ansible.windows.win_copy:
+      ansible.windows.win_file:
         dest: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
-        content: |
-          This is the first line of content.
-          This is the second line.
+        state: touch
