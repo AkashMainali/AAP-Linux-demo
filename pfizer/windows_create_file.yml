@@ -13,4 +13,4 @@
         dest: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
         content: |
           This is the first line of content.
-          This is the second line. 
+            This is the second line. 

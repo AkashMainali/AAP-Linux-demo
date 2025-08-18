@@ -4,6 +4,9 @@
   gather_facts: false
   tasks:
     - name: Run PowerShell script to monitor folder and send events
+      async: 3600 # Run asynchronously for 1 hour
+      poll: 0     # Don't wait for the async task to complete
+      register: script_result
       ansible.windows.win_powershell:
         script: |
           $folder = "C:\Users\Administrator\Downloads"
@@ -54,9 +57,7 @@
           while ($true) {
               Start-Sleep -Seconds 5
           }
-      async: 3600 # Run asynchronously for 1 hour
-      poll: 0     # Don't wait for the async task to complete
-      register: script_result
+
 
     - name: Display async task result
       ansible.builtin.debug:
