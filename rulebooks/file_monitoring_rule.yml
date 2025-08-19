@@ -19,7 +19,7 @@
       condition: event.payload.change_type is defined
       action:
         run_job_template:
-          name: "Pfizer-Windows-Demo-Notification-Template"
+          name: "Windows File Audit"
           organization: "Default"
 
     # - name: New file created
