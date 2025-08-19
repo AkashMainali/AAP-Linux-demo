@@ -55,8 +55,3 @@
             while ($true) {
                 Start-Sleep -Seconds 5
             }
-
-
-      - name: Display async task result
-        ansible.builtin.debug:
-          var: script_result
