@@ -12,5 +12,5 @@
       action:
         run_job_template:
           #name: "Windows File Audit"
-          name: "Demo Job Template"
+          name: "Windows File Audit"
           organization: "Default"
