@@ -6,20 +6,13 @@
         host: 0.0.0.0   # listen on all interfaces
         port: 5000      # EDA will listen on port 5000
 
-    # - ansible.eda.file_watch:
-    #     path: "C:\\Users\\Administrator\\Downloads"
-    #     recursive: true
-        # patterns: "*.txt"
-    # - ansible.eda.kafka:
-    #     host: 192.168.2.216
-    #     port: 9092
-    #     topic: logs
   rules:
     - name: Trigger on Windows file changes
       condition: event.payload.change_type is defined
       action:
         run_job_template:
-          name: "Windows File Audit"
+          #name: "Windows File Audit"
+          name: "Demo Job Template"
           organization: "Default"
 
     # - name: New file created
