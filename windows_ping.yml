@@ -8,10 +8,11 @@
 
     - name: Ping the Windows server for the First time
       ansible.windows.win_ping:
+      register: windows_ping_output
 
     - name: Ping the Windows server for the Second time
-      ansible.windows.win_ping:
-      register: windows_ping_output
+      ansible.builtin.debug:
+        var: windows_ping_output
 
     - name: Gather facts of the machine
       ansible.builtin.setup:
@@ -20,3 +21,7 @@
     - name: Debug ansible powershell version
       ansible.builtin.debug:
         msg: "Powershell Version of the machine is: {{ machine_facts.ansible_facts.ansible_powershell_version }}"
+
+    - name: Ping the Windows server for the Second time
+      ansible.builtin.debug:
+        msg: "Text Files have been modified in the windows server: {{ inventory_hostname }}"
