@@ -8,7 +8,7 @@
         dest: C:\\Users\\Administrator\\Downloads\\eda_event_source.ps1
         content: |
             $folder = "C:\Users\Administrator\Downloads"
-            $edaUrl = "http://192.168.2.218:5000/endpoint"
+            $edaUrl = "http://192.168.2.216:5000/endpoint"
 
             # Check if the directory exists, create if it does not
             if (-not (Test-Path -Path $folder -PathType Container)) {

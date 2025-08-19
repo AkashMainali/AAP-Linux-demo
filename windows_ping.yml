@@ -19,4 +19,4 @@
 
     - name: Debug ansible powershell version
       ansible.builtin.debug:
-        msg: "{{ machine_facts.ansible_facts.ansible_powershell_version }}"
+        msg: "Powershell Version of the machine is: {{ machine_facts.ansible_facts.ansible_powershell_version }}"
