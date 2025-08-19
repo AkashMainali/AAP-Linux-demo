@@ -8,7 +8,7 @@
 
   rules:
     - name: Trigger on Windows file changes
-      condition: event is defined
+      condition: event.payload is defined
       action:
         run_job_template:
           #name: "Windows File Audit"
