@@ -5,7 +5,7 @@
   tasks:
     - name: Create a Powershell script for EDA Event Souce
       ansible.windows.win_copy:
-        dest: C:\\Users\\Administrator\\Downloads\\ansible-test.txt
+        dest: C:\\Users\\Administrator\\Downloads\\eda_event_source.ps1
         content: |
             $folder = "C:\Users\Administrator\Downloads"
             $edaUrl = "http://192.168.2.203:5000/endpoint"
