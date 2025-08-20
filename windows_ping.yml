@@ -10,7 +10,7 @@
       ansible.windows.win_ping:
       register: windows_ping_output
 
-    - name: Ping the Windows server for the Second time
+    - name: Display the Ping output
       ansible.builtin.debug:
         var: windows_ping_output
 
