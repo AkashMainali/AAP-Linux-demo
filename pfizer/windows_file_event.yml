@@ -31,13 +31,13 @@
           ansible.builtin.debug:
             msg: "{{ msg.split('\n')}}"
 
-        - name: Create backup of the file with datestamp
-          vars:
-            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}"
-          ansible.windows.win_copy:
-            src: "{{ ansible_eda.event.payload.path }}"
-            dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
-            remote_src: true
+        # - name: Create backup of the file with datestamp
+        #   vars:
+        #     timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}"
+        #   ansible.windows.win_copy:
+        #     src: "{{ ansible_eda.event.payload.path }}"
+        #     dest: "{{ backup_directory }}/{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
+        #     remote_src: true
 
 ################################################################
 ################### Event for File Creation ####################
@@ -58,13 +58,13 @@
           ansible.builtin.debug:
             msg: "{{ msg.split('\n')}}"
 
-        - name: Create backup of the file with datestamp
-          vars:
-            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}"
-          ansible.windows.win_copy:
-            src: "{{ ansible_eda.event.payload.path }}"
-            dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
-            remote_src: true
+        # - name: Create backup of the file with datestamp
+        #   vars:
+        #     timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}"
+        #   ansible.windows.win_copy:
+        #     src: "{{ ansible_eda.event.payload.path }}"
+        #     dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
+        #     remote_src: true
 
 ################################################################
 ################### Event for File Deletion ####################
