@@ -104,15 +104,13 @@
 
     - name: Add block of text to a file on Windows
       ansible.windows.win_shell: |
-        $content = @"
-        ####################################################################################
-              - "Event Type:   {{ ansible_eda.event.payload.event_type }}"
-              - "Path:         {{ ansible_eda.event.payload.path }}"
-              - "User:         {{ ansible_eda.event.payload.user }}"
-              - "Timestamp:    {{ ansible_eda.event.payload.timestamp }}"
-              - "Diff:         {{ ansible_eda.event.payload.diff }}"
-        ####################################################################################
-        "@
+        $content = "####################################################################################`n" +
+                  "      - ""Event Type:   {{ ansible_eda.event.payload.event_type }}""`n" +
+                  "      - ""Path:         {{ ansible_eda.event.payload.path }}""`n" +
+                  "      - ""User:         {{ ansible_eda.event.payload.user }}""`n" +
+                  "      - ""Timestamp:    {{ ansible_eda.event.payload.timestamp }}""`n" +
+                  "      - ""Diff:         {{ ansible_eda.event.payload.diff }}""`n" +
+                  "####################################################################################"
         Add-Content -Path report_logs.txt -Value $content
       args:
         chdir: C:\Users\Administrator\pfizer\win-audit
