@@ -3,15 +3,14 @@
   hosts: localhost
   sources:
     - ansible.eda.webhook:
-        host: 0.0.0.0   # listen on all interfaces
-        port: 5000      # EDA will listen on port 5000
+        host: 0.0.0.0
+        port: 5000    
 
   rules:
     - name: Trigger on Windows file changes
       condition: event.payload is defined
       action:
         run_job_template:
-          #name: "Windows File Audit"
           name: "Windows File Audit"
           organization: "Default"
           extra_vars:
