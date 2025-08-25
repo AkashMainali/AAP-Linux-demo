@@ -89,17 +89,18 @@
 ############### Save event payload to a file ###################
 ################################################################
 
-    - name: Append event payload as a block
-      community.windows.win_lineinfile:
-        path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
-        line: "{{ items }}"
-        state: present
-        create: true
-        loop:
-          - ################################################
-          - "Event Type:   {{ ansible_eda.event.payload.event_type }}"
-          - "Path:         {{ ansible_eda.event.payload.path }}"
-          - "User:         {{ ansible_eda.event.payload.user }}"
-          - "Timestamp:    {{ ansible_eda.event.payload.timestamp }}"
-          - "Diff:         {{ ansible_eda.event.payload.diff }}"
-          - ################################################
+        - name: Append event payload as a block
+          ansible.windows.win_lineinfile:
+            path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
+            line: "{{ item }}"
+            state: present
+            create: true
+          loop:
+            - '################################################'
+            - "Event Type:   {{ ansible_eda.event.payload.event_type }}"
+            - "Path:         {{ ansible_eda.event.payload.path }}"
+            - "User:         {{ ansible_eda.event.payload.user }}"
+            - "Timestamp:    {{ ansible_eda.event.payload.timestamp }}"
+            - "Diff:         {{ ansible_eda.event.payload.diff }}"
+            - '################################################'
+            - '' # Adds a blank line after the block for better readability
