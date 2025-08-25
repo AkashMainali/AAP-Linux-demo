@@ -41,7 +41,11 @@
         - name: Debug the creation event
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
-
+        - name: Create backup of the file with datestamp
+          ansible.windows.win_copy:
+            src: "{{ ansible_eda.event.payload.path }}"
+            dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}_backup.txt"
+            remote_src: true
 ################################################################
 ################### Event for File Deletion ####################
 ################################################################
@@ -67,4 +71,3 @@
     #         Diff={{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
     #     state: present
     #     create: true
-
