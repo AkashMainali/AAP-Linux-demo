@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
   vars:
-    backup_directory: 'C:\Temp\file_backups'
+    backup_directory: 'C:\temp'
   tasks:
     - name: Ping the Windows server for the First time
       ansible.windows.win_ping:
