@@ -89,12 +89,14 @@
 ############### Save event payload to a file ###################
 ################################################################
     - name: Append event payload as a block
-      community.windows.win_lineinfile:
-        path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
-        line: >-
+      var:
+        msg: |
           ################################################
           "{{ ansible_eda.event.payload | to_nice_yaml }}"
           ################################################
+      community.windows.win_lineinfile:
+        path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
+        line: "{{ msg.split('\n') }}"
         state: present
         create: true
 
