@@ -14,3 +14,5 @@
           #name: "Windows File Audit"
           name: "Windows File Audit"
           organization: "Default"
+          extra_vars:
+            payload_data: "{{ event.payload }}"
