@@ -95,6 +95,7 @@
             line: "{{ item }}"
             state: present
             create: true
+            insertafter: EOF
           loop:
             - '################################################'
             - "Event Type:   {{ ansible_eda.event.payload.event_type }}"
