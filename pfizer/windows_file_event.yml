@@ -100,9 +100,8 @@
           community.windows.win_lineinfile:
             path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
             line: |
-              ################################################
-              "{{ event_detail }}"
-              ################################################
+              "{{ event_detail.split('\n') }}"
+
             state: present
             create: true
             insertafter: EOF
