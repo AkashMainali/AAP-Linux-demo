@@ -27,4 +27,3 @@
             Diff={{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
         state: present
         create: true
-        append: true
