@@ -48,7 +48,7 @@ While Red Hat defines minimums, these recommendations are strongly advised for p
 | :--- | :--- | :--- | :--- |
 | **CPU Cores** | 4 [cite: 47] | **8+** [cite: 48] | `lscpu \| grep '^CPU(s):'` [cite: 74] |
 | **RAM** | 16 GB [cite: 47] | **32 GB+** [cite: 48] | `free -g` [cite: 74] |
-| **Disk Space** | 60 GB [cite: 47] | **100 GB+** [cite: 74] | `df -h /` [cite: 74] |
+| **Disk Space** | 60 GB [cite: 47] | **150 GB+** [cite: 74] | `df -h /` [cite: 74] |
 | **/var/tmp Space** | 3 GB (Offline) [cite: 54] | **12 GB+** [cite: 56] | `df -h /var/tmp` [cite: 74] |
 | **Disk IOPS** | 3000 [cite: 47] | **3000+** [cite: 74] | `fio` [cite: 74] |
 
