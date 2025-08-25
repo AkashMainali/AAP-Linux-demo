@@ -115,4 +115,4 @@
         "@
         Add-Content -Path report_logs.txt -Value $content
       args:
-        chdir: Users\Administrator\pfizer\win-audit
+        chdir: C:\Users\Administrator\pfizer\win-audit
