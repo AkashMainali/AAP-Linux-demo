@@ -1,0 +1,30 @@
+---
+- name: Play to ping the windows host
+  hosts: all
+  gather_facts: false
+  tasks:
+
+    - name: Ping the Windows server for the First time
+      ansible.windows.win_ping:
+
+    - name: Debug the payload event data
+      ansible.builtin.debug:
+        msg: "{{ ansible_eda.event.payload }}"
+
+    - name: Ensure the report directory exists
+      ansible.windows.win_file:
+        path: "{{ report_directory }}"
+        state: directory
+
+    - name: Append event payload as a block
+      community.windows.win_lineinfile:
+        path: C:\Users\Administrator\pfizer\winaudit
+        line: >-
+            Event Type={{ ansible_eda.event.payload.event_type }} |
+            Path={{ ansible_eda.event.payload.path }} |
+            User={{ ansible_eda.event.payload.user }} |
+            Timestamp={{ ansible_eda.event.payload.timestamp }} |
+            Diff={{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
+        state: present
+        create: true
+        append: true

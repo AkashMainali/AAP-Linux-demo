@@ -7,6 +7,14 @@
     # Define directories in one place for easy management.
     backup_directory: 'C:\Temp\file_backups'
     report_directory: 'C:\Users\Administrator\pfizer\winaudit'
+    # ansible_eda:
+    #   event:
+    #     payload:
+    #       event_type: "modified"
+    #       path: "C:/Users/Administrator/pfizer/data-directory/report.txt"
+    #       user: "Administrator"
+    #       timestamp: "2025-08-23T17:20:00.123456"
+    #       diff: "--- old\n+++ new\n@@ -1,2 +1,2 @@\n-Hello world\n+Hello Python world"
 
   tasks:
     - name: Debug the event payload data
@@ -18,19 +26,8 @@
         path: "{{ backup_directory }}"
         state: directory
 
-    - name: Ensure the report directory exists
-      ansible.windows.win_file:
-        path: "{{ report_directory }}"
-        state: directory
-
     - name: Create backup of the modified file
       ansible.windows.win_copy:
         src: "{{ ansible_eda.event.payload.path }}"
         dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.windows.win_basename }}_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}_backup"
         remote_src: true
-
-    - name: Generate the CSV report from the Jinja2 template
-      ansible.windows.win_template:
-        src: templates/report.csv.j2
-        dest: "{{ report_directory }}\\event_report_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}.csv"
-        
