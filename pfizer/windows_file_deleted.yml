@@ -1,0 +1,8 @@
+---
+- name: Play to Create a File in Windows
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Debug the payload event data
+      ansible.builtin.debug:
+        msg: "{{ ansible_eda.event.payload }}"
