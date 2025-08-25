@@ -1,0 +1,17 @@
+---
+- name: Watch for new and modified files on Windows
+  hosts: localhost
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5002
+
+  rules:
+    - name: Trigger on Windows file changes
+      condition: event.payload is defined
+      action:
+        run_job_template:
+          name: "Windows File Audit"
+          organization: "Default"
+          extra_vars:
+            payload_data: "{{ event.payload }}"
