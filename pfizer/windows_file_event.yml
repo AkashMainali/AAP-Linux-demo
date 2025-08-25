@@ -110,7 +110,7 @@
                     "      - ""User:         {{ ansible_eda.event.payload.user }}""`n" +
                     "      - ""Timestamp:    {{ ansible_eda.event.payload.timestamp }}""`n" +
                     "      - ""Diff:         {{ ansible_eda.event.payload.diff }}""`n" +
-                    "####################################################################################`n" # Added final newline for spacing
+                    "####################################################################################`n"
         Add-Content -Path report_logs.txt -Value $log_entry
       args:
         chdir: C:\Users\Administrator\pfizer\win-audit
