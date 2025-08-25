@@ -2,6 +2,8 @@
 - name: Play to ping the windows host
   hosts: all
   gather_facts: false
+  vars:
+    backup_directory: 'C:\Temp\file_backups'
   tasks:
     - name: Ping the Windows server for the First time
       ansible.windows.win_ping:
@@ -10,27 +12,58 @@
       ansible.builtin.debug:
         var: ansible_eda.event.payload
 
+################################################################
+################### Event for File Modification ################
+################################################################
+
     - name: Handle file modification event
       when: ansible_eda.event.payload.event_type == 'modified'
       block:
         - name: Debug the modification event
           ansible.builtin.debug:
-            msg: "Event was: {{ ansible_eda.event.payload.event_type }}"
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
         - name: Debug the name of the file
           ansible.builtin.debug:
             msg: "{{ ansible_eda.event.payload.path | ansible.builtin.win_basename  }}"
+        - name: Create backup of the file with datestamp
+          ansible.windows.win_copy:
+            src: "{{ ansible_eda.event.payload.path }}"
+            dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename}}_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}_backup.txt"
+            remote_src: true
+
+################################################################
+################### Event for File Creation ####################
+################################################################
 
     - name: Handle file creation event
       when: ansible_eda.event.payload.event_type == 'created'
       block:
         - name: Debug the creation event
           ansible.builtin.debug:
-            msg: "Event was: {{ ansible_eda.event.payload.event_type }}"
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
 
+################################################################
+################### Event for File Deletion ####################
+################################################################
 
     - name: Handle file deletion event
       when: ansible_eda.event.payload.event_type == 'deleted'
       block:
         - name: Debug the deletion event
           ansible.builtin.debug:
-            msg: "Event was: {{ ansible_eda.event.payload.event_type }}"
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
+
+################################################################
+############### Save event payload to a file ###################
+################################################################
+    # - name: Append event payload as a block
+    #   community.windows.win_lineinfile:
+    #     path: C:\Users\Administrator\pfizer\winaudit\report_logs.txt
+    #     line: >-
+    #         Event Type={{ ansible_eda.event.payload.event_type }} |
+    #         Path={{ ansible_eda.event.payload.path }} |
+    #         User={{ ansible_eda.event.payload.user }} |
+    #         Timestamp={{ ansible_eda.event.payload.timestamp }} |
+    #         Diff={{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
+    #     state: present
+    #     create: true
