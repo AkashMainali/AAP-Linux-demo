@@ -103,4 +103,3 @@
             - "Timestamp:    {{ ansible_eda.event.payload.timestamp }}"
             - "Diff:         {{ ansible_eda.event.payload.diff }}"
             - '################################################'
-            - '' # Adds a blank line after the block for better readability
