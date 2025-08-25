@@ -6,3 +6,9 @@
     - name: Debug the payload event data
       ansible.builtin.debug:
         msg: "{{ ansible_eda.event.payload }}"
+
+    # - name: Create CSV file from template
+    #   ansible.builtin.template:
+    #     src: report.csv.j2
+    #     dest: /path/to/your/report.csv
+    #   delegate_to: localhost

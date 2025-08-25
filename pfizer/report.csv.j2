@@ -1,0 +1,4 @@
+hostname,ip_address,os_family
+{% for host in groups['your_group_name'] %}
+{{ hostvars[host].ansible_hostname }},{{ hostvars[host].ansible_default_ipv4.address }},{{ hostvars[host].ansible_os_family }}
+{% endfor %}

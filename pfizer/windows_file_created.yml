@@ -6,3 +6,14 @@
     - name: Debug the payload event data
       ansible.builtin.debug:
         msg: "{{ ansible_eda.event.payload }}"
+
+    - name: Ensure the backup directory exists
+      ansible.windows.win_file:
+        path: "{{ backup_directory }}"
+        state: directory
+
+    # - name: Create a timestamped backup of the file
+    #   ansible.windows.win_copy:
+    #     src: "{{ source_file }}"
+    #     dest: "{{ backup_directory }}\\app-backup-{{ ansible_date_time.iso8601 | replace(':', '-') | replace('T', '_') }}.txt"
+    #     remote_src: true
