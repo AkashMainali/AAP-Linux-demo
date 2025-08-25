@@ -22,9 +22,11 @@
         - name: Debug the modification event
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
-        - name: Debug the name of the file
+        - name: Debug the name of the file Modified
           ansible.builtin.debug:
-            msg: "{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}"
+            msg: |
+             - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+             - File Path: {{ ansible_eda.event.payload.path }}"
         - name: Create backup of the file with datestamp
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
@@ -41,6 +43,11 @@
         - name: Debug the creation event
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
+        - name: Debug the name of the file Created
+          ansible.builtin.debug:
+            msg: |
+             - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+             - File Path: {{ ansible_eda.event.payload.path }}"
         - name: Create backup of the file with datestamp
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
@@ -53,6 +60,11 @@
     - name: Handle file deletion event
       when: ansible_eda.event.payload.event_type == 'deleted'
       block:
+        - name: Debug the name of the file Deleted
+          ansible.builtin.debug:
+            msg: |
+              - Name of the File Deleted: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - File Path: {{ ansible_eda.event.payload.path }}"
         - name: Debug the deletion event
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
