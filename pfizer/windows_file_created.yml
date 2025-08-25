@@ -1,18 +1,36 @@
 ---
-- name: Play to Create a File in Windows
+- name: Backup File and Generate Report on Windows
   hosts: all
   gather_facts: false
+
+  vars:
+    # Define directories in one place for easy management.
+    backup_directory: 'C:\Temp\file_backups'
+    report_directory: 'C:\Users\Administrator\pfizer\winaudit'
+
   tasks:
-    - name: Debug the payload event data
+    - name: Debug the event payload data
       ansible.builtin.debug:
-        msg: "{{ ansible_eda.event.payload }}"
+        var: ansible_eda.event.payload
 
     - name: Ensure the backup directory exists
       ansible.windows.win_file:
         path: "{{ backup_directory }}"
         state: directory
 
-    - name: Generate the CSV file from the Jinja2 template
+    - name: Ensure the report directory exists
+      ansible.windows.win_file:
+        path: "{{ report_directory }}"
+        state: directory
+
+    - name: Create backup of the modified file
+      ansible.windows.win_copy:
+        src: "{{ ansible_eda.event.payload.path }}"
+        dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.windows.win_basename }}_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}_backup"
+        remote_src: true
+
+    - name: Generate the CSV report from the Jinja2 template
       ansible.windows.win_template:
         src: templates/report.csv.j2
-        dest: 'C:\Users\Administrator\pfizer\winaudit\event_report_{{ ansible_eda.event.payload.timestamp | regex_replace("[^a-zA-Z0-9]", "") }}.csv
+        dest: "{{ report_directory }}\\event_report_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}.csv"
+        
