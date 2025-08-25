@@ -16,6 +16,9 @@
         - name: Debug the modification event
           ansible.builtin.debug:
             msg: "Event was: {{ ansible_eda.event.payload.event_type }}"
+        - name: Debug the name of the file
+          ansible.builtin.debug:
+            msg: "{{ ansible_eda.event.payload.path | ansible.windows.win_basename  }}"
 
 
     - name: Handle file creation event
