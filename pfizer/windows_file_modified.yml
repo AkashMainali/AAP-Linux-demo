@@ -12,8 +12,7 @@
         path: "{{ backup_directory }}"
         state: directory
 
-    # - name: Create a timestamped backup of the file
-    #   ansible.windows.win_copy:
-    #     src: "{{ source_file }}"
-    #     dest: "{{ backup_directory }}\\app-backup-{{ ansible_date_time.iso8601 | replace(':', '-') | replace('T', '_') }}.conf"
-    #     remote_src: true
+    - name: Generate the CSV file from the Jinja2 template
+      ansible.windows.win_template:
+        src: templates/report.csv.j2
+        dest: 'C:\Users\Administrator\pfizer\winaudit\event_report_{{ ansible_eda.event.payload.timestamp | regex_replace("[^a-zA-Z0-9]", "") }}.csv

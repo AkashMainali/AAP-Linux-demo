@@ -7,8 +7,7 @@
       ansible.builtin.debug:
         msg: "{{ ansible_eda.event.payload }}"
 
-    # - name: Create CSV file from template
-    #   ansible.builtin.template:
-    #     src: report.csv.j2
-    #     dest: /path/to/your/report.csv
-    #   delegate_to: localhost
+    - name: Generate the CSV file from the Jinja2 template
+      ansible.windows.win_template:
+        src: templates/report.csv.j2
+        dest: 'C:\Users\Administrator\pfizer\winaudit\event_report_{{ ansible_eda.event.payload.timestamp | regex_replace("[^a-zA-Z0-9]", "") }}.csv

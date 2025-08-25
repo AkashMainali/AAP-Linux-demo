@@ -1,4 +1,6 @@
-hostname,ip_address,os_family
-{% for host in groups['your_group_name'] %}
-{{ hostvars[host].ansible_hostname }},{{ hostvars[host].ansible_default_ipv4.address }},{{ hostvars[host].ansible_os_family }}
-{% endfor %}
+Field,Value
+EventType,{{ file_event_data.event_type }}
+Path,"{{ file_event_data.path }}"
+User,{{ file_event_data.user }}
+Timestamp,{{ file_event_data.timestamp }}
+Diff,"{{ file_event_data.diff | replace('"', '""') | replace('\n', ' ') }}"
