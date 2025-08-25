@@ -11,7 +11,16 @@
       condition: event.payload is defined
       action:
         run_job_template:
-          name: "EVENT - WINDOS FILE DELETED - WFT"
+          name: "Windows File Event"
           organization: "Default"
           extra_vars:
             payload_data: "{{ event.payload }}"
+
+    # - name: Trigger on Windows file changes
+    #   condition: event.payload is defined
+    #   action:
+    #     run_job_template:
+    #       name: "EVENT - WINDOS FILE DELETED - WFT"
+    #       organization: "Default"
+    #       extra_vars:
+    #         payload_data: "{{ event.payload }}"
