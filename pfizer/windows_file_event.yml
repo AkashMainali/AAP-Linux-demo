@@ -23,10 +23,13 @@
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
         - name: Debug the name of the file Modified
-          ansible.builtin.debug:
+          vars:
             msg: |
-             - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-             - File Path: {{ ansible_eda.event.payload.path }}"
+              - Name of the File Modified: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - Modified File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
+
         - name: Create backup of the file with datestamp
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
@@ -44,15 +47,18 @@
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
         - name: Debug the name of the file Created
-          ansible.builtin.debug:
+          vars:
             msg: |
-             - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-             - File Path: {{ ansible_eda.event.payload.path }}"
+              - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - Created File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
         - name: Create backup of the file with datestamp
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
             dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ ansible_eda.event.payload.timestamp | regex_replace('[^a-zA-Z0-9]', '') }}_backup.txt"
             remote_src: true
+
 ################################################################
 ################### Event for File Deletion ####################
 ################################################################
@@ -61,10 +67,12 @@
       when: ansible_eda.event.payload.event_type == 'deleted'
       block:
         - name: Debug the name of the file Deleted
-          ansible.builtin.debug:
+          vars:
             msg: |
               - Name of the File Deleted: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-              - File Path: {{ ansible_eda.event.payload.path }}"
+              - Deleted File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
         - name: Debug the deletion event
           ansible.builtin.debug:
             msg: "Event: {{ ansible_eda.event.payload.event_type }}"
