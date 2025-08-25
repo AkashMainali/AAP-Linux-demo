@@ -90,8 +90,7 @@
 ################################################################
     - name: Append log block to report file on Windows
       ansible.windows.win_shell: |
-        $log_entry =
-                    #`n" +
+        $log_entry ="`n" +
                     "      - ""Event Type:{{ ansible_eda.event.payload.event_type }}""`n" +
                     "      - ""Path: {{ ansible_eda.event.payload.path }}""`n" +
                     "      - ""User: {{ ansible_eda.event.payload.user }}""`n" +
