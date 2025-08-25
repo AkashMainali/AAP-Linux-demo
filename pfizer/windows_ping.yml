@@ -9,7 +9,7 @@
 
     - name: Debug the payload event data
       ansible.builtin.debug:
-        msg: "{{ ansible.eda.event.payload }}"
+        msg: "{{ ansible_eda.event.payload }}"
 
     # - name: Ping the Windows server for the Second time
     #   ansible.windows.win_ping:
