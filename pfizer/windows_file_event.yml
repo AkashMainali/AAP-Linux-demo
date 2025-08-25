@@ -90,7 +90,7 @@
 ################################################################
 
         - name: Append event payload as a block
-          ansible.windows.win_lineinfile:
+          community.windows.win_lineinfile:
             path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
             line: "{{ item }}"
             state: present
