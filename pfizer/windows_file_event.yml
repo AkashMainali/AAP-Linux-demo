@@ -94,7 +94,6 @@
         ################################################
         {{ ansible_eda.event.payload | to_nice_yaml(indent=2) }}
         ################################################
-
         "@
         Add-Content -Path C:\Users\Administrator\pfizer\win-audit\report_logs.txt -Value $block
 
