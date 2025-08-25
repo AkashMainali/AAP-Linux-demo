@@ -101,5 +101,5 @@
           - Path:         {{ ansible_eda.event.payload.path }}
           - User:         {{ ansible_eda.event.payload.user }}
           - Timestamp:    {{ ansible_eda.event.payload.timestamp }}
-          - Diff:         {{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
+          - Diff:         {{ ansible_eda.event.payload.diff }}
           - ################################################
