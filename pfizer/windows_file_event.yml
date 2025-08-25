@@ -88,28 +88,18 @@
 ################################################################
 ############### Save event payload to a file ###################
 ################################################################
-    - name: Append event data to log file
-      ansible.windows.win_shell: |
-        $block = @"
-        ################################################
-        {{ ansible_eda.event.payload | to_nice_yaml(indent=2) }}
-        ################################################
-        "@
-        Add-Content -Path C:\Users\Administrator\pfizer\win-audit\report_logs.txt -Value $block
 
-    # - name: Append event payload as a block
-    #   community.windows.win_lineinfile:
-    #     path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
-    #     line: |
-    #       ################################################
-    #       "{{ ansible_eda.event.payload | to_nice_yaml }}"
-    #       ################################################
-    #     state: present
-    #     create: true
-
-
-  # Event Type:   {{ ansible_eda.event.payload.event_type }} |
-  # Path:         {{ ansible_eda.event.payload.path }} |
-  # User:         {{ ansible_eda.event.payload.user }} |
-  # Timestamp:    {{ ansible_eda.event.payload.timestamp }} |
-  # Diff:         {{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
+    - name: Append event payload as a block
+      community.windows.win_lineinfile:
+        path: C:\Users\Administrator\pfizer\win-audit\report_logs.txt
+        line: "{{ item }}"
+        state: present
+        create: true
+        loop:
+          - ################################################
+          - Event Type:   {{ ansible_eda.event.payload.event_type }}
+          - Path:         {{ ansible_eda.event.payload.path }}
+          - User:         {{ ansible_eda.event.payload.user }}
+          - Timestamp:    {{ ansible_eda.event.payload.timestamp }}
+          - Diff:         {{ ansible_eda.event.payload.diff | replace('\n', ' ') }}
+          - ################################################
