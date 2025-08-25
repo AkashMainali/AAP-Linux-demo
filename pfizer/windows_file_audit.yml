@@ -3,7 +3,6 @@
   hosts: all
   gather_facts: false
   tasks:
-
     - name: Ping the Windows server for the First time
       ansible.windows.win_ping:
 
