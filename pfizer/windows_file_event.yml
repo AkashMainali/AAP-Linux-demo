@@ -33,7 +33,7 @@
 
         - name: Create backup of the file with datestamp
           vars:
-            timestamp: "{{ ansible_eda.event.payload.timestamp }}"
+            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')}}"
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
             dest: "{{ backup_directory }}/{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
@@ -60,7 +60,7 @@
 
         - name: Create backup of the file with datestamp
           vars:
-            timestamp: "{{ ansible_eda.event.payload.timestamp  }}"
+            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')  }}"
           ansible.windows.win_copy:
             src: "{{ ansible_eda.event.payload.path }}"
             dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
