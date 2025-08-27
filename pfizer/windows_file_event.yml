@@ -22,11 +22,6 @@
       ansible.builtin.debug:
         msg: "{{ slurped_csv.content | b64decode | community.general.from_csv }}"
 
-    - name: Copy index.html to aaudit folder
-      ansible.windows.win_copy:
-        src: index.html
-        dest: C:\Users\Administrator\pfizer\win-audit\store\index.html
-
 ################################################################
 ################### Event for File Modification ################
 ################################################################
