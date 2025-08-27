@@ -4,6 +4,7 @@
   gather_facts: false
   vars:
     backup_directory: 'C:\Users\Administrator\pfizer\backup_dir'
+    csv_path: 'C:\Users\Administrator\pfizer\win-audit\store\audit_log.csv'
   tasks:
     - name: Ping the Windows server for the First time
       ansible.windows.win_ping:
