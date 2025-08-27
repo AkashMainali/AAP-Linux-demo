@@ -98,6 +98,7 @@
 ################################################################
 ############### Save event payload to a file ###################
 ################################################################
+
     # - name: Append log block to report file on Windows
     #   ansible.windows.win_shell: |
     #     $log_entry ="`n" +
