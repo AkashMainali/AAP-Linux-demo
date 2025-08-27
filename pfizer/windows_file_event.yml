@@ -20,7 +20,7 @@
 
     - name: Debug the csv file
       ansible.builtin.debug:
-        msg: "{{ slurped_csv.content }}"
+        msg: "{{ slurped_csv.content | b64decode | community.general.from_csv }}"
 
 
 ################################################################
