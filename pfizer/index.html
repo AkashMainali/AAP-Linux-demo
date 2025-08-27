@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Audit Log Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
+
+  <h1 class="text-2xl font-bold mb-6">Audit Log Report</h1>
+
+  <!-- File Upload -->
+<input type="file" id="fileInput" accept=".csv" class="mb-6 p-2 border rounded cursor-pointer">
+
+  <!-- Report Table -->
+<div class="overflow-x-auto w-full max-w-6xl">
+<table id="auditTable" class="w-full border-collapse rounded-lg overflow-hidden shadow-lg bg-white">
+<thead class="bg-gray-800 text-white">
+<tr>
+<th class="p-3 text-left">Event Type</th>
+<th class="p-3 text-left">Path</th>
+<th class="p-3 text-left">User</th>
+<th class="p-3 text-left">Timestamp</th>
+<th class="p-3 text-left">Diff</th>
+</tr>
+</thead>
+<tbody id="auditBody"></tbody>
+</table>
+</div>
+
+  <script>
+
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      Papa.parse(file, {
+
+        header: true,
+
+        skipEmptyLines: true,
+
+        complete: function(results) {
+
+          const data = results.data;
+
+          const tbody = document.getElementById('auditBody');
+
+          tbody.innerHTML = "";
+
+          data.forEach(row => {
+
+            const tr = document.createElement("tr");
+
+            tr.classList.add("border-b", "hover:bg-gray-100");
+
+            // Normal columns
+
+            ["event_type", "path", "user", "timestamp"].forEach(key => {
+
+              const td = document.createElement("td");
+
+              td.classList.add("p-3", "text-sm");
+
+              td.textContent = row[key];
+
+              tr.appendChild(td);
+
+            });
+
+            // Diff column with color coding
+
+            const diffTd = document.createElement("td");
+
+            diffTd.classList.add("p-3", "text-sm", "font-mono");
+
+            if (row.diff.startsWith("+")) {
+
+              diffTd.innerHTML = `<span class="text-green-600 font-bold">${row.diff}</span>`;
+
+            } else if (row.diff.startsWith("-")) {
+
+              diffTd.innerHTML = `<span class="text-red-600 font-bold">${row.diff}</span>`;
+
+            } else {
+
+              diffTd.innerHTML = `<span class="text-gray-600">${row.diff}</span>`;
+
+            }
+
+            tr.appendChild(diffTd);
+
+            tbody.appendChild(tr);
+
+          });
+
+        }
+
+      });
+
+    });
+</script>
+</body>
+</html>
+
+ 
