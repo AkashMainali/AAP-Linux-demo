@@ -10,9 +10,6 @@
 
   <h1 class="text-2xl font-bold mb-6">Audit Log Report</h1>
 
-  <!-- File Upload -->
-<input type="file" id="fileInput" accept=".csv" class="mb-6 p-2 border rounded cursor-pointer">
-
   <!-- Report Table -->
 <div class="overflow-x-auto w-full max-w-6xl">
 <table id="auditTable" class="w-full border-collapse rounded-lg overflow-hidden shadow-lg bg-white">
@@ -31,77 +28,93 @@
 
   <script>
 
-    document.getElementById('fileInput').addEventListener('change', function(event) {
+    // Load audit_log.csv from same directory
 
-      const file = event.target.files[0];
+    fetch("audit_log.csv")
 
-      if (!file) return;
+      .then(response => {
 
-      Papa.parse(file, {
+        if (!response.ok) throw new Error("Could not load audit_log.csv");
 
-        header: true,
+        return response.text();
 
-        skipEmptyLines: true,
+      })
 
-        complete: function(results) {
+      .then(csvText => {
 
-          const data = results.data;
+        Papa.parse(csvText, {
 
-          const tbody = document.getElementById('auditBody');
+          header: true,
 
-          tbody.innerHTML = "";
+          skipEmptyLines: true,
 
-          data.forEach(row => {
+          complete: function(results) {
 
-            const tr = document.createElement("tr");
+            const data = results.data;
 
-            tr.classList.add("border-b", "hover:bg-gray-100");
+            const tbody = document.getElementById('auditBody');
 
-            // Normal columns
+            tbody.innerHTML = "";
 
-            ["event_type", "path", "user", "timestamp"].forEach(key => {
+            data.forEach(row => {
 
-              const td = document.createElement("td");
+              const tr = document.createElement("tr");
 
-              td.classList.add("p-3", "text-sm");
+              tr.classList.add("border-b", "hover:bg-gray-100");
 
-              td.textContent = row[key];
+              // Normal columns
 
-              tr.appendChild(td);
+              ["event_type", "path", "user", "timestamp"].forEach(key => {
+
+                const td = document.createElement("td");
+
+                td.classList.add("p-3", "text-sm");
+
+                td.textContent = row[key];
+
+                tr.appendChild(td);
+
+              });
+
+              // Diff column with color coding
+
+              const diffTd = document.createElement("td");
+
+              diffTd.classList.add("p-3", "text-sm", "font-mono");
+
+              if (row.diff.startsWith("+")) {
+
+                diffTd.innerHTML = `<span class="text-green-600 font-bold">${row.diff}</span>`;
+
+              } else if (row.diff.startsWith("-")) {
+
+                diffTd.innerHTML = `<span class="text-red-600 font-bold">${row.diff}</span>`;
+
+              } else {
+
+                diffTd.innerHTML = `<span class="text-gray-600">${row.diff}</span>`;
+
+              }
+
+              tr.appendChild(diffTd);
+
+              tbody.appendChild(tr);
 
             });
 
-            // Diff column with color coding
+          }
 
-            const diffTd = document.createElement("td");
+        });
 
-            diffTd.classList.add("p-3", "text-sm", "font-mono");
+      })
 
-            if (row.diff.startsWith("+")) {
+      .catch(error => {
 
-              diffTd.innerHTML = `<span class="text-green-600 font-bold">${row.diff}</span>`;
+        console.error(error);
 
-            } else if (row.diff.startsWith("-")) {
-
-              diffTd.innerHTML = `<span class="text-red-600 font-bold">${row.diff}</span>`;
-
-            } else {
-
-              diffTd.innerHTML = `<span class="text-gray-600">${row.diff}</span>`;
-
-            }
-
-            tr.appendChild(diffTd);
-
-            tbody.appendChild(tr);
-
-          });
-
-        }
+        document.body.innerHTML += `<p class="text-red-600 mt-4">Error: Could not load audit_log.csv</p>`;
 
       });
-
-    });
 </script>
 </body>
 </html>

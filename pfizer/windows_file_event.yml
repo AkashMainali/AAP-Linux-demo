@@ -25,9 +25,7 @@
     - name: Copy index.html to aaudit folder
       ansible.windows.win_copy:
         src: index.html
-        dest: C:\Users\Administrator\pfizer\winaudit
-
-
+        dest: C:\Users\Administrator\pfizer\win-audit\index.html
 
 ################################################################
 ################### Event for File Modification ################
@@ -117,6 +115,3 @@
     #     Add-Content -Path report_logs.txt -Value $log_entry
     #   args:
     #     chdir: C:\Users\Administrator\pfizer\win-audit
-
-
-### read csv file form win_audit and display in ansible. ###
