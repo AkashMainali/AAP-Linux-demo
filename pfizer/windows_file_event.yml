@@ -31,74 +31,74 @@
 ################### Event for File Modification ################
 ################################################################
 
-    # - name: Handle file modification event
-    #   when: ansible_eda.event.payload.event_type == 'modified'
-    #   block:
-    #     - name: Debug the modification event
-    #       ansible.builtin.debug:
-    #         msg: "Event: {{ ansible_eda.event.payload.event_type }}"
+    - name: Handle file modification event
+      when: ansible_eda.event.payload.event_type == 'modified'
+      block:
+        - name: Debug the modification event
+          ansible.builtin.debug:
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
 
-    #     - name: Debug the name of the file Modified
-    #       vars:
-    #         msg: |
-    #           - Name of the File Modified: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-    #           - Modified File Path: {{ ansible_eda.event.payload.path }}"
-    #       ansible.builtin.debug:
-    #         msg: "{{ msg.split('\n')}}"
+        - name: Debug the name of the file Modified
+          vars:
+            msg: |
+              - Name of the File Modified: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - Modified File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
 
-    #     - name: Create backup of the file with datestamp
-    #       vars:
-    #         timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')}}"
-    #       ansible.windows.win_copy:
-    #         src: "{{ ansible_eda.event.payload.path }}"
-    #         dest: "{{ backup_directory }}/{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
-    #         remote_src: true
+        - name: Create backup of the file with datestamp
+          vars:
+            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')}}"
+          ansible.windows.win_copy:
+            src: "{{ ansible_eda.event.payload.path }}"
+            dest: "{{ backup_directory }}/{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
+            remote_src: true
 
 ################################################################
 ################### Event for File Creation ####################
 ################################################################
 
-    # - name: Handle file creation event
-    #   when: ansible_eda.event.payload.event_type == 'created'
-    #   block:
-    #     - name: Debug the creation event
-    #       ansible.builtin.debug:
-    #         msg: "Event: {{ ansible_eda.event.payload.event_type }}"
+    - name: Handle file creation event
+      when: ansible_eda.event.payload.event_type == 'created'
+      block:
+        - name: Debug the creation event
+          ansible.builtin.debug:
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
 
-    #     - name: Debug the name of the file Created
-    #       vars:
-    #         msg: |
-    #           - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-    #           - Created File Path: {{ ansible_eda.event.payload.path }}"
-    #       ansible.builtin.debug:
-    #         msg: "{{ msg.split('\n')}}"
+        - name: Debug the name of the file Created
+          vars:
+            msg: |
+              - Name of the File Created: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - Created File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
 
-    #     - name: Create backup of the file with datestamp
-    #       vars:
-    #         timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')  }}"
-    #       ansible.windows.win_copy:
-    #         src: "{{ ansible_eda.event.payload.path }}"
-    #         dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
-    #         remote_src: true
+        - name: Create backup of the file with datestamp
+          vars:
+            timestamp: "{{ ansible_eda.event.payload.timestamp | regex_replace(':', '-')  }}"
+          ansible.windows.win_copy:
+            src: "{{ ansible_eda.event.payload.path }}"
+            dest: "{{ backup_directory }}\\{{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}_{{ timestamp }}_backup.txt"
+            remote_src: true
 
 ################################################################
 ################### Event for File Deletion ####################
 ################################################################
 
-    # - name: Handle file deletion event
-    #   when: ansible_eda.event.payload.event_type == 'deleted'
-    #   block:
-    #     - name: Debug the name of the file Deleted
-    #       vars:
-    #         msg: |
-    #           - Name of the File Deleted: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
-    #           - Deleted File Path: {{ ansible_eda.event.payload.path }}"
-    #       ansible.builtin.debug:
-    #         msg: "{{ msg.split('\n')}}"
+    - name: Handle file deletion event
+      when: ansible_eda.event.payload.event_type == 'deleted'
+      block:
+        - name: Debug the name of the file Deleted
+          vars:
+            msg: |
+              - Name of the File Deleted: {{ ansible_eda.event.payload.path | ansible.builtin.win_basename }}
+              - Deleted File Path: {{ ansible_eda.event.payload.path }}"
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n')}}"
 
-    #     - name: Debug the deletion event
-    #       ansible.builtin.debug:
-    #         msg: "Event: {{ ansible_eda.event.payload.event_type }}"
+        - name: Debug the deletion event
+          ansible.builtin.debug:
+            msg: "Event: {{ ansible_eda.event.payload.event_type }}"
 
 ################################################################
 ############### Save event payload to a file ###################
