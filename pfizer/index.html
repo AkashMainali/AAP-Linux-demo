@@ -1,109 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Audit Log Report</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Audit Log Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* GitHub-style diff colors */
+    .diff-container {
+      font-family: monospace;
+      white-space: pre-wrap;
+      background: #f6f8fa;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .diff-line { display: block; padding: 2px 6px; }
+    .diff-add { background-color: #e6ffed; color: #22863a; }
+    .diff-del { background-color: #ffeef0; color: #b31d28; }
+    .diff-ctx { color: #586069; }
+
+    /* highlight new/changed rows */
+    .highlight {
+      background-color: #bbf7d0 !important; /* Tailwind green-200 */
+      transition: background-color 6s ease;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center p-6">
 
   <h1 class="text-2xl font-bold mb-6">Audit Log Report</h1>
 
-  <!-- File Upload -->
-<input type="file" id="fileInput" accept=".csv" class="mb-6 p-2 border rounded cursor-pointer">
+  <!-- File Upload (fallback if fetch fails) -->
+  <input type="file" id="fileInput" accept=".csv" class="mb-6 p-2 border rounded cursor-pointer">
 
   <!-- Report Table -->
-<div class="overflow-x-auto w-full max-w-6xl">
-<table id="auditTable" class="w-full border-collapse rounded-lg overflow-hidden shadow-lg bg-white">
-<thead class="bg-gray-800 text-white">
-<tr>
-<th class="p-3 text-left">Event Type</th>
-<th class="p-3 text-left">Path</th>
-<th class="p-3 text-left">User</th>
-<th class="p-3 text-left">Timestamp</th>
-<th class="p-3 text-left">Diff</th>
-</tr>
-</thead>
-<tbody id="auditBody"></tbody>
-</table>
-</div>
+  <div class="overflow-x-auto w-full max-w-6xl">
+    <table id="auditTable" class="w-full border-collapse rounded-lg overflow-hidden shadow-lg bg-white">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="p-3 text-left">Event Type</th>
+          <th class="p-3 text-left">Path</th>
+          <th class="p-3 text-left">User</th>
+          <th class="p-3 text-left">Timestamp</th>
+          <th class="p-3 text-left">Diff</th>
+        </tr>
+      </thead>
+      <tbody id="auditBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Modal for Diff -->
+  <div id="diffModal" class="fixed inset-0 hidden bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl w-3/4 max-w-4xl p-6 relative">
+      <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
+      <h2 class="text-xl font-bold mb-4">Diff View</h2>
+      <div id="diffContent" class="diff-container mb-4"></div>
+      <div class="flex justify-between">
+        <button onclick="prevDiff()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Prev</button>
+        <button onclick="nextDiff()" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    let diffs = [];        // store all diffs
+    let currentDiff = 0;   // current diff index
+    let lastRows = new Map(); // track existing rows to detect new/modified
 
-    document.getElementById('fileInput').addEventListener('change', function(event) {
+    function formatDiff(diffText) {
+      return diffText.split("\n").map(line => {
+        if (line.startsWith("+")) {
+          return `<span class="diff-line diff-add">${line}</span>`;
+        } else if (line.startsWith("-")) {
+          return `<span class="diff-line diff-del">${line}</span>`;
+        } else {
+          return `<span class="diff-line diff-ctx">${line}</span>`;
+        }
+      }).join("");
+    }
 
-      const file = event.target.files[0];
+    function showDiff(index) {
+      if (index < 0 || index >= diffs.length) return;
+      currentDiff = index;
+      const modal = document.getElementById("diffModal");
+      const diffContent = document.getElementById("diffContent");
+      diffContent.innerHTML = formatDiff(diffs[currentDiff]);
+      modal.classList.remove("hidden");
+    }
 
-      if (!file) return;
+    function nextDiff() {
+      if (currentDiff < diffs.length - 1) showDiff(currentDiff + 1);
+    }
 
-      Papa.parse(file, {
+    function prevDiff() {
+      if (currentDiff > 0) showDiff(currentDiff - 1);
+    }
 
-        header: true,
+    function closeModal() {
+      document.getElementById("diffModal").classList.add("hidden");
+    }
 
-        skipEmptyLines: true,
+    function renderTable(data) {
+      const tbody = document.getElementById('auditBody');
+      tbody.innerHTML = "";
+      diffs = [];
 
-        complete: function(results) {
+      data.forEach((row, idx) => {
+        const tr = document.createElement("tr");
+        tr.classList.add("border-b", "hover:bg-gray-100");
 
-          const data = results.data;
-z
-          const tbody = document.getElementById('auditBody');
+        const rowKey = row.timestamp + "|" + row.path; // unique key
+        const prevRow = lastRows.get(rowKey);
 
-          tbody.innerHTML = "";
+        ["event_type", "path", "user", "timestamp"].forEach(key => {
+          const td = document.createElement("td");
+          td.classList.add("p-3", "text-sm");
+          td.textContent = row[key];
+          tr.appendChild(td);
+        });
 
-          data.forEach(row => {
+        // Diff column
+        const diffTd = document.createElement("td");
+        diffTd.classList.add("p-3", "text-sm", "text-blue-600", "underline", "cursor-pointer");
+        diffTd.textContent = "diff";
+        diffTd.onclick = () => showDiff(idx);
+        tr.appendChild(diffTd);
 
-            const tr = document.createElement("tr");
-
-            tr.classList.add("border-b", "hover:bg-gray-100");
-
-            // Normal columns
-
-            ["event_type", "path", "user", "timestamp"].forEach(key => {
-
-              const td = document.createElement("td");
-
-              td.classList.add("p-3", "text-sm");
-
-              td.textContent = row[key];
-
-              tr.appendChild(td);
-
-            });
-
-            // Diff column with color coding
-
-            const diffTd = document.createElement("td");
-
-            diffTd.classList.add("p-3", "text-sm", "font-mono");
-
-            if (row.diff.startsWith("+")) {
-
-              diffTd.innerHTML = `<span class="text-green-600 font-bold">${row.diff}</span>`;
-
-            } else if (row.diff.startsWith("-")) {
-
-              diffTd.innerHTML = `<span class="text-red-600 font-bold">${row.diff}</span>`;
-
-            } else {
-
-              diffTd.innerHTML = `<span class="text-gray-600">${row.diff}</span>`;
-
-            }
-
-            tr.appendChild(diffTd);
-
-            tbody.appendChild(tr);
-
-          });
-
+        // highlight if new or modified
+        if (!prevRow || prevRow.diff !== row.diff) {
+          tr.classList.add("highlight");
+          setTimeout(() => tr.classList.remove("highlight"), 6000);
         }
 
-      });
+        tbody.appendChild(tr);
 
+        diffs.push(row.diff);
+        lastRows.set(rowKey, row);
+      });
+    }
+
+    function loadCSVFromText(csvText) {
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          renderTable(results.data);
+        }
+      });
+    }
+
+    function tryFetchCSV() {
+      const url = "audit_log.csv?nocache=" + new Date().getTime();
+      fetch(url, { cache: "no-store" })
+        .then(response => {
+          if (!response.ok) throw new Error("Fetch failed");
+          return response.text();
+        })
+        .then(loadCSVFromText)
+        .catch(err => {
+          console.log("Fetch failed, waiting for manual file input...");
+        });
+    }
+
+    // File upload fallback
+    document.getElementById("fileInput").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => loadCSVFromText(e.target.result);
+      reader.readAsText(file);
     });
-</script>
+
+    // initial load + refresh every 3 seconds
+    tryFetchCSV();
+    setInterval(tryFetchCSV, 3000);
+  </script>
 </body>
 </html>
-
- 
